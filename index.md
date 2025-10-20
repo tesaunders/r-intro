@@ -227,3 +227,84 @@ But it makes your code clearer to name arguments, especially when you're learnin
 
 ## Data Visualisation with ggplot2
 
+We're going to create some plots using functions from the `ggplot2` package. R packages usually contain functions related to a specific activity, which in this case is data visualisation. Packages often include documentation which outlines how the functions work, and sometimes they include other things like demo datasets.
+
+We've already installed the `ggplot2` package. It was installed as part of the `tidyverse` package, which is actually a popular collection of packages developed by the same group of people, that work well together. 
+
+### Reading In Data
+
+Each time we start a new RStudio session, we need to load the packages that we want to make use of in our script, and to do this we use `library()`.
+
+```
+library(tidyverse)
+```
+
+After loading packages, the next thing we often need to do is to load some data into R. To load our spreadsheet in we use the `read_csv` function from the `readr` package, and we'll store it in an object called `surveys`.`
+
+```
+surveys <- read_csv(file = "data/surveys_complete.csv")
+```
+
+You'll notice some useful information printed in the console, including the number of rows and columns, and the number of different column types. `chr` refers to character, or columns containing text values, while `dbl` refers to double, another name for numeric values.
+
+Now we can see `surveys` in our environment pane and we can click on it to take a look.
+
+This dataset is taken from the Portal Project, a long-term study from Portal, Arizona, in the Chihuahuan desert, which measures various features of desert-dwelling mammals. Click on the `surveys` object in the environment pane to see the data.
+
+To get a bit more information about any object in R, we can look at it's structure:
+
+```
+str(surveys)
+```
+
+### Plotting with ggplot2
+
+The gg in ggplot2 stands for “grammar of graphics”, and the package uses consistent vocabulary to create plots of widely varying types. Therefore, we only need small changes to our code if the underlying data changes or we decide to make a box plot instead of a scatter plot. This approach helps you create publication-quality plots with minimal adjusting and tweaking.
+
+ggplot plots are built step by step by adding new layers, which allows for extensive flexibility and customization of plots. We're going to use the following template to build our plots:
+
+```
+ggplot(data = <DATA>, mapping = aes(<MAPPINGS>)) + <GEOM_FUNCTION>()
+```
+
+We need to change everything inside `<>`.
+
+First we need to specify the data we want to use. Next, we can see that the ggplot() call has a function nested within it, aes(), which relates to aesthetic mappings. This is where we specify which parts of the data should be mapped to different axes. Finally, we need to specify the geometry we want to use, or in other words, the plot type. The geometry function we use is added to the end with a `+` sign.
+
+Let's go through step by step:
+
+```
+ggplot(data = surveys)
+```
+
+![](img/ggplot-1-data.png "")
+
+We get a blank plot because we haven’t told ggplot() which variables we want to correspond to parts of the plot.
+
+```
+ggplot(data = complete_old, mapping = aes(x = weight, y = hindfoot_length))
+```
+
+![](img/ggplot-2-mappings.png "")
+
+
+Now we’ve got a plot with x and y axes corresponding to variables from surveys. However, we haven’t specified how we want the data to be displayed. We do this using geom_ functions, which specify the type of geometry we want, such as points, lines, or bars. We can add a geom_point() layer to our plot by using the + sign. We indent onto a new line to make it easier to read, and we have to end the first line with the + sign.
+
+```
+ggplot(data = complete_old, mapping = aes(x = weight, y = hindfoot_length)) +
+  geom_point()
+```
+
+![](img/ggplot-3-geometry.png "")
+
+You may notice a warning that missing values were removed. If a variable necessary to make the plot is missing from a given row of data (in this case, hindfoot_length or weight), that observation can't be plotted. ggplot2 warns us that this has happened.
+
+Another common type of message is an error, which means R can't execute your command. This is commonly due to misspelling, or missing punctuation such as brackets or commas.
+
+
+
+
+
+## Exploring & Understanding Data
+
+
