@@ -29,7 +29,7 @@ On a personal device:
 
 3. Download the data
 
-- Download the [data file]("data/surveys_complete.csv") and save it somewhere convenient.
+- Download the [data file]("data/r-workshop-data.zip") and save it somewhere convenient.
 
 ## Introduction to R & RStudio
 
@@ -120,7 +120,7 @@ One of the benefits of using RStudio projects is that they automatically set the
 
 Next time you open RStudio, you can click that 3D cube icon, and you will see options to open recent projects, like the one you just made.
 
-Let's move the workshop [data file]("data/surveys_complete.csv") into the data folder now.
+Let's move the workshop [data file]("data/r-workshop-data.zip") into the data folder now. Next we need to unzip the file so that the 5 files inside are now sitting in the data folder. You should see a file called `surveys_complete.csv` which is the data we will be suing for the workshop. You should also see this same data file split into 4 separate spreadsheet files, which we'll use later in the workshop to demonstrate how to read multiple files in at once.
 
 ### Working in R & RStudio
 
@@ -199,7 +199,7 @@ Functions are the workhorse of many programming languages, including R. Function
 
 Inputs are called arguments, and if they're optional they're called options. Understanding which function to use to achieve a particular task comes with time and experience. To understand which arguments or options can be used we can look at the documentation provided for the function.
 
-Let's look at the round() function as an example:
+Let's look at the round() function as an example. To learn more about a function, you can type a ? in front of the name of the function, which will bring up the documentation for that function:
 
 ```
 ?round
@@ -282,7 +282,7 @@ ggplot(data = surveys)
 We get a blank plot because we haven’t told ggplot() which variables we want to correspond to parts of the plot.
 
 ```
-ggplot(data = complete_old, mapping = aes(x = weight, y = hindfoot_length))
+ggplot(data = surveys, mapping = aes(x = weight, y = hindfoot_length))
 ```
 
 ![](img/ggplot-2-mappings.png "")
@@ -291,7 +291,7 @@ ggplot(data = complete_old, mapping = aes(x = weight, y = hindfoot_length))
 Now we’ve got a plot with x and y axes corresponding to variables from surveys. However, we haven’t specified how we want the data to be displayed. We do this using geom_ functions, which specify the type of geometry we want, such as points, lines, or bars. We can add a geom_point() layer to our plot by using the + sign. We indent onto a new line to make it easier to read, and we have to end the first line with the + sign.
 
 ```
-ggplot(data = complete_old, mapping = aes(x = weight, y = hindfoot_length)) +
+ggplot(data = surveys, mapping = aes(x = weight, y = hindfoot_length)) +
   geom_point()
 ```
 
@@ -307,4 +307,57 @@ Another common type of message is an error, which means R can't execute your com
 
 ## Exploring & Understanding Data
 
+We've learned how to create visualisations from the `surveys` data, but what actually is `surveys`? R commonly stores tabular data in data.frames, and that is how the `surveys` data is stored. It’s useful to understand how R thinks about, represents, and stores data in order for us to have a productive working relationship with R.
 
+We can check what `surveys` is by using the class() function:
+
+```
+class(surveys)
+```
+
+This tells us a smaller amount of information than when we used `str()`, namely that `surveys` is ultimately a data.frame.
+
+When we're looking at large or unfamiliar datasets it's useful to do some quick checks to get an idea of the kind of data we're working with. For example, we can look at the first and last 6 rows of our data:
+
+```
+head(surveys)
+```
+```
+tail(surveys)
+```
+
+We used these functions without naming the argument because `head` and `tail` take only one argument, `x`, or the data object we want to feed in. We can still name it, but sometimes our code is just as clear without doing so.
+
+We can get a useful summary of each numeric variable (coloumn) by using `summary()`:
+
+```
+summary(surveys)
+```
+
+
+
+
+
+
+
+
+
+
+
+## Working with Data
+
+surveys_new <- read_csv(file = file_paths, id = "source_file")
+
+
+
+
+
+
+
+
+
+
+Function documentation
+Help
+Resources
+End
