@@ -1,4 +1,9 @@
-# Data Analysis and Visualisation in R
+---
+title: "Data Analysis and Visualisation in R"
+output:
+  html_document:
+    self_contained: true
+---
 
 This is an introduction to R designed for participants with no programming experience. 
 
@@ -167,21 +172,21 @@ In R, we can *assign* values to objects by using the assignment arrow `<-` (shor
 
 For example, to assign the number 50 to an object called weight:
 
-```
+```{r}
 weight <- 50
 weight
 ```
 
 We can do calculations with objects and store the results in other objects:
 
-```
+```{r}
 weight_lb <- weight * 2.2
 weight_lb
 ```
 
 We can override assignment
 
-```
+```{r}
 weight <- 100
 ```
 
@@ -201,25 +206,25 @@ Inputs are called arguments, and if they're optional they're called options. Und
 
 Let's look at the round() function as an example. To learn more about a function, you can type a ? in front of the name of the function, which will bring up the documentation for that function:
 
-```
+```{r}
 ?round
 ```
 
 We can see that round() takes x, a numeric vector, and an option called digits to indicate how many decimal places to round to. X is required so we need to provide it. We'll come back to vectors later, but for now we can think of vectors as one or more values:
 
-```
+```{r}
 round(x = 3.1412)
 ```
 
 Note we get back 3. So the default behaviour is to round to whole numbers. If we wanted to specify differently, we could supply the digits option:
 
-```
+```{r}
 round(x = 3.1412, digits = 2)
 ```
 
 When specifying arguments in the order expected by the function we don't have to name them:
 
-```
+```{r}
 round(3.1412, 2)
 ```
 
@@ -235,13 +240,13 @@ We've already installed the `ggplot2` package. It was installed as part of the `
 
 Each time we start a new RStudio session, we need to load the packages that we want to make use of in our script, and to do this we use `library()`.
 
-```
+```{r, warning=FALSE}
 library(tidyverse)
 ```
 
 After loading packages, the next thing we often need to do is to load some data into R. To load our spreadsheet in we use the `read_csv` function from the `readr` package, and we'll store it in an object called `surveys`.`
 
-```
+```{r}
 surveys <- read_csv(file = "data/surveys_complete.csv")
 ```
 
@@ -253,7 +258,7 @@ This dataset is taken from the Portal Project, a long-term study from Portal, Ar
 
 To get a bit more information about any object in R, we can look at it's structure:
 
-```
+```{r}
 str(surveys)
 ```
 
@@ -273,29 +278,22 @@ First we need to specify the data we want to use. Next, we can see that the ggpl
 
 Let's go through step by step:
 
-```
+```{r}
 ggplot(data = surveys)
 ```
 
-![](img/ggplot-1-data.png "")
-
 We get a blank plot because we haven’t told ggplot() which variables we want to correspond to parts of the plot.
 
-```
+```{r}
 ggplot(data = surveys, mapping = aes(x = weight, y = hindfoot_length))
 ```
 
-![](img/ggplot-2-mappings.png "")
-
-
 Now we’ve got a plot with x and y axes corresponding to variables from surveys. However, we haven’t specified how we want the data to be displayed. We do this using geom_ functions, which specify the type of geometry we want, such as points, lines, or bars. We can add a geom_point() layer to our plot by using the + sign. We indent onto a new line to make it easier to read, and we have to end the first line with the + sign.
 
-```
+```{r}
 ggplot(data = surveys, mapping = aes(x = weight, y = hindfoot_length)) +
   geom_point()
 ```
-
-![](img/ggplot-3-geometry.png "")
 
 You may notice a warning that missing values were removed. If a variable necessary to make the plot is missing from a given row of data (in this case, hindfoot_length or weight), that observation can't be plotted. ggplot2 warns us that this has happened.
 
@@ -311,7 +309,7 @@ We've learned how to create visualisations from the `surveys` data, but what act
 
 We can check what `surveys` is by using the class() function:
 
-```
+```{r}
 class(surveys)
 ```
 
@@ -319,10 +317,10 @@ This tells us a smaller amount of information than when we used `str()`, namely 
 
 When we're looking at large or unfamiliar datasets it's useful to do some quick checks to get an idea of the kind of data we're working with. For example, we can look at the first and last 6 rows of our data:
 
-```
+```{r}
 head(surveys)
 ```
-```
+```{r}
 tail(surveys)
 ```
 
@@ -330,7 +328,7 @@ We used these functions without naming the argument because `head` and `tail` ta
 
 We can get a useful summary of each numeric variable (coloumn) by using `summary()`:
 
-```
+```{r}
 summary(surveys)
 ```
 
