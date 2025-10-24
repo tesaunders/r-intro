@@ -332,7 +332,17 @@ We can get a useful summary of each numeric variable (coloumn) by using `summary
 summary(surveys)
 ```
 
+Let's take another look at the structure of `surveys` using str():
 
+```{r}
+str(surveys)
+```
+
+The `$` in front of each variable acts as an important operator in R. We can use it to select different columns within a data frame. If we type the name of a data frame followed by a `$`, RStudio will offer tab completion to select a variable within the data from a list by navigating up and down with the arrow keys and hitting enter, or by clicking on the variable you want.
+
+```{r}
+surveys$year
+```
 
 
 
