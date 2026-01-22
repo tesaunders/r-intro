@@ -1,0 +1,22 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Data Analysis & Visualisation with R"
+  navbar:
+    left:
+      - text: "Home"
+        href: index.html
+      - text: "Set up"
+        href: setup.html
+      - text: "1. Introduction to R & RStudio"
+        href: 01_rstudio.html
+      - text: "2. Data Visualisation With ggplot2"
+        href: 02_ggplot.html
+      - text: "3. Exploring & Understanding Data"
+        href: 03_explore.html
+      - text: "4. Working With Data"
+        href: 04_dplyr.html
+      - text: "Resources"
+        href: resources.html
