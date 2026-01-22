@@ -2,7 +2,7 @@
 title: "Working With Data"
 ---
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, message=FALSE}
 library(tidyverse)
 surveys <- read_csv(file = "data_raw/surveys_complete.csv")
 ```

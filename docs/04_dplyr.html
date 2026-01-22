@@ -185,41 +185,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.1     ✔ stringr   1.6.0
-✔ ggplot2   4.0.1     ✔ tibble    3.3.0
-✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-✔ purrr     1.2.0     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
-Rows: 16878 Columns: 13
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (6): species_id, sex, genus, species, taxa, plot_type
-dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-</div>
 <section id="reading-in-multiple-files" class="level1">
 <h1>Reading in multiple files</h1>
 <p>Sometimes data is split over multiple spreadsheet files. For example, the data we’ve unzipped into the <code>data_raw</code>folder contains both a complete spreadsheet we’ve been working with so far, and also 4 individual spreadsheets which represent parts of the data (split by collection period).</p>
 <p>It would be useful to read all of these files into R at once and combine them together into a single data.frame. Rather than repeating what we did previously 4 times, we can take advantage of how the <code>read_csv()</code> function works to do this in only a couple of steps.</p>
 <p>First, let’s remove the current <code>surveys</code> data.frame from R.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(surveys)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(surveys)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Next we get the list of files we want to read in by using <code>list.files()</code>. Then we use the <code>id</code> argument from <code>read_csv()</code> to specify that we want to read in multiple files and create a new column in our data called <code>source</code> to state which file the data came from.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"data_raw"</span>, <span class="at">pattern =</span> <span class="st">"part"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>surveys <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(files, <span class="at">id =</span> <span class="st">"source"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"data_raw"</span>, <span class="at">pattern =</span> <span class="st">"part"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>surveys <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(files, <span class="at">id =</span> <span class="st">"source"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 16878 Columns: 14
 ── Column specification ────────────────────────────────────────────────────────
@@ -247,7 +225,7 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <h2 class="anchored" data-anchor-id="select"><code>select()</code></h2>
 <p>Narrows down a data.frame to specific columns. To use the <code>select()</code> function, the first argument is the name of the data.frame, and the rest of the arguments are unquoted names of the columns you want.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(surveys, plot_id, species_id, hindfoot_length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(surveys, plot_id, species_id, hindfoot_length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 16,878 × 3
    plot_id species_id hindfoot_length
@@ -268,7 +246,7 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <p>The columns are arranged in the order we specified inside select().</p>
 <p>To select all columns except specific columns, put a - in front of the column you want to exclude.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(surveys, <span class="sc">-</span>record_id, <span class="sc">-</span>year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(surveys, <span class="sc">-</span>record_id, <span class="sc">-</span>year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 16,878 × 12
    source      month   day plot_id species_id sex   hindfoot_length weight genus
@@ -289,7 +267,7 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 <p>select() also works with numeric vectors for the order of the columns. To select the 3rd, 4th, 5th, and 10th columns, we could run the following code.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(surveys, <span class="fu">c</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(surveys, <span class="fu">c</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 16,878 × 4
    month   day  year weight
@@ -310,7 +288,7 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <p>In general it’s better to be explicit and name the columns because this is clearer. However, it can be useful if you have a data.frame with many columns and you don’t want to type out too many names.</p>
 <p>Finally, you can select columns based on whether they match a certain criteria by using the <code>where()</code> function. If we want all numeric columns, we can ask to select all the columns where the class is numeric.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(surveys, <span class="fu">where</span>(is.numeric))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(surveys, <span class="fu">where</span>(is.numeric))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 16,878 × 7
    record_id month   day  year plot_id hindfoot_length weight
@@ -332,7 +310,7 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <p>We omit the opening and closing brackets from as.numeric() here because we’re passing it as an instruction to be used later by the outer function, rather than running it immediately.</p>
 <p>We can use this technique to select any columns that have any NA values in them too.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(surveys, <span class="fu">where</span>(anyNA))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(surveys, <span class="fu">where</span>(anyNA))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 16,878 × 7
    species_id sex   hindfoot_length weight genus       species  taxa  
@@ -355,7 +333,7 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <h2 class="anchored" data-anchor-id="filter"><code>filter()</code></h2>
 <p>Narrows down a data.frame to specific rows based on certain critera. To get all the rows where the value of year is equal to 1985, we would run the following.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(surveys, year <span class="sc">==</span> <span class="dv">1985</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(surveys, year <span class="sc">==</span> <span class="dv">1985</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1,438 × 14
    source   record_id month   day  year plot_id species_id sex   hindfoot_length
@@ -378,7 +356,7 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <p>The <code>==</code> sign means “is equal to”. There are several other operators we can use: - &gt; (greater than) - &gt;= (greater than or equal to) - &lt; (less than) - &lt;= (less than or equal to) - != (not equal to)</p>
 <p>Another useful operator is <code>%in%</code>, which checks if the value on the lefthand side is found anywhere in the vector on the righthand side. For example, we can get rows with specific <code>species_id</code> values.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(surveys, species_id <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"RM"</span>, <span class="st">"DO"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(surveys, species_id <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"RM"</span>, <span class="st">"DO"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2,835 × 14
    source   record_id month   day  year plot_id species_id sex   hindfoot_length
@@ -400,7 +378,7 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 <p>We can also use multiple conditions in one <code>filter()</code> statement. Here we will get rows with a year less than or equal to 1988 and whose hindfoot length values are not NA. The <code>!</code> before the <code>is.na()</code> function means “not”.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(surveys, year <span class="sc">&lt;=</span> <span class="dv">1988</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(hindfoot_length))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(surveys, year <span class="sc">&lt;=</span> <span class="dv">1988</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(hindfoot_length))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12,779 × 14
    source   record_id month   day  year plot_id species_id sex   hindfoot_length
@@ -426,7 +404,7 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <p>What happens if we want to both <code>select()</code> and <code>filter()</code> our data? We have a couple of options.</p>
 <p>First, we could use nested functions:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(<span class="fu">select</span>(surveys, <span class="sc">-</span>day), month <span class="sc">&gt;=</span> <span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(<span class="fu">select</span>(surveys, <span class="sc">-</span>day), month <span class="sc">&gt;=</span> <span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 8,244 × 13
    source  record_id month  year plot_id species_id sex   hindfoot_length weight
@@ -449,8 +427,8 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <p>Nested functions can be very difficult to read with only a few functions, and nearly impossible when many functions are done at once.</p>
 <p>An alternative approach is to create intermediate objects.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>surveys_noday <span class="ot">&lt;-</span> <span class="fu">select</span>(surveys, <span class="sc">-</span>day)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(surveys_noday, month <span class="sc">&gt;=</span> <span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>surveys_noday <span class="ot">&lt;-</span> <span class="fu">select</span>(surveys, <span class="sc">-</span>day)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(surveys_noday, month <span class="sc">&gt;=</span> <span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 8,244 × 13
    source  record_id month  year plot_id species_id sex   hindfoot_length weight
@@ -472,9 +450,9 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <p>This approach is easier to read, since we can see the steps in order, but after enough steps, we are left with a cluttered mess of intermediate objects, often with confusing names.</p>
 <p>An elegant solution to this problem is an operator called the pipe, which looks like |&gt;. You can insert it by using the keyboard shortcut <code>Shift+Cmd+M</code> (Mac) or <code>Shift+Ctrl+M</code> (Windows). Here’s how you could use a pipe to select and filter in one step:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>day) <span class="sc">|&gt;</span>  </span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">&gt;=</span> <span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>day) <span class="sc">|&gt;</span>  </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">&gt;=</span> <span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 8,244 × 13
    source  record_id month  year plot_id species_id sex   hindfoot_length weight
@@ -497,16 +475,16 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <p>It can be useful to think of this as a little assembly line for our data. It starts at the top and gets piped into a <code>select()</code> function, and it comes out modified somewhat. It then gets sent into the <code>filter()</code> function, where it is further modified, and then the final product gets printed out to our console. It can also be helpful to think of <code>|&gt;</code> as meaning “and then”. Since many tidyverse functions have verbs for names, a pipeline can be read like a sentence.</p>
 <p>If we want to store this final product as an object, we use an assignment arrow at the start.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>surveys_sub <span class="ot">&lt;-</span> surveys <span class="sc">|&gt;</span>  </span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>day) <span class="sc">|&gt;</span> </span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">&gt;=</span> <span class="dv">7</span>)</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Can also be written as </span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>surveys_sub <span class="ot">&lt;-</span> </span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  surveys <span class="sc">|&gt;</span>  </span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>day) <span class="sc">|&gt;</span> </span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">&gt;=</span> <span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>surveys_sub <span class="ot">&lt;-</span> surveys <span class="sc">|&gt;</span>  </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>day) <span class="sc">|&gt;</span> </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">&gt;=</span> <span class="dv">7</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Can also be written as </span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>surveys_sub <span class="ot">&lt;-</span> </span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  surveys <span class="sc">|&gt;</span>  </span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>day) <span class="sc">|&gt;</span> </span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">&gt;=</span> <span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>A good approach is to build a pipeline step by step prior to assignment. You add functions to the pipeline as you go, with the results printing in the console for you to view. Once you’re satisfied with your final result, go back and add the assignment arrow statement at the start. This approach is very interactive, allowing you to see the results of each step as you build the pipeline, and produces nicely readable code.</p>
 <p>You may also see the older style pipe in code online: <code>%&gt;%</code>. This was widely used before a native pipe |&gt; was introduced in R 4.1.0 in May 2021. The two pipes are quite similar but there are a <a href="https://tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/">few differences</a> we won’t get into here.</p>
@@ -515,8 +493,8 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <h2 class="anchored" data-anchor-id="new-columns-with-mutate">New columns with <code>mutate()</code></h2>
 <p>Creating new columns based on existing columns is a common task during data analysis. For example, we could add a new column that has the weight in kilograms instead of grams.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">weight_kg =</span> weight <span class="sc">/</span> <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">weight_kg =</span> weight <span class="sc">/</span> <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 16,878 × 15
    source   record_id month   day  year plot_id species_id sex   hindfoot_length
@@ -538,9 +516,9 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 <p>You can create multiple columns in one mutate() call, and they will get created in the order you write them. This means you can even reference the first new column in the second new column:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">weight_kg =</span> weight <span class="sc">/</span> <span class="dv">1000</span>,</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">weight_lbs =</span> weight_kg <span class="sc">*</span> <span class="fl">2.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">weight_kg =</span> weight <span class="sc">/</span> <span class="dv">1000</span>,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">weight_lbs =</span> weight_kg <span class="sc">*</span> <span class="fl">2.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 16,878 × 16
    source   record_id month   day  year plot_id species_id sex   hindfoot_length
@@ -563,8 +541,8 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <p>We can also use multiple columns to create a single column. For example, it’s often good practice to keep the components of a date in separate columns until necessary, as in the surveys dataset. This is because programs like Excel automatically convert and change data interpreted as dates, and this can introduce errors. However, now that we are working in R, we can safely put together a date column.</p>
 <p>To put the data in multiple columns together we can use the paste() function, which takes the items to paste together and <code>sep</code>, which is the character used to separate the items.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">paste</span>(year, month, day, <span class="at">sep =</span> <span class="st">"-"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">paste</span>(year, month, day, <span class="at">sep =</span> <span class="st">"-"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 16,878 × 15
    source   record_id month   day  year plot_id species_id sex   hindfoot_length
@@ -586,9 +564,9 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 <p>Since our new column gets moved all the way to the end, it doesn’t end up printing out. We can use the relocate() function to put it after our year column.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span>  </span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">paste</span>(year, month, day, <span class="at">sep =</span> <span class="st">"-"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(date, <span class="at">.after =</span> year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span>  </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">paste</span>(year, month, day, <span class="at">sep =</span> <span class="st">"-"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(date, <span class="at">.after =</span> year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 16,878 × 15
    source             record_id month   day  year date  plot_id species_id sex  
@@ -610,10 +588,10 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 <p>Now we can see that we have a character column that contains our date string. However, R doesn’t yet recognise it as a proper date column. Dates are a particular type of variable with a defined, ordered scale. To turn this column into a proper date, we will use a function from the tidyverse’s <code>lubridate</code> package, which has lots of useful functions for working with dates. The function <code>ymd()</code> will parse a date string that has the order year-month-day.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">paste</span>(year, month, day, <span class="at">sep =</span> <span class="st">"-"</span>),</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">date =</span> <span class="fu">ymd</span>(date)) <span class="sc">|&gt;</span> </span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(date, <span class="at">.after =</span> year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">paste</span>(year, month, day, <span class="at">sep =</span> <span class="st">"-"</span>),</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">date =</span> <span class="fu">ymd</span>(date)) <span class="sc">|&gt;</span> </span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(date, <span class="at">.after =</span> year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 16,878 × 15
    source        record_id month   day  year date       plot_id species_id sex  
@@ -635,9 +613,9 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 <p>We could also simplify this operation by nesting the functions so that the result of <code>paste()</code> is then provided to <code>ymd()</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">ymd</span>(<span class="fu">paste</span>(year, month, day, <span class="at">sep =</span> <span class="st">"-"</span>))) <span class="sc">|&gt;</span>  </span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(date, <span class="at">.after =</span> year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">ymd</span>(<span class="fu">paste</span>(year, month, day, <span class="at">sep =</span> <span class="st">"-"</span>))) <span class="sc">|&gt;</span>  </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(date, <span class="at">.after =</span> year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 16,878 × 15
    source        record_id month   day  year date       plot_id species_id sex  
@@ -664,9 +642,9 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <p>Many data analysis tasks can be achieved using the split-apply-combine approach: split the data into groups, apply some analysis to each group, and combine the results in some way. <code>dplyr</code> has a few convenient functions to enable this approach, mainly <code>group_by()</code> and <code>summarise()</code>.</p>
 <p><code>group_by()</code> takes a data.frame and the name of one or more columns with categorical values that define the groups. <code>summarize()</code> then collapses each group into a one-row summary of the group, giving you back a data.frame with one row per group. The syntax for <code>summarize()</code> is similar to <code>mutate()</code>, where you define new columns based on values of other columns. Let’s try calculating the mean weight of all our animals by sex.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex) <span class="sc">|&gt;</span> </span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_weight =</span> <span class="fu">mean</span>(weight, <span class="at">na.rm =</span> T))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex) <span class="sc">|&gt;</span> </span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_weight =</span> <span class="fu">mean</span>(weight, <span class="at">na.rm =</span> T))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 2
   sex   mean_weight
@@ -678,10 +656,10 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 <p>You can see that the mean weight for males is slightly higher than for females, but that animals whose sex is unknown have much higher weights. This is probably due to small sample size, but we should check to be sure. Like <code>mutate()</code>, we can define multiple columns in one <code>summarise()</code> call. The function <code>n()</code> will count the number of rows in each group.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex) <span class="sc">|&gt;</span>  </span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_weight =</span> <span class="fu">mean</span>(weight, <span class="at">na.rm =</span> T),</span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex) <span class="sc">|&gt;</span>  </span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_weight =</span> <span class="fu">mean</span>(weight, <span class="at">na.rm =</span> T),</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
   sex   mean_weight     n
@@ -693,10 +671,10 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 <p>You will often want to create groups based on multiple columns. For example, we might be interested in the mean weight of every species + sex combination. All we have to do is add another column to our <code>group_by()</code> call.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species_id, sex) <span class="sc">|&gt;</span> </span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_weight =</span> <span class="fu">mean</span>(weight, <span class="at">na.rm =</span> T),</span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species_id, sex) <span class="sc">|&gt;</span> </span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_weight =</span> <span class="fu">mean</span>(weight, <span class="at">na.rm =</span> T),</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'species_id'. You can override using the
 `.groups` argument.</code></pre>
@@ -721,11 +699,11 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 <p>Our resulting data.frame is much larger, since we have a greater number of groups. We also see a strange value showing up in our mean_weight column: NaN. This stands for “Not a Number”, and it often results from trying to do an operation on a vector with zero entries. How can a vector have zero entries? If a particular group (like the AB species ID + NA sex group) has only NA values for weight, then the <code>na.rm = T</code> argument in <code>mean()</code> will remove all the values prior to calculating the mean. The result will be a value of NaN. Since we are not particularly interested in these values, let’s add a step to our pipeline to remove rows where weight is NA before doing any other steps. This means that any groups with only NA values will disappear from our data.frame before we formally create the groups with <code>group_by()</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(weight)) <span class="sc">|&gt;</span> </span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species_id, sex) <span class="sc">|&gt;</span> </span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_weight =</span> <span class="fu">mean</span>(weight),</span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(weight)) <span class="sc">|&gt;</span> </span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species_id, sex) <span class="sc">|&gt;</span> </span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_weight =</span> <span class="fu">mean</span>(weight),</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'species_id'. You can override using the
 `.groups` argument.</code></pre>
@@ -751,12 +729,12 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <p>That looks better!</p>
 <p>It’s often useful to take a look at the results in some order, like the lowest mean weight to highest. We can use the <code>arrange()</code> function for that.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span>  </span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(weight)) <span class="sc">|&gt;</span>  </span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species_id, sex) <span class="sc">|&gt;</span>  </span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_weight =</span> <span class="fu">mean</span>(weight),</span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span>  </span>
-<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(mean_weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span>  </span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(weight)) <span class="sc">|&gt;</span>  </span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species_id, sex) <span class="sc">|&gt;</span>  </span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_weight =</span> <span class="fu">mean</span>(weight),</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span>  </span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(mean_weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'species_id'. You can override using the
 `.groups` argument.</code></pre>
@@ -781,12 +759,12 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 <p>If we want to reverse the order, we can wrap the column name in <code>desc()</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span>  </span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(weight)) <span class="sc">|&gt;</span>  </span>
-<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species_id, sex) <span class="sc">|&gt;</span>  </span>
-<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_weight =</span> <span class="fu">mean</span>(weight),</span>
-<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span>  </span>
-<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_weight))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span>  </span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(weight)) <span class="sc">|&gt;</span>  </span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species_id, sex) <span class="sc">|&gt;</span>  </span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_weight =</span> <span class="fu">mean</span>(weight),</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span>  </span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_weight))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'species_id'. You can override using the
 `.groups` argument.</code></pre>
@@ -816,13 +794,13 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <p>They tell us we have a data.frame with 46 rows, 4 columns, and a group variable species_id, for which there are 18 groups.</p>
 <p>This can lead to confusing results if you forget about the grouping and want to carry out operations on the whole data.frame, not by group. Therefore, it is a good habit to remove the groups at the end of a pipeline containing <code>group_by()</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(weight)) <span class="sc">|&gt;</span>  </span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species_id, sex) <span class="sc">|&gt;</span> </span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_weight =</span> <span class="fu">mean</span>(weight),</span>
-<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span> </span>
-<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_weight)) <span class="sc">|&gt;</span>  </span>
-<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(weight)) <span class="sc">|&gt;</span>  </span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species_id, sex) <span class="sc">|&gt;</span> </span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_weight =</span> <span class="fu">mean</span>(weight),</span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_weight)) <span class="sc">|&gt;</span>  </span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'species_id'. You can override using the
 `.groups` argument.</code></pre>
@@ -846,11 +824,11 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 <p>While it is common that you will want to get the one-row-per-group summary that <code>summarise()</code> provides, there are times where you want to calculate a per-group value but keep all the rows in your data.frame. For example, we might want to know the mean weight for each species ID + sex combination, and then we might want to know how far from that mean value each observation in the group is. For this, we can use <code>group_by()</code> and <code>mutate()</code> together:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(weight)) <span class="sc">|&gt;</span> </span>
-<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species_id, sex) <span class="sc">|&gt;</span> </span>
-<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean_weight =</span> <span class="fu">mean</span>(weight),</span>
-<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">weight_diff =</span> weight <span class="sc">-</span> mean_weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span> </span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(weight)) <span class="sc">|&gt;</span> </span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species_id, sex) <span class="sc">|&gt;</span> </span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean_weight =</span> <span class="fu">mean</span>(weight),</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">weight_diff =</span> weight <span class="sc">-</span> mean_weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 15,186 × 16
 # Groups:   species_id, sex [46]
@@ -873,12 +851,12 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 <p>Since we get all our columns back, the new columns are at the very end and don’t print out in the console. Let’s use <code>select()</code> to just look at the columns of interest. Inside <code>select()</code> we can use the <code>contains()</code> function to get any column containing the word “weight” in the name:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span>  </span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(weight)) <span class="sc">|&gt;</span>  </span>
-<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species_id, sex) <span class="sc">|&gt;</span> </span>
-<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean_weight =</span> <span class="fu">mean</span>(weight),</span>
-<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">weight_diff =</span> weight <span class="sc">-</span> mean_weight) <span class="sc">|&gt;</span> </span>
-<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(species_id, sex, <span class="fu">contains</span>(<span class="st">"weight"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="sc">|&gt;</span>  </span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(weight)) <span class="sc">|&gt;</span>  </span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species_id, sex) <span class="sc">|&gt;</span> </span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean_weight =</span> <span class="fu">mean</span>(weight),</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">weight_diff =</span> weight <span class="sc">-</span> mean_weight) <span class="sc">|&gt;</span> </span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(species_id, sex, <span class="fu">contains</span>(<span class="st">"weight"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 15,186 × 5
 # Groups:   species_id, sex [46]
@@ -1013,16 +991,16 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <p>In general, when visualising multiple variables in a plot you need data in long format in order for the software to create the plot.</p>
 <p>Back to our data. Let’s say we are interested in comparing the mean weights of each species across our different plot_types. We can begin this process using the <code>group_by()</code> + <code>summarise()</code> approach:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>sp_by_plot <span class="ot">&lt;-</span> surveys <span class="sc">|&gt;</span>  </span>
-<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(weight)) <span class="sc">|&gt;</span>  </span>
-<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species_id, plot_id) <span class="sc">|&gt;</span>  </span>
-<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_weight =</span> <span class="fu">mean</span>(weight)) <span class="sc">|&gt;</span> </span>
-<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(species_id, plot_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>sp_by_plot <span class="ot">&lt;-</span> surveys <span class="sc">|&gt;</span>  </span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(weight)) <span class="sc">|&gt;</span>  </span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species_id, plot_id) <span class="sc">|&gt;</span>  </span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_weight =</span> <span class="fu">mean</span>(weight)) <span class="sc">|&gt;</span> </span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(species_id, plot_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'species_id'. You can override using the
 `.groups` argument.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>sp_by_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>sp_by_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 300 × 3
 # Groups:   species_id [18]
@@ -1054,11 +1032,11 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <p>In our case, we want the new columns to be named from our plot_id column, with the values coming from the mean_weight column. We can pipe our data.frame right into <code>pivot_wider()</code> and add those two arguments.</p>
 <p>Any columns not used for names_from or values_from will not be pivoted.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>sp_by_plot_wide <span class="ot">&lt;-</span> sp_by_plot <span class="sc">|&gt;</span>  </span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> plot_id, </span>
-<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from =</span> mean_weight)</span>
-<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>sp_by_plot_wide</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>sp_by_plot_wide <span class="ot">&lt;-</span> sp_by_plot <span class="sc">|&gt;</span>  </span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> plot_id, </span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from =</span> mean_weight)</span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>sp_by_plot_wide</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 18 × 25
 # Groups:   species_id [18]
@@ -1097,8 +1075,8 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </ul>
 <p>We want to pivot all the columns except species_id, and we will use PLOT for the new column of plot IDs, and MEAN_WT for the new column of mean weight values.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>sp_by_plot_wide <span class="sc">|&gt;</span>  </span>
-<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>species_id, <span class="at">names_to =</span> <span class="st">"PLOT"</span>, <span class="at">values_to =</span> <span class="st">"MEAN_WT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>sp_by_plot_wide <span class="sc">|&gt;</span>  </span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>species_id, <span class="at">names_to =</span> <span class="st">"PLOT"</span>, <span class="at">values_to =</span> <span class="st">"MEAN_WT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 432 × 3
 # Groups:   species_id [18]
@@ -1119,9 +1097,9 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 <p>One thing you will notice is that all those NA values that got generated when we pivoted wider. However, we can filter those out, which gets us back to the same data as sp_by_plot, before we pivoted it wider.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>sp_by_plot_wide <span class="sc">|&gt;</span> </span>
-<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>species_id, <span class="at">names_to =</span> <span class="st">"PLOT"</span>, <span class="at">values_to =</span> <span class="st">"MEAN_WT"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(MEAN_WT))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>sp_by_plot_wide <span class="sc">|&gt;</span> </span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>species_id, <span class="at">names_to =</span> <span class="st">"PLOT"</span>, <span class="at">values_to =</span> <span class="st">"MEAN_WT"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(MEAN_WT))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 300 × 3
 # Groups:   species_id [18]
@@ -1146,13 +1124,13 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <p>Let’s say we want to export the wide version of our table so we can submit it with a manuscript to include in a publication.</p>
 <p>First, we might want to modify the names of the columns, since right now they are bare numbers, which aren’t very informative. Luckily, <code>pivot_wider()</code> has an argument names_prefix which will allow us to add “plot_” to the start of each column.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>sp_by_plot <span class="ot">&lt;-</span>   sp_by_plot <span class="sc">|&gt;</span> </span>
-<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> plot_id, <span class="at">values_from =</span> mean_weight,</span>
-<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_prefix =</span> <span class="st">"plot_"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>sp_by_plot <span class="ot">&lt;-</span>   sp_by_plot <span class="sc">|&gt;</span> </span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> plot_id, <span class="at">values_from =</span> mean_weight,</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_prefix =</span> <span class="st">"plot_"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we can save this data.frame to a CSV using the <code>write_csv()</code> function from the readr package. The first argument is the name of the data.frame, and the second is the path to the new file we want to create, including the file extension <code>.csv</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(sp_by_plot, <span class="st">"figures/table_survey_sp.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(sp_by_plot, <span class="st">"figures/table_survey_sp.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
