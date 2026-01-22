@@ -1,5 +1,5 @@
 ---
-title: "Reproducible & Collaborative Data Science with R"
+title: "Data Analysis & Visualisation with R"
 ---
 
 [Dr Tom Saunders](https://profiles.auckland.ac.nz/tom-saunders) & [Dr Toby Johnson](https://profiles.auckland.ac.nz/toby-johnson)  

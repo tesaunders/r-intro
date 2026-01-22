@@ -1,14 +1,12 @@
 ---
-title: "02_ggplot"
+title: "Data Visualisation with ggplot2"
 ---
-
-## Data Visualisation with ggplot2
 
 We're going to create some plots using functions from the `ggplot2` package. R packages usually contain functions related to a specific activity, which in this case is data visualisation. Packages often include documentation which outlines how the functions work, and sometimes they include other things like demo datasets.
 
 We've already installed the `ggplot2` package. It was installed as part of the `tidyverse` package, which is a popular collection of packages developed by the same group of people. 
 
-### Reading In Data
+# Reading In Data
 
 Each time we start a new RStudio session, we need to load the packages that we want to make use of in our script, and to do this we use `library()`.
 
@@ -36,7 +34,7 @@ To get a bit more information about any object in R, we can look at it's structu
 str(surveys)
 ```
 
-### Plotting with ggplot2
+# Plotting with ggplot2
 
 The gg in ggplot2 stands for “grammar of graphics”, and the package uses consistent vocabulary to create plots of widely varying types. Therefore, we only need small changes to our code if the underlying data changes or we decide to make a box plot instead of a scatter plot. This approach helps you create publication-quality plots with minimal adjusting and tweaking.
 

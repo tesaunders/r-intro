@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>02_ggplot – Data Analysis &amp; Visualisation with R</title>
+<title>Data Visualisation with ggplot2 – Data Analysis &amp; Visualisation with R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -168,7 +168,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">02_ggplot</h1>
+<h1 class="title">Data Visualisation with ggplot2</h1>
 </div>
 
 
@@ -185,12 +185,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="data-visualisation-with-ggplot2" class="level2">
-<h2 class="anchored" data-anchor-id="data-visualisation-with-ggplot2">Data Visualisation with ggplot2</h2>
 <p>We’re going to create some plots using functions from the <code>ggplot2</code> package. R packages usually contain functions related to a specific activity, which in this case is data visualisation. Packages often include documentation which outlines how the functions work, and sometimes they include other things like demo datasets.</p>
 <p>We’ve already installed the <code>ggplot2</code> package. It was installed as part of the <code>tidyverse</code> package, which is a popular collection of packages developed by the same group of people.</p>
-<section id="reading-in-data" class="level3">
-<h3 class="anchored" data-anchor-id="reading-in-data">Reading In Data</h3>
+<section id="reading-in-data" class="level1">
+<h1>Reading In Data</h1>
 <p>Each time we start a new RStudio session, we need to load the packages that we want to make use of in our script, and to do this we use <code>library()</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -263,8 +261,8 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </section>
-<section id="plotting-with-ggplot2" class="level3">
-<h3 class="anchored" data-anchor-id="plotting-with-ggplot2">Plotting with ggplot2</h3>
+<section id="plotting-with-ggplot2" class="level1">
+<h1>Plotting with ggplot2</h1>
 <p>The gg in ggplot2 stands for “grammar of graphics”, and the package uses consistent vocabulary to create plots of widely varying types. Therefore, we only need small changes to our code if the underlying data changes or we decide to make a box plot instead of a scatter plot. This approach helps you create publication-quality plots with minimal adjusting and tweaking.</p>
 <p>ggplot plots are built step by step by adding new layers, which allows for extensive flexibility and customization of plots. We’re going to use the following template to build our plots:</p>
 <p><code>ggplot(data = &lt;DATA&gt;, mapping = aes(&lt;MAPPINGS&gt;)) + &lt;GEOM_FUNCTION&gt;()</code></p>
@@ -312,7 +310,6 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <p>Another common type of message is an error, which means R can’t execute the command. This is commonly due to misspelling, or missing punctuation such as brackets or commas.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>03_explore – Data Analysis &amp; Visualisation with R</title>
+<title>Exploring &amp; Understanding Data – Data Analysis &amp; Visualisation with R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -168,7 +168,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">03_explore</h1>
+<h1 class="title">Exploring &amp; Understanding Data</h1>
 </div>
 
 
@@ -207,8 +207,6 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 </div>
-<section id="exploring-understanding-data" class="level2">
-<h2 class="anchored" data-anchor-id="exploring-understanding-data">Exploring &amp; Understanding Data</h2>
 <p>We’ve learned how to create visualisations from the <code>surveys</code> data, but what actually is <code>surveys</code>? R commonly stores tabular data in data.frames, and that is how the <code>surveys</code> data is stored. It’s useful to understand how R thinks about, represents, and stores data in order for us to have a productive working relationship with R.</p>
 <p>We can check what <code>surveys</code> is by using the class() function:</p>
 <div class="cell">
@@ -1526,8 +1524,8 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 [16871] 1989 1989 1989 1989 1989 1989 1989 1989</code></pre>
 </div>
 </div>
-<section id="vectors" class="level3">
-<h3 class="anchored" data-anchor-id="vectors">Vectors</h3>
+<section id="vectors" class="level1">
+<h1>Vectors</h1>
 <p>The <code>year</code> column we just printed is referred to as a vector by R. While data.frames are made up of columns and rows, vectors are 1-dimensional series of values. Each column in a data.frame is actually a vector. Vectors are the basic building blocks of all data in R.</p>
 <p>There are 4 main types of vectors (also known as atomic vectors):</p>
 <ol type="1">
@@ -1571,8 +1569,8 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </section>
-<section id="missing-data" class="level3">
-<h3 class="anchored" data-anchor-id="missing-data">Missing data</h3>
+<section id="missing-data" class="level1">
+<h1>Missing data</h1>
 <p>There is an important distinction between 0 and a missing value. A 0 means a 0 was observed, whereas a missing value means there was no observation recorded. R represents missing data as NA, without quotes, in vectors of any type.</p>
 <p>Let’s make a numeric vector with an NA value</p>
 <div class="cell">
@@ -1593,8 +1591,8 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </section>
-<section id="vectors-as-arguments" class="level3">
-<h3 class="anchored" data-anchor-id="vectors-as-arguments">Vectors as arguments</h3>
+<section id="vectors-as-arguments" class="level1">
+<h1>Vectors as arguments</h1>
 <p>A common reason to create a vector from scratch is to use in a function argument. The <code>median()</code> function calculates the median of a a set of values. We also need to set <code>na.rm = TRUE</code>, since there are NA values in the <code>weight</code> column.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(surveys<span class="sc">$</span>weight, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1649,9 +1647,8 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </section>
-</section>
-<section id="factors-categorical-variables" class="level2">
-<h2 class="anchored" data-anchor-id="factors-categorical-variables">Factors (categorical variables)</h2>
+<section id="factors-categorical-variables" class="level1">
+<h1>Factors (categorical variables)</h1>
 <p>Let’s talk about factors because they can be challenging to work with.</p>
 <p>In general, it’s best to leave your categorical data as a character (or numeric) vector until you need to use a factor. You might need a factor because:</p>
 <ul>

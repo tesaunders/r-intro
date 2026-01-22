@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>01_rstudio – Data Analysis &amp; Visualisation with R</title>
+<title>Introduction to R &amp; RStudio – Data Analysis &amp; Visualisation with R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -168,7 +168,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">01_rstudio</h1>
+<h1 class="title">Introduction to R &amp; RStudio</h1>
 </div>
 
 
@@ -185,15 +185,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="introduction-to-r-rstudio" class="level2">
-<h2 class="anchored" data-anchor-id="introduction-to-r-rstudio">Introduction to R &amp; RStudio</h2>
-<section id="what-are-r-rstudio" class="level3">
-<h3 class="anchored" data-anchor-id="what-are-r-rstudio">What are R &amp; RStudio?</h3>
+<section id="what-are-r-rstudio" class="level1">
+<h1>What are R &amp; RStudio?</h1>
 <p>R is a programming language as well as the software that runs R code written in that language.</p>
 <p>RStudio is separate software which provides an interface that makes it more conveneient to interact with R and write R code.</p>
 </section>
-<section id="why-learn-r" class="level3">
-<h3 class="anchored" data-anchor-id="why-learn-r">Why learn R?</h3>
+<section id="why-learn-r" class="level1">
+<h1>Why learn R?</h1>
 <ol type="1">
 <li>Programming is more efficient than pointing and clicking</li>
 </ol>
@@ -227,8 +225,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>R is popular among researchers so you’ll find large and welcoming communities of fellow R users in places like <a href="https://stackoverflow.com/">Stack Overflow</a> or the <a href="https://forum.posit.co/">Posit Forums</a> (Posit is the company which makes RStudio).</li>
 </ul>
 </section>
-<section id="navigating-rstudio" class="level3">
-<h3 class="anchored" data-anchor-id="navigating-rstudio">Navigating RStudio</h3>
+<section id="navigating-rstudio" class="level1">
+<h1>Navigating RStudio</h1>
 <p>RStudio can help with many advanced tasks, but we’re going to be focussing on the core features.</p>
 <p>In the default layout there are 4 panes, clockwise from top left:</p>
 <ol type="1">
@@ -249,8 +247,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Syntax highlighting</li>
 </ul>
 </section>
-<section id="getting-set-up-in-rstudio" class="level3">
-<h3 class="anchored" data-anchor-id="getting-set-up-in-rstudio">Getting Set Up in RStudio</h3>
+<section id="getting-set-up-in-rstudio" class="level1">
+<h1>Getting Set Up in RStudio</h1>
 <p>It’s good practice to organise files relating to research projects into their own project folder. A well-organised project is easier to navigate, more reproducible, and easier to share with others.</p>
 <p>Let’s create a basic project directory outside of RStudio now to mimic the kind of project we might want to set up (or already have going). For the purposes of this lesson we’ll create our project folder on the desktop, but you will likely have your project folders elsewhere (hopefully in a University-approved place). Create the following folders:</p>
 <pre><code>r-workshop
@@ -272,10 +270,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Next time you open RStudio, you can click that 3D cube icon, and you will see options to open recent projects, like the one you just made.</p>
 <p>Let’s move the workshop <a href="&quot;data/r-workshop-data.zip&quot;">data file</a> into the data folder now. Next we need to unzip the file so that the 5 files inside are now sitting in the data folder. You should see a file called <code>surveys_complete.csv</code> which is the data we will use first. You should also see this same data file split into 4 separate spreadsheet files, which we’ll use later to demonstrate how to read multiple files in at once.</p>
 </section>
-<section id="working-in-r-rstudio" class="level3">
-<h3 class="anchored" data-anchor-id="working-in-r-rstudio">Working in R &amp; RStudio</h3>
+<section id="working-in-r-rstudio" class="level1">
+<h1>Working in R &amp; RStudio</h1>
 <p>The essence of programming is writing down instructions for the computer to follow, and then telling the computer to follow those instructions. We write the instructions in <strong>code</strong>, which is a common language that is understood by the computer and humans (after some practice). We call these instructions commands, and we tell the computer to follow the instructions by running (also called executing) the commands.</p>
-<p><strong>Console vs.&nbsp;script</strong></p>
+<section id="console-vs-script" class="level2">
+<h2 class="anchored" data-anchor-id="console-vs-script">Console vs Script</h2>
 <p>You can run commands directly in the R console, or you can write them into an R script. It may help to think of working in the console vs.&nbsp;working in a script as something like cooking. The console is like making up a new recipe, but not writing anything down. You can carry out a series of steps and produce a final dish at the end. However, because you didn’t write anything down, it’s harder to figure out exactly what you did, and in what order.</p>
 <p>Writing a script is like taking notes while cooking. You can tweak and edit the recipe all you want, you can come back in 6 months and try it again, and you don’t have to try to remember what went well and what didn’t. To cook the recipe again we can hit a single button in RStudio to run an entire script.</p>
 <p>You can also leave comments for yourself or others to read in your script. Lines that start with # are considered comments and will not be interpreted as R code.</p>
@@ -298,12 +297,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>Most of your R code should be saved in a script, but sometimes we need to do things that we don’t need to preserve in our script. For example, we shouldn’t put commands to install packages in our scripts, but we do need to load the packages we use at the start of a script.</p>
 </section>
-<section id="r-fundamentals" class="level3">
-<h3 class="anchored" data-anchor-id="r-fundamentals">R Fundamentals</h3>
-<p><strong>R as a calculator</strong></p>
+</section>
+<section id="r-fundamentals" class="level1">
+<h1>R Fundamentals</h1>
 <p>Go ahead and type a math equation into the console and hit enter. Note how the result is printed immediately. Now type the equation into a new script and hit enter. Note how the cursor moves to a new line. To run the equation in the script, click anywhere on the line of code and either click the ‘Run’ button on the top right of the script, or use Cmd+Enter (Mac) or Ctrl+Enter (Windows) to send the equation to the console.</p>
 <p>From now on, use a script to write and execute the code in this workshop.</p>
-<p><strong>Assignment</strong></p>
+<section id="assignment" class="level2">
+<h2 class="anchored" data-anchor-id="assignment">Assignment</h2>
 <p>In R, we can <em>assign</em> values to objects by using the assignment arrow <code>&lt;-</code> (shortcut Alt+- on Windows/Linux and Cmd+- on Mac). Whatever is on the right of the arrow will be assigned to whatever is on the left. To create an object we provide a name for the object and assign a value.</p>
 <p>For example, to assign the number 50 to an object called weight:</p>
 <div class="cell">
@@ -332,7 +332,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>be descriptive but concise</li>
 <li>use a consistent code style (like lower_snake)</li>
 </ul>
-<p><strong>Functions</strong></p>
+</section>
+<section id="functions" class="level2">
+<h2 class="anchored" data-anchor-id="functions">Functions</h2>
 <p>Functions are the workhorse of many programming languages, including R. Functions usually take one or more inputs, do something with the input, and create an output. We can think of a function as a piece of ‘canned code’ because they are made up of one or many lines of code in the background.</p>
 <p>Inputs are called arguments. Understanding which function to use to achieve a particular task comes with time and experience. To understand which arguments can be used we can look at the documentation provided for the function.</p>
 <p>Let’s look at the round() function as an example. To learn more about a function, you can type a ? in front of the name of the function, which will bring up the documentation for that function:</p>

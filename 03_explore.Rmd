@@ -1,14 +1,11 @@
 ---
-title: "03_explore"
+title: "Exploring & Understanding Data"
 ---
 
 ```{r, echo=FALSE}
 library(tidyverse)
 surveys <- read_csv(file = "data_raw/surveys_complete.csv")
 ```
-
-
-## Exploring & Understanding Data
 
 We've learned how to create visualisations from the `surveys` data, but what actually is `surveys`? R commonly stores tabular data in data.frames, and that is how the `surveys` data is stored. It’s useful to understand how R thinks about, represents, and stores data in order for us to have a productive working relationship with R.
 
@@ -45,7 +42,7 @@ The `$` in front of each variable acts as an important operator in R. We can use
 surveys$year
 ```
 
-### Vectors
+# Vectors
 
 The `year` column we just printed is referred to as a vector by R. While data.frames are made up of columns and rows, vectors are 1-dimensional series of values. Each column in a data.frame is actually a vector. Vectors are the basic building blocks of all data in R.
 
@@ -92,7 +89,7 @@ logi <- c(TRUE, FALSE, TRUE, TRUE)
 class(logi)
 ```
 
-### Missing data
+# Missing data
 
 There is an important distinction between 0 and a missing value. A 0 means a 0 was observed, whereas a missing value means there was no observation recorded. R represents missing data as NA, without quotes, in vectors of any type.
 
@@ -114,7 +111,7 @@ This is a very good thing, since we won’t accidentally forget to consider our 
 min(weights, na.rm = TRUE)
 ```
 
-### Vectors as arguments
+# Vectors as arguments
 
 A common reason to create a vector from scratch is to use in a function argument. The `median()` function calculates the median of a a set of values. We also need to set `na.rm = TRUE`, since there are NA values in the `weight` column.
 
@@ -158,7 +155,7 @@ rep("a", times = 3)
 rep(1:3, each = 2)
 ```
 
-## Factors (categorical variables)
+# Factors (categorical variables)
 
 Let's talk about factors because they can be challenging to work with. 
 

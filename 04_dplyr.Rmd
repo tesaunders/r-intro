@@ -1,5 +1,5 @@
 ---
-title: "04_dplyr"
+title: "Working With Data"
 ---
 
 ```{r, echo=FALSE}
@@ -7,7 +7,7 @@ library(tidyverse)
 surveys <- read_csv(file = "data_raw/surveys_complete.csv")
 ```
 
-## Reading in multiple files
+# Reading in multiple files
 
 Sometimes data is split over multiple spreadsheet files. For example, the data we've unzipped into the `data_raw`folder contains both a complete spreadsheet we've been working with so far, and also 4 individual spreadsheets which represent parts of the data (split by collection period).
 
@@ -37,11 +37,11 @@ You may have noticed we're using only .csv files, which are plain text spreadshe
 - Using a plain text format also removes any extraneous formatting that may have been entered when using something like Excel. Highlighting, notes in the margin, merged cells, and multiple tables in a single sheet may mean the file cannot be opened by software like R, and are all examples of things that should be handled differently to preserve data integrity (for example keeping metadata and notes ina a README instead).
 - Working with Excel files is possible in R but it requires installing and loading another package (popular options include readxl/writexl and openxlsx), which increases the dependencies in your code. In order to read multiple files in using these packages it's necessary to use more complicated methods.
 
-## Manipulating data
+# Manipulating data
 
 One of the most important skills for working with data in R is the ability to manipulate, modify, and reshape data. The `dplyr` and `tidyr` packages in the `tidyverse` provide a series of powerful functions for many common data manipulation tasks.
 
-### `select()`
+## `select()`
 
 Narrows down a data.frame to specific columns. To use the `select()` function, the first argument is the name of the data.frame, and the rest of the arguments are unquoted names of the columns you want.
 
@@ -214,7 +214,7 @@ surveys |>
   relocate(date, .after = year)
 ```
 
-## The split-apply-combine approach
+# The split-apply-combine approach
 
 Many data analysis tasks can be achieved using the split-apply-combine approach: split the data into groups, apply some analysis to each group, and combine the results in some way. `dplyr` has a few convenient functions to enable this approach, mainly `group_by()` and `summarise()`.
 
@@ -324,7 +324,7 @@ surveys |>
 
 What happens with the `group_by()` + `mutate()` combination is similar to using `summarise()`: for each group, the mean weight is calculated. However, instead of reporting only one row per group, the mean weight for each group is added to each row in that group. For each row in a group (like DM species ID + male sex), you will see the same value in mean_weight.
 
-## Reshaping data
+# Reshaping data
 
 It's possible to record the same data in multiple formats in a spreadsheet.  For example, data on points scored by 3 teams during a series of basketball games could be formatted in a wide format like this:
 
@@ -415,7 +415,7 @@ sp_by_plot_wide |>
   filter(!is.na(MEAN_WT))
 ```
 
-## Exporting data
+# Exporting data
 
 Let's say we want to export the wide version of our table so we can submit it with a manuscript to include in a publication. 
 
@@ -432,4 +432,3 @@ Now we can save this data.frame to a CSV using the `write_csv()` function from t
 ```{r}
 write_csv(sp_by_plot, "figures/table_survey_sp.csv")
 ```
-

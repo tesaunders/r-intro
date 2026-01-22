@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>04_dplyr – Data Analysis &amp; Visualisation with R</title>
+<title>Working With Data – Data Analysis &amp; Visualisation with R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -168,7 +168,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">04_dplyr</h1>
+<h1 class="title">Working With Data</h1>
 </div>
 
 
@@ -207,8 +207,8 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 </div>
-<section id="reading-in-multiple-files" class="level2">
-<h2 class="anchored" data-anchor-id="reading-in-multiple-files">Reading in multiple files</h2>
+<section id="reading-in-multiple-files" class="level1">
+<h1>Reading in multiple files</h1>
 <p>Sometimes data is split over multiple spreadsheet files. For example, the data we’ve unzipped into the <code>data_raw</code>folder contains both a complete spreadsheet we’ve been working with so far, and also 4 individual spreadsheets which represent parts of the data (split by collection period).</p>
 <p>It would be useful to read all of these files into R at once and combine them together into a single data.frame. Rather than repeating what we did previously 4 times, we can take advantage of how the <code>read_csv()</code> function works to do this in only a couple of steps.</p>
 <p>First, let’s remove the current <code>surveys</code> data.frame from R.</p>
@@ -240,11 +240,11 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <li>Working with Excel files is possible in R but it requires installing and loading another package (popular options include readxl/writexl and openxlsx), which increases the dependencies in your code. In order to read multiple files in using these packages it’s necessary to use more complicated methods.</li>
 </ul>
 </section>
-<section id="manipulating-data" class="level2">
-<h2 class="anchored" data-anchor-id="manipulating-data">Manipulating data</h2>
+<section id="manipulating-data" class="level1">
+<h1>Manipulating data</h1>
 <p>One of the most important skills for working with data in R is the ability to manipulate, modify, and reshape data. The <code>dplyr</code> and <code>tidyr</code> packages in the <code>tidyverse</code> provide a series of powerful functions for many common data manipulation tasks.</p>
-<section id="select" class="level3">
-<h3 class="anchored" data-anchor-id="select"><code>select()</code></h3>
+<section id="select" class="level2">
+<h2 class="anchored" data-anchor-id="select"><code>select()</code></h2>
 <p>Narrows down a data.frame to specific columns. To use the <code>select()</code> function, the first argument is the name of the data.frame, and the rest of the arguments are unquoted names of the columns you want.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(surveys, plot_id, species_id, hindfoot_length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -350,7 +350,6 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 # ℹ 16,868 more rows</code></pre>
 </div>
 </div>
-</section>
 </section>
 <section id="filter" class="level2">
 <h2 class="anchored" data-anchor-id="filter"><code>filter()</code></h2>
@@ -659,8 +658,9 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </section>
-<section id="the-split-apply-combine-approach" class="level2">
-<h2 class="anchored" data-anchor-id="the-split-apply-combine-approach">The split-apply-combine approach</h2>
+</section>
+<section id="the-split-apply-combine-approach" class="level1">
+<h1>The split-apply-combine approach</h1>
 <p>Many data analysis tasks can be achieved using the split-apply-combine approach: split the data into groups, apply some analysis to each group, and combine the results in some way. <code>dplyr</code> has a few convenient functions to enable this approach, mainly <code>group_by()</code> and <code>summarise()</code>.</p>
 <p><code>group_by()</code> takes a data.frame and the name of one or more columns with categorical values that define the groups. <code>summarize()</code> then collapses each group into a one-row summary of the group, giving you back a data.frame with one row per group. The syntax for <code>summarize()</code> is similar to <code>mutate()</code>, where you define new columns based on values of other columns. Let’s try calculating the mean weight of all our animals by sex.</p>
 <div class="cell">
@@ -899,8 +899,8 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 <p>What happens with the <code>group_by()</code> + <code>mutate()</code> combination is similar to using <code>summarise()</code>: for each group, the mean weight is calculated. However, instead of reporting only one row per group, the mean weight for each group is added to each row in that group. For each row in a group (like DM species ID + male sex), you will see the same value in mean_weight.</p>
 </section>
-<section id="reshaping-data" class="level2">
-<h2 class="anchored" data-anchor-id="reshaping-data">Reshaping data</h2>
+<section id="reshaping-data" class="level1">
+<h1>Reshaping data</h1>
 <p>It’s possible to record the same data in multiple formats in a spreadsheet. For example, data on points scored by 3 teams during a series of basketball games could be formatted in a wide format like this:</p>
 <table class="caption-top table">
 <thead>
@@ -1141,8 +1141,8 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </section>
-<section id="exporting-data" class="level2">
-<h2 class="anchored" data-anchor-id="exporting-data">Exporting data</h2>
+<section id="exporting-data" class="level1">
+<h1>Exporting data</h1>
 <p>Let’s say we want to export the wide version of our table so we can submit it with a manuscript to include in a publication.</p>
 <p>First, we might want to modify the names of the columns, since right now they are bare numbers, which aren’t very informative. Luckily, <code>pivot_wider()</code> has an argument names_prefix which will allow us to add “plot_” to the start of each column.</p>
 <div class="cell">
