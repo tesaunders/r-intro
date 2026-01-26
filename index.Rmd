@@ -6,7 +6,7 @@ title: "Data Analysis & Visualisation with R"
 Centre for eResearch  
 University of Auckland  
 
-Welcome to the workshop repository for Data Analysis & Visualisation with R.
+Welcome to the workshop repository for Data Analysis & Visualisation with R, an 8 hour workshop designed to introduce the R programming language to researchers who have no programming experience.
 
 # Getting Set Up
 

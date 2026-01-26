@@ -11,7 +11,7 @@
     "href": "index.html",
     "title": "Data Analysis & Visualisation with R",
     "section": "",
-    "text": "Dr Tom Saunders & Dr Toby Johnson\nCentre for eResearch\nUniversity of Auckland\nWelcome to the workshop repository for Data Analysis & Visualisation with R.\n\nGetting Set Up\nFollow the instructions on the set up page before the workshop.\n\n\nLearning Objectives\nThe primary objective of this workshop is to introduce attendees with no programming experience to the R programming language. By the end of the workshop you will be able to:\n\nBuild and modify plots to visualise tabular data.\nExplore tabular datasets using vectors, data frames, and functions.\nImport, manipulate, and export datasets and figures."
+    "text": "Dr Tom Saunders & Dr Toby Johnson\nCentre for eResearch\nUniversity of Auckland\nWelcome to the workshop repository for Data Analysis & Visualisation with R, an 8 hour workshop designed to introduce the R programming language to researchers who have no programming experience.\n\nGetting Set Up\nFollow the instructions on the set up page before the workshop.\n\n\nLearning Objectives\nThe primary objective of this workshop is to introduce attendees with no programming experience to the R programming language. By the end of the workshop you will be able to:\n\nBuild and modify plots to visualise tabular data.\nExplore tabular datasets using vectors, data frames, and functions.\nImport, manipulate, and export datasets and figures."
   },
   {
     "objectID": "03_explore.html",
@@ -95,6 +95,6 @@
     "href": "resources.html",
     "title": "resources",
     "section": "",
-    "text": "Resources"
+    "text": "Learners are strongly recommended to work through ‘R for Data Science’, a free online book which walks through the basics of data science in R using the tidyverse package ecosystem. It is written in an engaging way and teaches the most useful aspects of working with data in R, right up to intermediate concepts such as writing functions and iteration.\nTidyverse documentation provides a useful overview and reference source for learning about packages and functions in the Tidyverse ecosystem.\nEnvironmental Computing introduces different types of statistical analyses appropriate for different variable types, and how to perform these in R. There is an ecology flavour to the example data but the content is relevant for many disciplines.\nTidyTuesday is a weekly data analysis challenge in which a dataset is posted for participants to practice their data tidying and plotting skills. Participants usually share their code and outputs, so take a look at the script and plot to see how they did it.\nStack Exchange and the Posit forums are valuable sources of answers to common beginner R questions. You can also ask for help by sharing a ‘reprex’ (reproducible example) using one of R’s built-in datasets, so that others can understand your problem without having to download your code and data."
   }
 ]

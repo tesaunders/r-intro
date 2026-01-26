@@ -2,4 +2,14 @@
 title: "resources"
 ---
 
-# Resources
+Learners are strongly recommended to work through ['R for Data Science'](https://r4ds.hadley.nz/), a free online book which walks through the basics of data science in R using the `tidyverse` package ecosystem. It is written in an engaging way and teaches the most useful aspects of working with data in R, right up to intermediate concepts such as writing functions and iteration.
+
+[Tidyverse documentation](https://www.tidyverse.org/packages/) provides a useful overview and reference source for learning about packages and functions in the Tidyverse ecosystem.
+
+[Environmental Computing](https://environmentalcomputing.net/) introduces different types of statistical analyses appropriate for different variable types, and how to perform these in R. There is an ecology flavour to the example data but the content is relevant for many disciplines.
+
+[TidyTuesday](https://github.com/rfordatascience/tidytuesday) is a weekly data analysis challenge in which a dataset is posted for participants to practice their data tidying and plotting skills. Participants usually share their code and outputs, so take a look at the script and plot to see how they did it.
+
+[Stack Exchange](https://stats.stackexchange.com/questions/tagged/r) and the [Posit forums](https://forum.posit.co/) are valuable sources of answers to common beginner R questions. You can also ask for help by sharing a 'reprex' ([reproducible example](http://adv-r.had.co.nz/Reproducibility.html)) using one of R's built-in datasets, so that others can understand your problem without having to download your code and data.
+
+
