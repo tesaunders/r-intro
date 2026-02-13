@@ -91,7 +91,7 @@ ggplot(data = surveys, mapping = aes(x = weight, y = hindfoot_length)) +
   scale_x_log10()
 ```
 
-## Boxplots
+# Boxplots
 
 If we wanted to use a parametric statistical test like ANOVA, first we would need to check some assumptions. One of these assumptions is that the data are normally distributed. We can get a quick idea of this using a boxplot. Let's look at hindfoot_length grouped by plot_type.
 
@@ -111,13 +111,14 @@ ggplot(data = surveys, mapping = aes(x = plot_type, y = hindfoot_length)) +
 If we wanted to split our plot into separate plots to look at how the distribution of data differs by sex we can use faceting. Here we'll supply the column name we want to facet by within the `vars()` function, inside the `facet_wrap()` function. We can also specify how we want the plots to be arranged by supplying either `nrow` or `ncol`.
 
 ```{r}
-ggplot(data = surveys, mapping = aes(x = plot_type, y = hindfoot_length)) +
+final_plot <-
+  ggplot(data = surveys, mapping = aes(x = plot_type, y = hindfoot_length)) +
   geom_boxplot() +
   coord_flip() +
   facet_wrap(vars(sex), ncol = 1)
 ```
 
-## Exporting plots
+# Exporting plots
 
 Once we're happy with our plot, we can save it using the `ggsave()` function. 
 
@@ -127,7 +128,7 @@ We need to specify the following arguments:
 - `plot`: the name of the plot object we want to save.
 
 ```{r, eval=FALSE}
-ggsave("figures/hindfoot-plottype_sex.jpg", plot = final_plot)
+ggsave("figures/hindfoot-plottype_sex.png", plot = final_plot)
 ```
 
 You can also specify one of the below optional arguments to set where the image will be saved:
@@ -135,9 +136,9 @@ You can also specify one of the below optional arguments to set where the image 
 - `path`: the path of the directory we want to save our plot in (if not already in our filename).
 - `create.dir`: whether to create a new directory if the directory specified in `path` doesn't exist.
 
-### File type
+## File type
 
-The first consideration is the file type of the image. `ggplot` supports both vector and raster formats. Vector formats store images as instructions which means they can be resized without any loss of quality, whereas raster formats store images as fixed arrays of pixels, meaning they cannot be resized without losing quality. The JPEG format we used above is an example of a raster format - the image resolution is fixed when it is saved, so it cannot be resized very much without looking bad.
+`ggplot` supports both vector and raster formats. Vector formats store images as instructions, which means they can be resized without any loss of quality, whereas raster formats store images as fixed arrays of pixels, meaning they cannot be resized without losing quality. The JPEG format we used above is an example of a raster format - the image resolution is fixed when it is saved, so it cannot be resized very much without looking bad.
 
 Supported vector formats:
 
@@ -154,42 +155,45 @@ Supported raster formats:
 
 Sometimes a journal will ask for figures in a vector format so that they can size the image appropriately based on the typesetting of the document. Otherwise, most of the time you'll select a raster format and set the size of the image yourself. To do this you need to use the following optional arguments:
 
-- `width` & `height`: plot size in units defined by the units argument (defaults to inches).
-- `units`: one of the following - "in", "cm", "mm", "px".
-- `dpi`: plot resolution in dots per inch.
+- `width` & `height`: plot size in units defined by the units argument.
+- `units`: one of the following - "in", "cm", "mm", "px" (defaults to inches).
+- `dpi`: plot resolution in dots per inch (defaults to 300).
 
-### Clarifying DPI
+## Clarifying DPI
 
 Confusion around DPI is common. People often conflate DPI with other attributes of images relating to their size, or to the supposed 'quality' of an image.
 
-As background, there are three properties that determine the size of an image:
+There are three properties that determine the size and quality of an image:
 
 - Resolution: the pixel dimension of a screen or an object on a screen, expressed as width x height (e.g. 1920x1080). 
 - Print size: the physical dimensions of an image when printed, typically measured in inches for photos.
 - DPI: Dots per inch, or the density of ink dots printed onto paper.
 
-To obtain the print size of an image, the resolution is divided by the DPI set inside the image metadata. For example, if an image has a resoltuion of 900x900 pixels, and the DPI in the image is set to 300, then the image will be printed at 3 x 3 inches. The DPI setting inside the metdata of a digital image has absolutely no bearing on how that image is represented on a screen, only when it is printed or added into something like a Word doc which shows you how a document will look when printed.
+To obtain the print size of an image, the resolution is divided by the DPI set inside the image metadata. For example, if an image has a resoltuion of 900x900 pixels, and the DPI in the image is set to 300, then the image will be printed at 3 x 3 inches. The DPI setting inside the metadata of a digital image has absolutely no bearing on how that image is represented on a screen, only when it is printed or added into something like a Word doc which shows you how a document will look when printed.
 
 It's common for journals to ask for figures based only on a particular DPI (often 300), but this by itself is meaningless. You could send them an image with a resolution of 150 x 150 pixels and a DPI set to 300, but when printed it would only be half an inch by half an inch. What they really mean is they want images with "a resolution large enough to display the image at the chosen size when printed."
 
-If you'd like to determine the size or resolution yourself, then the value you provide for `width` & `height` will be multiplied by the value you give for `dpi` to give the resolution. For example, let's say we need our plot to be 3 inches wide on the page and 300dpi.
+If you need to set a DPI and physical size, then the resolution will be determined by multiplying the two together.For example, let's say we need our plot to be 3 x 3 inches on the page and 600 DPI.
 
 ```{r, eval=FALSE}
-ggsave("figures/hindfoot-plottype_sex.jpg", 
+ggsave("figures/hindfoot-plottype_sex.png", 
        plot = final_plot,
        width = 3,
+       height = 3,
        units = "in",
-       dpi = 300)
+       dpi = 600)
 ```
 
-Or let's say we want it to be 1500 pixels wide and 1200 pixels high.
+This results in a 1800 x 1800 pixel image.
+
+Or let's say we have a particular pixel dimension we want to get instead. If we want the image to be 1500 x 1200 pixels:
 
 ```{r, eval=FALSE}
-ggsave("figures/hindfoot-plottype_sex.jpg", plot = final_plot,
-       width = 5,
-       height = 4,
-       units = "in",
-       dpi = 300)
+ggsave("figures/hindfoot-plottype_sex.png", 
+       plot = final_plot,
+       width = 1500,
+       height = 1200,
+       units = "px")
 ```
 
-
+This results in an image with those pixel dimensions, and the default value of 300 DPI has been entered into the image metadata. This means the image will be sized at 5 x 4 inches on a page by default, and if it is resized to be larger than this, it will look bad.
