@@ -118,6 +118,165 @@ final_plot <-
   facet_wrap(vars(sex), ncol = 1)
 ```
 
+# Bar Chart
+
+Whilst a box plot is good for checking assumptions, it is best suited for looking at the distribution of values across a certain variable. If we want a graphical representation of the relationship between more than one variable, we need something else. We have already shown you scatter plots, but what if one of our two variables is categorical? In that case, we need a graph that represents this appropriately. One such example would be a bar chart.
+
+Let's take another look at hindfoot_length against plot_type. This time we add a 'geom_col' layer.
+
+```{r}
+ggplot(data = surveys, mapping = aes(x = plot_type, y = hindfoot_length)) +
+  geom_col()
+```
+
+We've got a graph, but not a very useful one. It seems as though 'geom_col' defaults to summing the values in our y variable for every value in our x variable. Whilst this does highlight the relationship between these two variables, it's not quite appropriate for our publication. What we want to do instead is to plot the average hindfoot_length for each plot_type.
+
+There are a few different ways of doing this in R. One would be to use the package 'dplyr' which has a host of tools that allow you to filter, group and summarise data. This would allow us to create a new tibble (e.g., 'surveys_summarised') with the summary statistics that we can then reference instead of 'surveys'.
+
+The method we will use here is the 'stat_summary' function in ggplot. This replaces our 'geom_col' layer and instead allows us to pass in an argument that states the function to apply to the data (e.g., mean) as well as a geom to plot with.
+
+```{r}
+ggplot(data = surveys, mapping = aes(x= plot_type, y = hindfoot_length)) + 
+  stat_summary(fun.y = "mean", geom = "col")
+```
+
+That looks much better, but while we're here why not add another variable? It seems highly unlikely that only plot_type affects hindfoot_length. Let's create a grouped bar chart by sex. Just like we did earlier, this involves adding another aesthetic mapping to our original ggplot call. We want to change the colour of the entire column for each sex, so we need to use 'fill = sex'. If we were to pass 'colour = sex', only the outline of our columns would change colour. 
+
+```{r}
+ggplot(data = surveys, mapping = aes(x= plot_type, y = hindfoot_length, fill = sex)) + 
+  stat_summary(fun.y = "mean", geom = "col")
+```
+
+Uh oh, that's not quite the look we are going for. By default ggplot has stacked our columns behind one another, so we can't see anything! To fix this, we need to pass an argument that you may come across quite frequently when using ggplot, 'position_dodge()', which prevents geoms from overlapping.
+
+```{r}
+ggplot(data = surveys, mapping = aes(x= plot_type, y = hindfoot_length, fill = sex)) + 
+  stat_summary(fun.y = "mean", geom = "col", position = position_dodge())
+```
+
+That looks much better. But we're still not quite there yet. Now we need some error bars to show how our data vary around the mean. To do this, we once again need to use 'stat_summary'. This is because we are computing another aggregate (standard deviation) that is not found in our original tibble ('surveys'). We need to pass a few arguments here, 'fun.data = mean_sdl' is used to calculate our mean and standard deviation and 'fun.args' allows us to specify the multiplier we want applied to our error bars (1 is equal to our mean +/- 1 * SD). We use 'fun.data' here rather than 'fun.y' as we need the function to return multiple values, one for our mean + SD, and one for our mean - SD. Our geom will be 'errorbar' and we want to specify how wide our errorbars are with 'width'. We also need to make sure to pass 'position_dodge()' with our error bars too. We specify a value of 0.9 for our error bars as this seems to work best to center each error bar on its respective column, but have a play around and see how changing this value moves the position of the error bar.
+
+```{r}
+ggplot(data = surveys, mapping = aes(x= plot_type, y = hindfoot_length, fill = sex)) + 
+  stat_summary(fun = "mean", geom = "col", position = position_dodge()) +
+  stat_summary(fun.data = "mean_sdl", fun.args = list(mult = 1), 
+                geom = "errorbar", width = 0.2, position = position_dodge(0.9))
+```
+
+# Changing themes
+
+So far we've been focused on the appearance of the parts of our plot related to the data. But we can also change many non-data components. There are several ways of doing this, but here we will use `theme_` functions. These allow us to change the overall appearance of our plot.
+
+Before we do this, let's assign what we have to an object called `myplot`. We will do this by using the assignment arrow `<-`. Now when we run the name of our ggplot object, `myplot`, R will return the plot, just as it did when we were typing out the entire code block.
+
+
+```{r}
+myplot <- ggplot(data = surveys, mapping = aes(x= plot_type, y = hindfoot_length, fill = sex)) + 
+  stat_summary(fun.y = "mean", geom = "col", position = position_dodge()) +
+  stat_summary(fun.data = "mean_sdl", fun.args = list(mult = 1), 
+                geom = "errorbar", width = 0.2, position = position_dodge(0.9))
+
+myplot
+```
+
+Now if we want to make any additional changes we no longer need to type out all the code. We can just refer to the object `myplot` and add additional layers as we normally would with ggplot.
+
+First, let's try and black and white theme.
+
+```{r}
+myplot + theme_bw()
+```
+
+As you can see, a number of parts of the plot have changed. theme_ functions usually control many aspects of a plot’s appearance all at once, for the sake of convenience. To individually change parts of a plot, we can use the theme() function, which can take many different arguments to change things about the text, grid lines, background color, and more. Let’s try changing the size of the text on our axis titles. We can do this by specifying that the axis.title should be an element_text() with size set to 14.
+
+```{r}
+myplot +
+  theme_bw() +
+  theme(axis.title = element_text(size = 14))
+```
+
+Another change we might want to make is to remove the vertical grid lines. Since our x axis is categorical, those grid lines aren’t useful. To do this, inside theme(), we will change the panel.grid.major.x to an element_blank().
+
+```{r}
+myplot +
+  theme_bw() +
+  theme(axis.title = element_text(size = 14), 
+        panel.grid.major.x = element_blank())
+```
+
+# Changing labels
+
+Our plot is really shaping up now. However, we probably want to make our axis titles nicer, and perhaps add a main title to the plot. We can do this using the labs() function:
+
+```{r}
+myplot +
+  theme_bw() +
+  theme(axis.title = element_text(size = 14), 
+        panel.grid.major.x= element_blank()) +
+  labs(title = "Hindfoot length by plot type",
+       x = "Plot type",
+       y = "Hindfoot length (mm)")
+```
+
+Now we're almost there. The last thing to do is take care of those long, overlapping axis tick labels. As with everything, we've got a number of options to achieve this. The first method we will describe is to include another argument in our `theme_` function. This time we want to specify the text on our x-axis (`axis.text.x`) and we want to rotate our text by 45 degrees. We also need to specify how we are adjusting our labels horizontally (`hjust`) and vertically (`vjust`). using 0.5 ensures our labels are centred at each plot type.
+
+
+```{r}
+myplot +
+  theme_bw() +
+  theme(axis.title = element_text(size = 14), 
+        panel.grid.major.x= element_blank(),
+        axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 0.5)) +
+  labs(title = "Hindfoot length by plot type",
+       x = "Plot type",
+       y = "Hindfoot length (mm)") 
+
+```
+
+That looks nice, but just to illustrate how versatile R is let's find another way of solving the same problem. This time we will use `scale_` functions. These are a family of functions that allow you to customise both the x (`scale_x_`) and y (`scale_y_`) axes on a slightly less granular scale compared to our `theme_` functions. Here we will tell R to wrap our labels and insert line breaks where appropriate. We do this by using the `label_wrap()` function from the library `scales`.
+
+```{r}
+library(scales)
+
+myplot +
+  theme_bw() +
+  theme(axis.title = element_text(size = 14), 
+        panel.grid.major.x= element_blank()) +
+  labs(title = "Hindfoot length by plot type",
+       x = "Plot type",
+       y = "Hindfoot length (mm)") +
+  scale_x_discrete(labels = label_wrap(10)) 
+```
+
+Finally, lets sort out that legend. First we can capitalise the name of the legend by adding another argument in our `labs` parameter. Given that we initially mapped sex to the  `fill` of the columns, that is the name of what we will be changing.
+
+```{r}
+myplot +
+  theme_bw() +
+  theme(axis.title = element_text(size = 14), 
+        panel.grid.major.x= element_blank()) +
+  labs(title = "Hindfoot length by plot type",
+       x = "Plot type",
+       y = "Hindfoot length (mm)",
+       fill = "Sex") +
+  scale_x_discrete(labels = label_wrap(10)) 
+```
+
+And finally lets change the names of the sexes from M to Male, F to Female, and NA to Unknown. To do this we will use another of our `scale_` functions, but now it will be referring to the discrete values of our fill mapping. Therefore we will use `scale_fill_discrete`.
+
+```{r}
+myplot +
+  theme_bw() +
+  theme(axis.title = element_text(size = 14), 
+        panel.grid.major.x= element_blank()) +
+  labs(title = "Hindfoot length by plot type",
+       x = "Plot type",
+       y = "Hindfoot length (mm)",
+       fill = "Sex") +
+  scale_x_discrete(labels = label_wrap(10))+
+  scale_fill_discrete(labels = c("Female", "Male", "Unknown"))
+```
+
 # Exporting plots
 
 Once we're happy with our plot, we can save it using the `ggsave()` function. 
