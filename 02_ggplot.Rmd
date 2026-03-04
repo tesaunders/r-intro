@@ -163,6 +163,8 @@ ggplot(data = surveys, mapping = aes(x= plot_type, y = hindfoot_length, fill = s
                 geom = "errorbar", width = 0.2, position = position_dodge(0.9))
 ```
 
+That's better. Although you may notice that the bar corresponding to the NA sex for the Spectab exclosure plot type does not have an error bar. This is because there's only one valid observation here, so that standard deviation cannot be calculated. I will leave this in for the moment, but later we will discover how you can remove this.
+
 # Changing themes
 
 So far we've been focused on the appearance of the parts of our plot related to the data. But we can also change many non-data components. There are several ways of doing this, but here we will use `theme_` functions. These allow us to change the overall appearance of our plot.
@@ -181,13 +183,21 @@ myplot
 
 Now if we want to make any additional changes we no longer need to type out all the code. We can just refer to the object `myplot` and add additional layers as we normally would with ggplot.
 
-First, let's try and black and white theme.
+First, let's try a black and white theme.
 
 ```{r}
 myplot + theme_bw()
 ```
 
-As you can see, a number of parts of the plot have changed. theme_ functions usually control many aspects of a plot’s appearance all at once, for the sake of convenience. To individually change parts of a plot, we can use the theme() function, which can take many different arguments to change things about the text, grid lines, background color, and more. Let’s try changing the size of the text on our axis titles. We can do this by specifying that the axis.title should be an element_text() with size set to 14.
+As you can see, a number of parts of the plot have changed. The background is no longer grey, there is a black border, and the major and minor gridlines are now grey. theme_ functions usually control many aspects of a plot’s appearance all at once, for the sake of convenience. Let's try another.
+
+```{r}
+myplot + theme_classic()
+```
+
+I could see uses for this theme, most likely in a scatter plot, or when the relationship between variables is simple and easy to see, but here it adds a bit of confusion. Let's return to our `theme_bw()` and make some additional changes.
+
+To change parts of a plot, we can use the theme() function, which can take many different arguments to change things about the text, grid lines, background color, and more. Let’s try changing the size of the text on our axis titles. We can do this by specifying that the axis.title should be an element_text() with size set to 14.
 
 ```{r}
 myplot +
@@ -195,7 +205,7 @@ myplot +
   theme(axis.title = element_text(size = 14))
 ```
 
-Another change we might want to make is to remove the vertical grid lines. Since our x axis is categorical, those grid lines aren’t useful. To do this, inside theme(), we will change the panel.grid.major.x to an element_blank().
+Another change we might want to make is to remove the vertical grid lines. Since our x axis is categorical, those grid lines aren’t as useful. To do this, we will change argument for `panel.grid.major.x` to `element_blank()`.
 
 ```{r}
 myplot +
@@ -218,6 +228,19 @@ myplot +
        y = "Hindfoot length (mm)")
 ```
 
+We can adjust the position of the title by returning to our `theme` function and specifying the horizontal justification (`hjust`) of our `plot.title`. Setting it to 0.5 centers the title. 1 aligns it to the right side of the plot, 0 to the left. At the same time, we can also increase the size of the text, by setting our `size` parameter, just like we did with `axis.title`.
+
+```{r}
+myplot +
+  theme_bw() +
+  theme(axis.title = element_text(size = 14), 
+        panel.grid.major.x= element_blank(),
+        plot.title = element_text(hjust = 0.5, size = 18)) +
+  labs(title = "Hindfoot length by plot type",
+       x = "Plot type",
+       y = "Hindfoot length (mm)")
+```
+
 Now we're almost there. The last thing to do is take care of those long, overlapping axis tick labels. As with everything, we've got a number of options to achieve this. The first method we will describe is to include another argument in our `theme_` function. This time we want to specify the text on our x-axis (`axis.text.x`) and we want to rotate our text by 45 degrees. We also need to specify how we are adjusting our labels horizontally (`hjust`) and vertically (`vjust`). using 0.5 ensures our labels are centred at each plot type.
 
 
@@ -226,6 +249,7 @@ myplot +
   theme_bw() +
   theme(axis.title = element_text(size = 14), 
         panel.grid.major.x= element_blank(),
+        plot.title = element_text(hjust = 0.5, size = 18),
         axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 0.5)) +
   labs(title = "Hindfoot length by plot type",
        x = "Plot type",
@@ -241,7 +265,8 @@ library(scales)
 myplot +
   theme_bw() +
   theme(axis.title = element_text(size = 14), 
-        panel.grid.major.x= element_blank()) +
+        panel.grid.major.x= element_blank(),
+        plot.title = element_text(hjust = 0.5, size = 18)) +
   labs(title = "Hindfoot length by plot type",
        x = "Plot type",
        y = "Hindfoot length (mm)") +
@@ -254,7 +279,8 @@ Finally, lets sort out that legend. First we can capitalise the name of the lege
 myplot +
   theme_bw() +
   theme(axis.title = element_text(size = 14), 
-        panel.grid.major.x= element_blank()) +
+        panel.grid.major.x= element_blank(),
+        plot.title = element_text(hjust = 0.5, size = 18)) +
   labs(title = "Hindfoot length by plot type",
        x = "Plot type",
        y = "Hindfoot length (mm)",
@@ -262,19 +288,86 @@ myplot +
   scale_x_discrete(labels = label_wrap(10)) 
 ```
 
-And finally lets change the names of the sexes from M to Male, F to Female, and NA to Unknown. To do this we will use another of our `scale_` functions, but now it will be referring to the discrete values of our fill mapping. Therefore we will use `scale_fill_discrete`.
+Now let's change the names of the sexes from 'M' to Male, 'F' to Female, and 'NA' to Unknown. To do this we will use another of our `scale_` functions, but now it will be referring to the discrete values of our fill mapping. Therefore we will use `scale_fill_discrete`.
 
 ```{r}
 myplot +
   theme_bw() +
   theme(axis.title = element_text(size = 14), 
-        panel.grid.major.x= element_blank()) +
+        panel.grid.major.x= element_blank(),
+        plot.title = element_text(hjust = 0.5, size = 18)) +
   labs(title = "Hindfoot length by plot type",
        x = "Plot type",
        y = "Hindfoot length (mm)",
        fill = "Sex") +
   scale_x_discrete(labels = label_wrap(10))+
   scale_fill_discrete(labels = c("Female", "Male", "Unknown"))
+```
+
+And finally let's increase the size of the legend title. How might this be done? Think about how we have increased the size of our axis titles and plot titles.
+
+```{r}
+myplot +
+  theme_bw() +
+  theme(axis.title = element_text(size = 14), 
+        panel.grid.major.x= element_blank(),
+        plot.title = element_text(hjust = 0.5, size = 18),
+        legend.title = element_text(size = 14)) +
+  labs(title = "Hindfoot length by plot type",
+       x = "Plot type",
+       y = "Hindfoot length (mm)",
+       fill = "Sex") +
+  scale_x_discrete(labels = label_wrap(10))+
+  scale_fill_discrete(labels = c("Female", "Male", "Unknown"))
+```
+
+Before we move on, I'm going to overwrite our existing `myplot` object with this new plot.
+
+```{r}
+myplot <- myplot +
+  theme_bw() +
+  theme(axis.title = element_text(size = 14), 
+        panel.grid.major.x= element_blank(),
+        plot.title = element_text(hjust = 0.5, size = 18),
+        legend.title = element_text(size = 14)) +
+  labs(title = "Hindfoot length by plot type",
+       x = "Plot type",
+       y = "Hindfoot length (mm)",
+       fill = "Sex") +
+  scale_x_discrete(labels = label_wrap(10))+
+  scale_fill_discrete(labels = c("Female", "Male", "Unknown"))
+```
+
+# Change axis tick marks
+
+The last thing we will demonstrate is how to change our axis tick marks. By default ggplot includes some quite sensible values, but these might not be appropriate for the plots you produce.
+
+Lets start by telling ggplot how many tick marks we want. We can do this using one of our `scale_` functions. Because we are referring to our y axis, which uses a continuous scale, we want to specify `scale_y_continuous`. ggplot refers to the number of tick marks as `n.breaks`. Currently we have 5 (0, 10, 20, 30, 40, 50), but lets make that 10. This will force it to include 5, 15, 25, etc.
+
+```{r}
+myplot +
+  scale_y_continuous(n.breaks = 10)
+```
+
+We could explicitly say what we want those breaks to be, instead of how many there are. Here we will use `breaks` instead of `n.breaks`. We can choose some strange numbers to include here, to make it obvious what this parameter does.
+
+```{r}
+myplot +
+  scale_y_continuous(breaks = c(0, 5, 10, 25, 32, 47, 50))
+```
+
+Finally, we could give ggplot a sequence of numbers to use. This requires using `seq()` which takes three arguments: our starting value, our finishing value, and how much to increment each time. Again lets choose some strange values to make it obvious.
+
+```{r}
+myplot +
+  scale_y_continuous(breaks = seq(0, 50, 2.5))
+```
+
+I don't think any of these are actually better than the default values, so lets refer back to that and assign it to a new object 'final_plot' so that we can export it.
+
+```{r}
+final_plot <- myplot
+final_plot
 ```
 
 # Exporting plots
