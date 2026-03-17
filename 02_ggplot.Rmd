@@ -245,7 +245,7 @@ plot_mean_hf +
   scale_x_discrete(labels = label_wrap(10)) 
 ```
 
-Finally, lets sort out that legend. First we can capitalise the name of the legend by adding another argument in our `labs` argument. Given that we initially mapped the sex column to the `fill` aesthetic, that is the title we will provide.
+Lets sort out that legend. First we can capitalise the name of the legend by adding another argument in our `labs` argument. Given that we initially mapped the sex column to the `fill` aesthetic, that is the title we will provide.
 
 ```{r}
 plot_mean_hf +
@@ -276,7 +276,7 @@ plot_mean_hf +
   scale_fill_discrete(labels = c("Female", "Male", "Unknown"))
 ```
 
-And finally let's increase the size of the legend title wihtin our `theme()` call.
+And finally let's increase the size of the legend title within our `theme()` call.
 
 ```{r}
 plot_mean_hf +

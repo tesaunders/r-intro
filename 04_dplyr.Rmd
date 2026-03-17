@@ -9,9 +9,9 @@ surveys <- read_csv(file = "data_raw/surveys_complete.csv")
 
 # Reading in multiple files
 
-Sometimes data is split over multiple spreadsheet files. For example, the data we've unzipped into the `data_raw`folder contains both a complete spreadsheet we've been working with so far, and also 4 individual spreadsheets which represent parts of the data (split by collection period).
+Sometimes data is split over multiple spreadsheet files. For example, the data we've unzipped into the `data_raw`folder contains both a complete spreadsheet we've been working with so far, and also 4 individual spreadsheets which represent parts of that whole spreadsheet (split by collection period).
 
-It would be useful to read all of these files into R at once and combine them together into a single data.frame. Rather than repeating what we did previously 4 times, we can take advantage of how the `read_csv()` function works to do this in only a couple of steps.
+It's useful to know how to read multiple spreadsheet files into R at once and combine them together into a single data.frame. Rather than repeating what we did previously 4 times, we can take advantage of how the `read_csv()` function works to do this in only a couple of steps.
 
 First, let's remove the current `surveys` data.frame from R.
 

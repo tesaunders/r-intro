@@ -6,7 +6,7 @@ title: "Data Analysis & Visualisation with R"
 Centre for eResearch  
 University of Auckland  
 
-Welcome to the workshop repository for Data Analysis & Visualisation with R, an 8 hour workshop designed to introduce the R programming language to researchers who have no programming experience.
+Welcome to *Data Analysis & Visualisation with R*, an 8 hour workshop designed to introduce the R programming language to researchers who have no programming experience.
 
 # Getting Set Up
 
@@ -14,7 +14,7 @@ Follow the instructions on the [set up](setup.html) page before the workshop.
 
 # Learning Objectives
 
-The primary objective of this workshop is to introduce attendees with no programming experience to the R programming language. By the end of the workshop you will be able to:
+The primary objective of this workshop is to introduce attendees to the R programming language. By the end of the workshop you will be able to:
 
 - Build and modify plots to visualise tabular data.
 - Explore tabular datasets using vectors, data frames, and functions.
