@@ -27,4 +27,4 @@ title: "Setup"
 
 # 4. Download the data
 
-- Download the [data file](data/r-workshop-data.zip) and save it somewhere convenient.
+- Download the [data file](data_raw/r-workshop-data.zip) and save it somewhere convenient.
