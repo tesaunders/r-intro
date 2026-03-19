@@ -110,7 +110,7 @@ ggplot(data = surveys, mapping = aes(x = plot_type, y = hindfoot_length)) +
   coord_flip()
 ```
 
-If we wanted to examine our data grouped by sex, we could facet the data into separate plots for each sex. We do this using the `facet_wrap()` function, and insite it we supply the column we want to facet by within the `vars()` function. We can also specify how we want the plots to be arranged by supplying either `nrow` or `ncol`.
+If we wanted to examine our data grouped by sex, we could facet the data into separate plots for each sex. We do this using the `facet_wrap()` function, and inside it we supply the column we want to facet by within the `vars()` function. We can also specify how we want the plots to be arranged by supplying either `nrow` or `ncol`.
 
 ```{r}
 ggplot(data = surveys, mapping = aes(x = plot_type, y = hindfoot_length)) +
@@ -321,7 +321,7 @@ We need to specify the following arguments:
 - `plot`: the name of the plot object we want to save.
 
 ```{r, eval=FALSE}
-ggsave("figures/hindfoot-plottype_sex.png", plot = final_plot)
+ggsave("figures/hindfoot-plottype_sex.png", plot = plot_mean_hf)
 ```
 
 You can also specify one of the below optional arguments to set where the image will be saved:
@@ -370,7 +370,7 @@ If you need to set a DPI and physical size, then the resolution will be determin
 
 ```{r, eval=FALSE}
 ggsave("figures/hindfoot-plottype_sex.png", 
-       plot = final_plot,
+       plot = plot_mean_hf,
        width = 3,
        height = 3,
        units = "in",
@@ -383,7 +383,7 @@ Or let's say we have a particular pixel dimension we want to get instead. If we 
 
 ```{r, eval=FALSE}
 ggsave("figures/hindfoot-plottype_sex.png", 
-       plot = final_plot,
+       plot = plot_mean_hf,
        width = 1500,
        height = 1200,
        units = "px")

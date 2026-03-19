@@ -97,7 +97,7 @@ The `==` sign means “is equal to”. There are several other operators we can 
 - <= (less than or equal to)
 - != (not equal to)
 
-Another useful operator is `%in%`, which checks if the value on the lefthand side is found anywhere in the vector on the righthand side. For example, we can get rows with specific `species_id` values.
+Another useful operator is `%in%`, which checks if a specified set of values are present in a vector. For example, we can get rows with specific `species_id` values.
 
 ```{r}
 filter(surveys, species_id %in% c("RM", "DO"))
@@ -193,7 +193,7 @@ Since our new column gets moved all the way to the end, it doesn’t end up prin
 
 ```{r}
 surveys |>  
-  mutate(date = paste(year, month, day, sep = "-")) %>% 
+  mutate(date = paste(year, month, day, sep = "-")) |>  
   relocate(date, .after = year)
 ```
 

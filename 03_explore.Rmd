@@ -113,7 +113,7 @@ min(weights, na.rm = TRUE)
 
 # Vectors as arguments
 
-A common reason to create a vector from scratch is to use in a function argument. The `median()` function calculates the median of a a set of values. We also need to set `na.rm = TRUE`, since there are NA values in the `weight` column.
+A common use of vectors is to pass them as arguments in functions. The `median()` function calculates the median of a a set of values. We also need to set `na.rm = TRUE`, since there are NA values in the `weight` column.
 
 ```{r}
 median(surveys$weight, na.rm = TRUE)
