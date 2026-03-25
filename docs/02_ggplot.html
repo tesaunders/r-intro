@@ -490,23 +490,17 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </div>
-<p>We might want to calculate the standard deviation of the data in each group and add this as error bars to each bar in our plot. We add this as anoher layer using another <code>stat_summary()</code> call. We pass in several arguments here:</p>
-<ul>
-<li><code>fun.data = mean_sdl</code> to calculate our mean and standard deviation</li>
-<li><code>fun.args = list(mult = 1)</code> to specify the multiplier we want applied to our error bars (1 is equal to our mean +/- 1 * SD).</li>
-<li><code>geom = "errorbar"</code> to select the type of geometry we want to display</li>
-<li><code>width = 0.2</code> to specify the width of the error bars</li>
-<li><code>position = position_dodge(0.9)</code> to ensure error bars are placed appropriately</li>
-</ul>
+</section>
+<section id="changing-themes" class="level1">
+<h1>Changing themes</h1>
+<p>Now that all of the plot components are there, we can assign our plot code to an object to make it easier to experiment with the appearance of our plot. Let’s call it <code>plot_mean_hf</code>. Now if we run the name of the object R will produce the plot in the plot viewer pane.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> surveys, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span> plot_type, <span class="at">y =</span> hindfoot_length, <span class="at">fill =</span> sex)) <span class="sc">+</span> </span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> <span class="st">"mean"</span>, <span class="at">geom =</span> <span class="st">"col"</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>()) <span class="sc">+</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> <span class="st">"mean_sdl"</span>, <span class="at">fun.args =</span> <span class="fu">list</span>(<span class="at">mult =</span> <span class="dv">1</span>), </span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">geom =</span> <span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="fl">0.9</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> surveys, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span> plot_type, <span class="at">y =</span> hindfoot_length, <span class="at">fill =</span> sex)) <span class="sc">+</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> <span class="st">"mean"</span>, <span class="at">geom =</span> <span class="st">"col"</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>())</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>plot_mean_hf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
-(`stat_summary()`).
-Removed 2733 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -517,22 +511,12 @@ Removed 2733 rows containing non-finite outside the scale range
 </div>
 </div>
 </div>
-<p>The NA sex for the “Spectab exclosure” <code>plot_type</code> does not have an error bar because there’s only one data point, so that standard deviation cannot be calculated.</p>
-</section>
-<section id="changing-themes" class="level1">
-<h1>Changing themes</h1>
-<p>Now that all of the plot components are there, we can assign our plot code to an object to make it easier to experiment with the appearance of our plot. Let’s call it <code>plot_mean_hf</code>. Now if we run the name of the object R will produce the plot in the plot viewer pane.</p>
+<p>In general we use <code>theme_</code> functions to change appearance, and we can add these as extra layers to our base plot by using the <code>+</code> sign on the end.</p>
+<p>First, let’s take a look at the built-in black and white theme.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> surveys, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span> plot_type, <span class="at">y =</span> hindfoot_length, <span class="at">fill =</span> sex)) <span class="sc">+</span> </span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> <span class="st">"mean"</span>, <span class="at">geom =</span> <span class="st">"col"</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>()) <span class="sc">+</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> <span class="st">"mean_sdl"</span>, <span class="at">fun.args =</span> <span class="fu">list</span>(<span class="at">mult =</span> <span class="dv">1</span>), </span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">geom =</span> <span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="fl">0.9</span>))</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>plot_mean_hf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
-(`stat_summary()`).
-Removed 2733 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -543,14 +527,15 @@ Removed 2733 rows containing non-finite outside the scale range
 </div>
 </div>
 </div>
-<p>In general we use <code>theme_</code> functions to change appearance, and we can add these as extra layers to our base plot by using the <code>+</code> sign on the end.</p>
-<p>First, let’s take a look at the built-in black and white theme.</p>
+<p>The background is no longer grey, there is a black border, and the major and minor gridlines are now grey. <code>theme_</code> functions control many aspects of a plot’s appearance all at once.</p>
+<p>To change specific parts of a plot, we can use the <code>theme()</code> function to specify many different arguments which relate to the text, grid lines, background color, and more.</p>
+<p>Let’s change the size of the text on our axis titles. We can do this by specifying that the <code>axis.title</code> should be an <code>element_text()</code> with size set to 14.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="sc">+</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
-(`stat_summary()`).
-Removed 2733 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -561,17 +546,14 @@ Removed 2733 rows containing non-finite outside the scale range
 </div>
 </div>
 </div>
-<p>The background is no longer grey, there is a black border, and the major and minor gridlines are now grey. <code>theme_</code> functions control many aspects of a plot’s appearance all at once.</p>
-<p>To change specific parts of a plot, we can use the <code>theme()</code> function to specify many different arguments which relate to the text, grid lines, background color, and more.</p>
-<p>Let’s change the size of the text on our axis titles. We can do this by specifying that the <code>axis.title</code> should be an <code>element_text()</code> with size set to 14.</p>
+<p>Since our x axis is categorical, the vertical grid lines aren’t necessary. To remove them, we change the argument for <code>panel.grid.major.x</code> to <code>element_blank()</code>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="sc">+</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>), </span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
-(`stat_summary()`).
-Removed 2733 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -582,16 +564,20 @@ Removed 2733 rows containing non-finite outside the scale range
 </div>
 </div>
 </div>
-<p>Since our x axis is categorical, the vertical grid lines aren’t necessary. To remove them, we change the argument for <code>panel.grid.major.x</code> to <code>element_blank()</code>.</p>
+</section>
+<section id="changing-labels" class="level1">
+<h1>Changing labels</h1>
+<p>To set a plot title and change our axis titles in one go we can use the <code>labs()</code> function:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="sc">+</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>), </span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.x=</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Hindfoot length by plot type"</span>,</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Plot type"</span>,</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Hindfoot length (mm)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
-(`stat_summary()`).
-Removed 2733 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -602,22 +588,18 @@ Removed 2733 rows containing non-finite outside the scale range
 </div>
 </div>
 </div>
-</section>
-<section id="changing-labels" class="level1">
-<h1>Changing labels</h1>
-<p>To set a plot title and change our axis titles in one go we can use the <code>labs()</code> function:</p>
+<p>To centre align our plot title, we specify the horizontal justification (<code>hjust</code>) back in our <code>theme()</code> function. A value of 0.5 centres the title. 1 aligns it to the right side of the plot, 0 to the left.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="sc">+</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>), </span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.x=</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Hindfoot length by plot type"</span>,</span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Plot type"</span>,</span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Hindfoot length (mm)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.x=</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Hindfoot length by plot type"</span>,</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Plot type"</span>,</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Hindfoot length (mm)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
-(`stat_summary()`).
-Removed 2733 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -628,7 +610,8 @@ Removed 2733 rows containing non-finite outside the scale range
 </div>
 </div>
 </div>
-<p>To centre align our plot title, we specify the horizontal justification (<code>hjust</code>) back in our <code>theme()</code> function. A value of 0.5 centres the title. 1 aligns it to the right side of the plot, 0 to the left.</p>
+<p>Next, let’s take care of those long, overlapping axis tick labels. We can handle this multiple ways, but we’ll show you how we would do it.</p>
+<p>We’ll make use of <code>scale_</code> functions to customise the x (<code>scale_x_</code>) and y (<code>scale_y_</code>) axes. Because we’re working with a bar plot, the x axis is divided into several discrete categories, so we use <code>scale_x_discrete()</code>. By providing the <code>label_wrap()</code> function from the ‘scales’ package, we’re telling R to wrap the text of our labels and insert line breaks where appropriate.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="sc">+</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
@@ -637,11 +620,10 @@ Removed 2733 rows containing non-finite outside the scale range
 <span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
 <span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Hindfoot length by plot type"</span>,</span>
 <span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Plot type"</span>,</span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Hindfoot length (mm)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Hindfoot length (mm)"</span>) <span class="sc">+</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="fu">label_wrap</span>(<span class="dv">10</span>)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
-(`stat_summary()`).
-Removed 2733 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -652,22 +634,20 @@ Removed 2733 rows containing non-finite outside the scale range
 </div>
 </div>
 </div>
-<p>Next, let’s take care of those long, overlapping axis tick labels. We can handle this multiple ways, but we’ll show you how we would do it.</p>
-<p>We’ll make use of <code>scale_</code> functions to customise the x (<code>scale_x_</code>) and y (<code>scale_y_</code>) axes. Because we’re working with a bar plot, the x axis is divided into several discrete categories, so we use <code>scale_x_discrete()</code>. By providing the <code>label_wrap()</code> function from the ‘scales’ package, we’re telling R to wrap the text of our labels and insert line breaks where appropriate.</p>
+<p>Lets sort out that legend. First we can capitalise the name of the legend by adding another argument in our <code>labs</code> argument. Given that we initially mapped the sex column to the <code>fill</code> aesthetic, that is the title we will provide.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="sc">+</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>), </span>
 <span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.x=</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">18</span>)) <span class="sc">+</span></span>
 <span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Hindfoot length by plot type"</span>,</span>
 <span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Plot type"</span>,</span>
-<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Hindfoot length (mm)"</span>) <span class="sc">+</span></span>
-<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="fu">label_wrap</span>(<span class="dv">10</span>)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Hindfoot length (mm)"</span>,</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Sex"</span>) <span class="sc">+</span></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="fu">label_wrap</span>(<span class="dv">10</span>)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
-(`stat_summary()`).
-Removed 2733 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -678,7 +658,7 @@ Removed 2733 rows containing non-finite outside the scale range
 </div>
 </div>
 </div>
-<p>Lets sort out that legend. First we can capitalise the name of the legend by adding another argument in our <code>labs</code> argument. Given that we initially mapped the sex column to the <code>fill</code> aesthetic, that is the title we will provide.</p>
+<p>To change the names of the values within the legend we use another of our <code>scale_</code> functions. We use <code>scale_fill_discrete</code> because sex is a discrete variable mapped to the fill aesthetic.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="sc">+</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
@@ -689,11 +669,10 @@ Removed 2733 rows containing non-finite outside the scale range
 <span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Plot type"</span>,</span>
 <span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Hindfoot length (mm)"</span>,</span>
 <span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Sex"</span>) <span class="sc">+</span></span>
-<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="fu">label_wrap</span>(<span class="dv">10</span>)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="fu">label_wrap</span>(<span class="dv">10</span>))<span class="sc">+</span></span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Female"</span>, <span class="st">"Male"</span>, <span class="st">"Unknown"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
-(`stat_summary()`).
-Removed 2733 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -704,23 +683,22 @@ Removed 2733 rows containing non-finite outside the scale range
 </div>
 </div>
 </div>
-<p>To change the names of the values within the legend we use another of our <code>scale_</code> functions. We use <code>scale_fill_discrete</code> because sex is a discrete variable mapped to the fill aesthetic.</p>
+<p>And finally let’s increase the size of the legend title within our <code>theme()</code> call.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="sc">+</span></span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>), </span>
 <span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.x=</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">18</span>)) <span class="sc">+</span></span>
-<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Hindfoot length by plot type"</span>,</span>
-<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Plot type"</span>,</span>
-<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Hindfoot length (mm)"</span>,</span>
-<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Sex"</span>) <span class="sc">+</span></span>
-<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="fu">label_wrap</span>(<span class="dv">10</span>))<span class="sc">+</span></span>
-<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Female"</span>, <span class="st">"Male"</span>, <span class="st">"Unknown"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">18</span>),</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>)) <span class="sc">+</span></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Hindfoot length by plot type"</span>,</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Plot type"</span>,</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Hindfoot length (mm)"</span>,</span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Sex"</span>) <span class="sc">+</span></span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="fu">label_wrap</span>(<span class="dv">10</span>))<span class="sc">+</span></span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Female"</span>, <span class="st">"Male"</span>, <span class="st">"Unknown"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
-(`stat_summary()`).
-Removed 2733 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -731,9 +709,9 @@ Removed 2733 rows containing non-finite outside the scale range
 </div>
 </div>
 </div>
-<p>And finally let’s increase the size of the legend title within our <code>theme()</code> call.</p>
+<p>We can save all of this code as <code>plot_mean_hf</code> by overwriting the current object.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="sc">+</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="ot">&lt;-</span> plot_mean_hf <span class="sc">+</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>), </span>
 <span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.x=</span> <span class="fu">element_blank</span>(),</span>
@@ -744,11 +722,11 @@ Removed 2733 rows containing non-finite outside the scale range
 <span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Hindfoot length (mm)"</span>,</span>
 <span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Sex"</span>) <span class="sc">+</span></span>
 <span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="fu">label_wrap</span>(<span class="dv">10</span>))<span class="sc">+</span></span>
-<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Female"</span>, <span class="st">"Male"</span>, <span class="st">"Unknown"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Female"</span>, <span class="st">"Male"</span>, <span class="st">"Unknown"</span>))</span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>plot_mean_hf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
-(`stat_summary()`).
-Removed 2733 rows containing non-finite outside the scale range
 (`stat_summary()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -759,20 +737,39 @@ Removed 2733 rows containing non-finite outside the scale range
 </div>
 </div>
 </div>
-<p>We can save all of this code as <code>plot_mean_hf</code> by overwriting the current object.</p>
+<p>The last thing we should do to make this plot publication ready is to add some error bars. We’ve refrained from doing this until the end as there is quite a bit of code in this one function, but we think it’s really useful to know.</p>
+<p>There are lots of different statistics we could represent using error bars. Here, we will calculate the standard deviation in each group and add this as error bars to each bar in our plot. We add this as another layer using another <code>stat_summary()</code> call. This is the same function that we used to plot our bars in the first place, and we need it because it allows us to calculate some descriptive statistic. We pass in several arguments for this <code>stat_summary()</code> call:</p>
+<ul>
+<li><code>fun.data = mean_sdl</code> to calculate our mean and standard deviation</li>
+<li><code>fun.args = list(mult = 1)</code> to specify the multiplier we want applied to our error bars (1 is equal to our mean +/- 1 * SD).</li>
+<li><code>geom = "errorbar"</code> to select the type of geometry we want to display</li>
+<li><code>width = 0.2</code> to specify the width of the error bars</li>
+<li><code>position = position_dodge(0.9)</code> to ensure error bars are placed appropriately</li>
+</ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="ot">&lt;-</span> plot_mean_hf <span class="sc">+</span></span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>), </span>
-<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.x=</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">18</span>),</span>
-<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>)) <span class="sc">+</span></span>
-<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Hindfoot length by plot type"</span>,</span>
-<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Plot type"</span>,</span>
-<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Hindfoot length (mm)"</span>,</span>
-<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Sex"</span>) <span class="sc">+</span></span>
-<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="fu">label_wrap</span>(<span class="dv">10</span>))<span class="sc">+</span></span>
-<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Female"</span>, <span class="st">"Male"</span>, <span class="st">"Unknown"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="sc">+</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> <span class="st">"mean_sdl"</span>, <span class="at">fun.args =</span> <span class="fu">list</span>(<span class="at">mult =</span> <span class="dv">1</span>), </span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">geom =</span> <span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="fl">0.9</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
+(`stat_summary()`).
+Removed 2733 rows containing non-finite outside the scale range
+(`stat_summary()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_ggplot_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>One thing you will notice is that the NA sex for the “Spectab exclosure” plot_type does not have an error bar. This is because there’s only one data point, so the standard deviation cannot be calculated.</p>
+<p>Great, we have our publication ready plot. Let’s overwrite our existing object and get ready to export this plot so it can be used in our publication.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="ot">&lt;-</span> plot_mean_hf <span class="sc">+</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> <span class="st">"mean_sdl"</span>, <span class="at">fun.args =</span> <span class="fu">list</span>(<span class="at">mult =</span> <span class="dv">1</span>), </span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">geom =</span> <span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="fl">0.9</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="exporting-plots" class="level1">
@@ -784,7 +781,7 @@ Removed 2733 rows containing non-finite outside the scale range
 <li><code>plot</code>: the name of the plot object we want to save.</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/hindfoot-plottype_sex.png"</span>, <span class="at">plot =</span> plot_mean_hf)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/hindfoot-plottype_sex.png"</span>, <span class="at">plot =</span> plot_mean_hf)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>You can also specify one of the below optional arguments to set where the image will be saved:</p>
 <ul>
@@ -827,21 +824,21 @@ Removed 2733 rows containing non-finite outside the scale range
 <p>It’s common for journals to ask for figures based only on a particular DPI (often 300), but this by itself is meaningless. You could send them an image with a resolution of 150 x 150 pixels and a DPI set to 300, but when printed it would only be half an inch by half an inch. What they really mean is they want images with “a resolution large enough to display the image at the chosen size when printed.”</p>
 <p>If you need to set a DPI and physical size, then the resolution will be determined by multiplying the two together.For example, let’s say we need our plot to be 3 x 3 inches on the page and 600 DPI.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/hindfoot-plottype_sex.png"</span>, </span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot =</span> plot_mean_hf,</span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">width =</span> <span class="dv">3</span>,</span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">height =</span> <span class="dv">3</span>,</span>
-<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">units =</span> <span class="st">"in"</span>,</span>
-<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">dpi =</span> <span class="dv">600</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/hindfoot-plottype_sex.png"</span>, </span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot =</span> plot_mean_hf,</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">width =</span> <span class="dv">3</span>,</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">height =</span> <span class="dv">3</span>,</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">units =</span> <span class="st">"in"</span>,</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">dpi =</span> <span class="dv">600</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This results in a 1800 x 1800 pixel image.</p>
 <p>Or let’s say we have a particular pixel dimension we want to get instead. If we want the image to be 1500 x 1200 pixels:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/hindfoot-plottype_sex.png"</span>, </span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot =</span> plot_mean_hf,</span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">width =</span> <span class="dv">1500</span>,</span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">height =</span> <span class="dv">1200</span>,</span>
-<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">units =</span> <span class="st">"px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/hindfoot-plottype_sex.png"</span>, </span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot =</span> plot_mean_hf,</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">width =</span> <span class="dv">1500</span>,</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">height =</span> <span class="dv">1200</span>,</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">units =</span> <span class="st">"px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This results in an image with those pixel dimensions, and the default value of 300 DPI has been entered into the image metadata. This means the image will be sized at 5 x 4 inches on a page by default, and if it is resized to be larger than this, it will look bad.</p>
 
