@@ -144,32 +144,13 @@ ggplot(data = surveys, mapping = aes(x= plot_type, y = hindfoot_length, fill = s
   stat_summary(fun = "mean", geom = "col", position = position_dodge())
 ```
 
-We might want to calculate the standard deviation of the data in each group and add this as error bars to each bar in our plot. We add this as anoher layer using another `stat_summary()` call. We pass in several arguments here:
-
-- `fun.data = mean_sdl` to calculate our mean and standard deviation
-- `fun.args = list(mult = 1)` to specify the multiplier we want applied to our error bars (1 is equal to our mean +/- 1 * SD). 
-- `geom = "errorbar"` to select the type of geometry we want to display
-- `width = 0.2` to specify the width of the error bars
-- `position = position_dodge(0.9)` to ensure error bars are placed appropriately
-
-```{r}
-ggplot(data = surveys, mapping = aes(x= plot_type, y = hindfoot_length, fill = sex)) + 
-  stat_summary(fun = "mean", geom = "col", position = position_dodge()) +
-  stat_summary(fun.data = "mean_sdl", fun.args = list(mult = 1), 
-                geom = "errorbar", width = 0.2, position = position_dodge(0.9))
-```
-
-The NA sex for the "Spectab exclosure" `plot_type` does not have an error bar because there's only one data point, so that standard deviation cannot be calculated.
-
 # Changing themes
 
 Now that all of the plot components are there, we can assign our plot code to an object to make it easier to experiment with the appearance of our plot. Let's call it `plot_mean_hf`. Now if we run the name of the object R will produce the plot in the plot viewer pane. 
 
 ```{r}
 plot_mean_hf <- ggplot(data = surveys, mapping = aes(x= plot_type, y = hindfoot_length, fill = sex)) + 
-  stat_summary(fun = "mean", geom = "col", position = position_dodge()) +
-  stat_summary(fun.data = "mean_sdl", fun.args = list(mult = 1), 
-                geom = "errorbar", width = 0.2, position = position_dodge(0.9))
+  stat_summary(fun = "mean", geom = "col", position = position_dodge())
 
 plot_mean_hf
 ```
@@ -309,6 +290,33 @@ plot_mean_hf <- plot_mean_hf +
        fill = "Sex") +
   scale_x_discrete(labels = label_wrap(10))+
   scale_fill_discrete(labels = c("Female", "Male", "Unknown"))
+
+plot_mean_hf
+```
+
+The last thing we should do to make this plot publication ready is to add some error bars. We've refrained from doing this until the end as there is quite a bit of code in this one function, but we think it's really useful to know.  
+
+There are lots of different statistics we could represent using error bars. Here, we will calculate the standard deviation in each group and add this as error bars to each bar in our plot. We add this as another layer using another `stat_summary()` call. This is the same function that we used to plot our bars in the first place, and we need it because it allows us to calculate some descriptive statistic. We pass in several arguments for this `stat_summary()` call:
+
+- `fun.data = mean_sdl` to calculate our mean and standard deviation
+- `fun.args = list(mult = 1)` to specify the multiplier we want applied to our error bars (1 is equal to our mean +/- 1 * SD). 
+- `geom = "errorbar"` to select the type of geometry we want to display
+- `width = 0.2` to specify the width of the error bars
+- `position = position_dodge(0.9)` to ensure error bars are placed appropriately
+
+```{r}
+plot_mean_hf +
+    stat_summary(fun.data = "mean_sdl", fun.args = list(mult = 1), 
+                geom = "errorbar", width = 0.2, position = position_dodge(0.9))
+```
+One thing you will notice is that the NA sex for the “Spectab exclosure” plot_type does not have an error bar. This is because there’s only one data point, so the standard deviation cannot be calculated.
+
+Great, we have our publication ready plot. Let's overwrite our existing object and get ready to export this plot so it can be used in our publication.
+
+```{r}
+plot_mean_hf <- plot_mean_hf +
+    stat_summary(fun.data = "mean_sdl", fun.args = list(mult = 1), 
+                geom = "errorbar", width = 0.2, position = position_dodge(0.9))
 ```
 
 # Exporting plots
