@@ -1,0 +1,65 @@
+---
+title: "Glossary"
+---
+
+A list of terms and jargon we'll encounter during the workshop.
+
+# Workspace & Tools 
+
+**IDE (Integrated Development Environment)**: A software application that provides all the tools you need to write and test code in one place. RStudio is the most common IDE for R, but Posit (the company which created RStudio) has recently released a new IDE called ‘Positron’. 
+
+**Console**: The window where R actually "talks" to you. You type code here to see immediate results, but these commands aren't saved automatically once you close the program. 
+
+**Script**: A text file (usually ending in .R) where you write and save your code. Think of it as a "recipe" that you can save, edit, and run again later. 
+
+**Working Directory**: The specific folder on your computer where R is currently "looking" for files to open or save results. 
+
+**Environment**: The "memory" of your current session. It lists all the data and objects you have created or loaded into R’s active memory. 
+
+# Coding Fundamentals 
+
+**Object:** A named "container" in R that holds information. Almost everything in R—from a single number to a giant dataset—is an object. 
+
+**Assignment (<-)**: The "left arrow" operator used to store a value into an object. For example, x <- 10 means "put the number 10 into an object named x." Alt + - on Windows, Cmd + - on Mac.
+
+**Syntax**: The specific set of rules (grammar and punctuation) that R requires to understand your code. A missing comma or an unclosed bracket will result in a "syntax error." 
+
+**Comment (#)**: Text in your script preceded by a hashtag. R ignores this text, allowing you to write a brief note about why you did something the way you did. Shift + 3 on Windows, Cmd + 3 on Mac. 
+
+**Function**: A "mini-program" that performs a specific task. You "call" a function by typing its name followed by parentheses, like `mean(my_data)`. 
+
+**Argument**: The input(s) you give to a function inside the parentheses to tell it what to do or what data to use (e.g. in `round(x, digits = 2)`, `x` and `digits` are arguments). 
+
+# Packages & Libraries 
+
+**Package**: A collection of extra functions and data created by the R community to extend what R can do. Think of R as a smartphone and a package as an "app" you download to add new features. 
+
+**Library**: The "bookshelf" on your computer where your installed packages are stored. You use the library() command to "load" a package so you can use its functions in your current session. 
+
+**CRAN**: The Comprehensive R Archive Network. It is the official central warehouse where R packages are stored and screened for quality. 
+
+# Data Types & Structures 
+
+**Vector**: The simplest data structure in R; a sequence of data elements of the same type (like a single column of numbers or a list of names). 
+
+**Data Frame**: The most common way to store data in R. It looks like a spreadsheet with rows (observations) and columns (variables). 
+
+**Numeric**: A data type for numbers (e.g., 1, 2.5). 
+
+**Character (or String)**: A data type for text. Characters must always be surrounded by quotes (e.g., "Group A"). 
+
+**Logical**: A data type that can only be TRUE or FALSE. These are often the result of comparisons (e.g., `5 > 3` is `TRUE`). 
+
+**Factor**: A special data type used for categorical data (e.g., "High", "Medium", "Low"). It tells R that the text represents specific groups or levels. 
+
+**NA**: Stands for "Not Available." This is how R represents missing data in a dataset. Missing data is not recorded or observed, as opposed to `0` which is an observed zero.
+
+# Data Manipulation & Logic 
+
+**Boolean/Logical Operators**: Symbols used to compare values, such as == (equal to), != (not equal to), > (greater than), and < (less than). 
+
+**Pipe (%>% or |>)**: A tool used to "chain" functions together in a sequence. It takes the output of one function and passes it directly as the input to the next, making code easier to read and reducing the need to assign values to intermediate objects. 
+
+**Vectorisation**: A powerful feature of R where an operation is applied to every element in a vector at once, rather than having to process each item one by one. 
+
+**Tidy data**: Data structured in a way so that each variable is a column, each observation is a row, and each cell contains a single value.  
