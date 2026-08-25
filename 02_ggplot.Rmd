@@ -12,8 +12,6 @@ Each time we start a new RStudio session, we need to load the packages that we w
 
 ```{r, warning=FALSE}
 library(tidyverse)
-library(scales)
-library(Hmisc)
 ```
 
 After loading packages, the next thing we often need to do is to load some data into R. To load our spreadsheet in we use the `read_csv()` function from the `readr` package (which is loaded as part of the tidyverse package), and we'll store it in an object called `surveys`.`
@@ -209,114 +207,6 @@ plot_mean_hf +
   labs(title = "Hindfoot length by plot type",
        x = "Plot type",
        y = "Hindfoot length (mm)")
-```
-
-Next, let's take care of those long, overlapping axis tick labels. We can handle this multiple ways, but we'll show you how we would do it. 
-
-We'll make use of `scale_` functions to customise the x (`scale_x_`) and y (`scale_y_`) axes. Because we're working with a bar plot, the x axis is divided into several discrete categories, so we use `scale_x_discrete()`. By providing the `label_wrap()` function from the 'scales' package, we're telling R to wrap the text of our labels and insert line breaks where appropriate. 
-
-```{r}
-plot_mean_hf +
-  theme_bw() +
-  theme(axis.title = element_text(size = 14), 
-        panel.grid.major.x= element_blank(),
-        plot.title = element_text(hjust = 0.5)) +
-  labs(title = "Hindfoot length by plot type",
-       x = "Plot type",
-       y = "Hindfoot length (mm)") +
-  scale_x_discrete(labels = label_wrap(10)) 
-```
-
-Lets sort out that legend. First we can capitalise the name of the legend by adding another argument in our `labs` argument. Given that we initially mapped the sex column to the `fill` aesthetic, that is the title we will provide.
-
-```{r}
-plot_mean_hf +
-  theme_bw() +
-  theme(axis.title = element_text(size = 14), 
-        panel.grid.major.x= element_blank(),
-        plot.title = element_text(hjust = 0.5, size = 18)) +
-  labs(title = "Hindfoot length by plot type",
-       x = "Plot type",
-       y = "Hindfoot length (mm)",
-       fill = "Sex") +
-  scale_x_discrete(labels = label_wrap(10)) 
-```
-
-To change the names of the values within the legend we use another of our `scale_` functions. We use `scale_fill_discrete` because sex is a discrete variable mapped to the fill aesthetic.
-
-```{r}
-plot_mean_hf +
-  theme_bw() +
-  theme(axis.title = element_text(size = 14), 
-        panel.grid.major.x= element_blank(),
-        plot.title = element_text(hjust = 0.5, size = 18)) +
-  labs(title = "Hindfoot length by plot type",
-       x = "Plot type",
-       y = "Hindfoot length (mm)",
-       fill = "Sex") +
-  scale_x_discrete(labels = label_wrap(10))+
-  scale_fill_discrete(labels = c("Female", "Male", "Unknown"))
-```
-
-And finally let's increase the size of the legend title within our `theme()` call.
-
-```{r}
-plot_mean_hf +
-  theme_bw() +
-  theme(axis.title = element_text(size = 14), 
-        panel.grid.major.x= element_blank(),
-        plot.title = element_text(hjust = 0.5, size = 18),
-        legend.title = element_text(size = 14)) +
-  labs(title = "Hindfoot length by plot type",
-       x = "Plot type",
-       y = "Hindfoot length (mm)",
-       fill = "Sex") +
-  scale_x_discrete(labels = label_wrap(10))+
-  scale_fill_discrete(labels = c("Female", "Male", "Unknown"))
-```
-
-We can save all of this code as `plot_mean_hf` by overwriting the current object.
-
-```{r}
-plot_mean_hf <- plot_mean_hf +
-  theme_bw() +
-  theme(axis.title = element_text(size = 14), 
-        panel.grid.major.x= element_blank(),
-        plot.title = element_text(hjust = 0.5, size = 18),
-        legend.title = element_text(size = 14)) +
-  labs(title = "Hindfoot length by plot type",
-       x = "Plot type",
-       y = "Hindfoot length (mm)",
-       fill = "Sex") +
-  scale_x_discrete(labels = label_wrap(10))+
-  scale_fill_discrete(labels = c("Female", "Male", "Unknown"))
-
-plot_mean_hf
-```
-
-The last thing we should do to make this plot publication ready is to add some error bars. We've refrained from doing this until the end as there is quite a bit of code in this one function, but we think it's really useful to know.  
-
-There are lots of different statistics we could represent using error bars. Here, we will calculate the standard deviation in each group and add this as error bars to each bar in our plot. We add this as another layer using another `stat_summary()` call. This is the same function that we used to plot our bars in the first place, and we need it because it allows us to calculate some descriptive statistic. We pass in several arguments for this `stat_summary()` call:
-
-- `fun.data = mean_sdl` to calculate our mean and standard deviation
-- `fun.args = list(mult = 1)` to specify the multiplier we want applied to our error bars (1 is equal to our mean +/- 1 * SD). 
-- `geom = "errorbar"` to select the type of geometry we want to display
-- `width = 0.2` to specify the width of the error bars
-- `position = position_dodge(0.9)` to ensure error bars are placed appropriately
-
-```{r}
-plot_mean_hf +
-    stat_summary(fun.data = "mean_sdl", fun.args = list(mult = 1), 
-                geom = "errorbar", width = 0.2, position = position_dodge(0.9))
-```
-One thing you will notice is that the NA sex for the “Spectab exclosure” plot_type does not have an error bar. This is because there’s only one data point, so the standard deviation cannot be calculated.
-
-Great, we have our publication ready plot. Let's overwrite our existing object and get ready to export this plot so it can be used in our publication.
-
-```{r}
-plot_mean_hf <- plot_mean_hf +
-    stat_summary(fun.data = "mean_sdl", fun.args = list(mult = 1), 
-                geom = "errorbar", width = 0.2, position = position_dodge(0.9))
 ```
 
 # Exporting plots

@@ -7,35 +7,13 @@ library(tidyverse)
 surveys <- read_csv(file = "data_raw/surveys_complete.csv")
 ```
 
-# Reading in multiple files
+# Why aren't we using Excel files?
 
-Sometimes data is split over multiple spreadsheet files. For example, the data we've unzipped into the `data_raw`folder contains both a complete spreadsheet we've been working with so far, and also 4 individual spreadsheets which represent parts of that whole spreadsheet (split by collection period).
-
-It's useful to know how to read multiple spreadsheet files into R at once and combine them together into a single data.frame. Rather than repeating what we did previously 4 times, we can take advantage of how the `read_csv()` function works to do this in only a couple of steps.
-
-First, let's remove the current `surveys` data.frame from R.
-
-```{r}
-rm(surveys)
-```
-
-Next we get the list of files we want to read in by using `list.files()`. Then we use the `id` argument from `read_csv()` to specify that we want to read in multiple files and create a new column in our data called `source` to state which file the data came from.
-
-```{r}
-files <- list.files(path = "data_raw", pattern = "part", full.names = TRUE)
-
-surveys <- read_csv(files, id = "source")
-```
-
-We can see all 4 files were instantly read in, combined together into a single data.frame, and there is now a new column called `source` which states which file each row of data came from (which could be useful if the filename has data inside it like a date or collector code).
-
-Why aren't we using Excel files?
-
-You may have noticed we're using only .csv files, which are plain text spreadsheet files. We're doing this for a number of reasons:
+You may have noticed we're using a .csv file, which is a plain text spreadsheet file. We're doing this because:
 
 - Using a plain text data format means the data can be opened, modified, and saved by a wide range of software - even your operating system's text editor. This increases the chance the data will be useable into the future when proprietary software like Excel may not exist any more. 
-- Using a plain text format also removes any extraneous formatting that may have been entered when using something like Excel. Highlighting, notes in the margin, merged cells, and multiple tables in a single sheet may mean the file cannot be opened by software like R, and are all examples of things that should be handled differently to preserve data integrity (for example keeping metadata and notes ina a README instead).
-- Working with Excel files is possible in R but it requires installing and loading another package (popular options include readxl/writexl and openxlsx), which increases the dependencies in your code. In order to read multiple files in using these packages it's necessary to use more complicated methods.
+- Using a plain text format removes extraneous formatting that may have been entered when using something like Excel. Highlighting, notes in the margin, merged cells, and multiple tables in a single sheet may mean the file cannot be opened by software like R, and are all examples of things that should be handled differently to preserve data integrity (for example keeping metadata and notes in a README instead).
+- Working with Excel files is possible in R but it requires installing and loading another package (popular options include readxl/writexl and openxlsx), which increases the dependencies in your code.
 
 # Manipulating data
 
@@ -180,37 +158,23 @@ surveys |>
          weight_lbs = weight_kg * 2.2)
 ```
 
-We can also use multiple columns to create a single column. For example, it’s often good practice to keep the components of a date in separate columns until necessary, as in the surveys dataset. This is because programs like Excel automatically convert and change data interpreted as dates, and this can introduce errors. However, now that we are working in R, we can safely put together a date column.
+We can also use multiple columns to create a single column. 
 
-To put the data in multiple columns together we can use the paste() function, which takes the items to paste together and `sep`, which is the character used to separate the items.
-
-```{r}
-surveys |> 
-  mutate(date = paste(year, month, day, sep = "-"))
-```
-
-Since our new column gets moved all the way to the end, it doesn’t end up printing out. We can use the relocate() function to put it after our year column.
-
-```{r}
-surveys |>  
-  mutate(date = paste(year, month, day, sep = "-")) |>  
-  relocate(date, .after = year)
-```
-
-Now we can see that we have a character column that contains our date string. However, R doesn't yet recognise it as a proper date column. Dates are a particular type of variable with a defined, ordered scale. To turn this column into a proper date, we will use a function from the tidyverse’s `lubridate` package, which has lots of useful functions for working with dates. The function `ymd()` will parse a date string that has the order year-month-day. 
+For example, we could join the `genus` and `species` names together into the full scientific name by using the `paste()` function. If we don't specify the `sep` argument (which separator to use between the data) it will default to a space which works for us here.
 
 ```{r}
 surveys |> 
-  mutate(date = paste(year, month, day, sep = "-"),
-         date = ymd(date)) |> 
-  relocate(date, .after = year)
+  mutate(full_name = paste(genus, species)) |> 
+  relocate(full_name)
 ```
 
-We could also simplify this operation by nesting the functions so that the result of `paste()` is then provided to `ymd()`.
+Another common example is to join multiple columns into dates. It’s good practice to keep the components of a date in separate columns until necessary, as in the surveys dataset. This is because programs like Excel automatically convert and change data interpreted as dates, and this can introduce errors. However, now that we are working in R, we can safely put together a date column.
+
+Instead of using the general purpose `paste()` function, we can use the `make_date()` function from the `lubridate` package. This function will join the data and tell R that the resulting column is a special data type called 'date'. Converting date columns into date data types is useful when plotting and subsetting.
 
 ```{r}
 surveys |> 
-  mutate(date = ymd(paste(year, month, day, sep = "-"))) |>  
+  mutate(date = make_date(year, month, day)) |> 
   relocate(date, .after = year)
 ```
 

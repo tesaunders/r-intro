@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Data Analysis &amp; Visualisation with R</title>
+<title>Glossary – Data Analysis &amp; Visualisation with R</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -95,7 +95,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -123,7 +123,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Resources</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./glossary.html"> 
+    <a class="nav-link active" href="./glossary.html" aria-current="page"> 
 <span class="menu-text">Glossary</span></a>
   </li>  
 </ul>
@@ -143,7 +143,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Data Analysis &amp; Visualisation with R</h1>
+<h1 class="title">Glossary</h1>
 </div>
 
 
@@ -160,20 +160,46 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Welcome to <em>Data Analysis &amp; Visualisation with R</em>, an 8 hour workshop designed to introduce the R programming language to researchers. No programming experience is required, but we will assume you’re comfortable downloading files and navigating your filesystem.</p>
-<section id="getting-set-up" class="level1">
-<h1>Getting Set Up</h1>
-<p>Follow the instructions on the <a href="setup.html">set up</a> page before the workshop.</p>
-<p>We recommend using two monitors during the workshop to make it easier to follow along.</p>
+<p>A list of terms and jargon we’ll encounter during the workshop.</p>
+<section id="workspace-tools" class="level1">
+<h1>Workspace &amp; Tools</h1>
+<p><strong>IDE (Integrated Development Environment)</strong>: A software application that provides all the tools you need to write and test code in one place. RStudio is the most common IDE for R, but Posit (the company which created RStudio) has recently released a new IDE called ‘Positron’.</p>
+<p><strong>Console</strong>: The window where R actually “talks” to you. You type code here to see immediate results, but these commands aren’t saved automatically once you close the program.</p>
+<p><strong>Script</strong>: A text file (usually ending in .R) where you write and save your code. Think of it as a “recipe” that you can save, edit, and run again later.</p>
+<p><strong>Working Directory</strong>: The specific folder on your computer where R is currently “looking” for files to open or save results.</p>
+<p><strong>Environment</strong>: The “memory” of your current session. It lists all the data and objects you have created or loaded into R’s active memory.</p>
 </section>
-<section id="learning-objectives" class="level1">
-<h1>Learning Objectives</h1>
-<p>The primary objective of this workshop is to introduce attendees to the R programming language and motivate them to continue learning about it. By the end of the workshop you will be able to:</p>
-<ul>
-<li>Build and modify plots to visualise tabular data.</li>
-<li>Explore tabular datasets using vectors, data frames, and functions.</li>
-<li>Import, manipulate, and export datasets and figures.</li>
-</ul>
+<section id="coding-fundamentals" class="level1">
+<h1>Coding Fundamentals</h1>
+<p><strong>Object:</strong> A named “container” in R that holds information. Almost everything in R—from a single number to a giant dataset—is an object.</p>
+<p><strong>Assignment (&lt;-)</strong>: The “left arrow” operator used to store a value into an object. For example, x &lt;- 10 means “put the number 10 into an object named x.” Alt + - on Windows, Cmd + - on Mac.</p>
+<p><strong>Syntax</strong>: The specific set of rules (grammar and punctuation) that R requires to understand your code. A missing comma or an unclosed bracket will result in a “syntax error.”</p>
+<p><strong>Comment (#)</strong>: Text in your script preceded by a hashtag. R ignores this text, allowing you to write a brief note about why you did something the way you did. Shift + 3 on Windows, Cmd + 3 on Mac.</p>
+<p><strong>Function</strong>: A “mini-program” that performs a specific task. You “call” a function by typing its name followed by parentheses, like <code>mean(my_data)</code>.</p>
+<p><strong>Argument</strong>: The input(s) you give to a function inside the parentheses to tell it what to do or what data to use (e.g.&nbsp;in <code>round(x, digits = 2)</code>, <code>x</code> and <code>digits</code> are arguments).</p>
+</section>
+<section id="packages-libraries" class="level1">
+<h1>Packages &amp; Libraries</h1>
+<p><strong>Package</strong>: A collection of extra functions and data created by the R community to extend what R can do. Think of R as a smartphone and a package as an “app” you download to add new features.</p>
+<p><strong>Library</strong>: The “bookshelf” on your computer where your installed packages are stored. You use the library() command to “load” a package so you can use its functions in your current session.</p>
+<p><strong>CRAN</strong>: The Comprehensive R Archive Network. It is the official central warehouse where R packages are stored and screened for quality.</p>
+</section>
+<section id="data-types-structures" class="level1">
+<h1>Data Types &amp; Structures</h1>
+<p><strong>Vector</strong>: The simplest data structure in R; a sequence of data elements of the same type (like a single column of numbers or a list of names).</p>
+<p><strong>Data Frame</strong>: The most common way to store data in R. It looks like a spreadsheet with rows (observations) and columns (variables).</p>
+<p><strong>Numeric</strong>: A data type for numbers (e.g., 1, 2.5).</p>
+<p><strong>Character (or String)</strong>: A data type for text. Characters must always be surrounded by quotes (e.g., “Group A”).</p>
+<p><strong>Logical</strong>: A data type that can only be TRUE or FALSE. These are often the result of comparisons (e.g., <code>5 &gt; 3</code> is <code>TRUE</code>).</p>
+<p><strong>Factor</strong>: A special data type used for categorical data (e.g., “High”, “Medium”, “Low”). It tells R that the text represents specific groups or levels.</p>
+<p><strong>NA</strong>: Stands for “Not Available.” This is how R represents missing data in a dataset. Missing data is not recorded or observed, as opposed to <code>0</code> which is an observed zero.</p>
+</section>
+<section id="data-manipulation-logic" class="level1">
+<h1>Data Manipulation &amp; Logic</h1>
+<p><strong>Boolean/Logical Operators</strong>: Symbols used to compare values, such as == (equal to), != (not equal to), &gt; (greater than), and &lt; (less than).</p>
+<p><strong>Pipe (%&gt;% or |&gt;)</strong>: A tool used to “chain” functions together in a sequence. It takes the output of one function and passes it directly as the input to the next, making code easier to read and reducing the need to assign values to intermediate objects.</p>
+<p><strong>Vectorisation</strong>: A powerful feature of R where an operation is applied to every element in a vector at once, rather than having to process each item one by one.</p>
+<p><strong>Tidy data</strong>: Data structured in a way so that each variable is a column, each observation is a row, and each cell contains a single value.</p>
 
 
 </section>

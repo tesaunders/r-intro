@@ -20,3 +20,5 @@ website:
         href: 04_dplyr.html
       - text: "Resources"
         href: resources.html
+      - text: "Glossary"
+        href: glossary.html
