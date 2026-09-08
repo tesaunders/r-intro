@@ -4,7 +4,7 @@ title: "Data Visualisation with ggplot2"
 
 We're going to create some plots using functions from the `ggplot2` package. R packages usually contain functions related to a specific activity, which in this case is data visualisation, and also documentation which outlines how the functions work.
 
-We've already installed the `ggplot2` package. It was installed as part of the `tidyverse` package, which is a popular collection of packages developed by the same group of people. 
+We've already installed the `ggplot2` package. It was installed as part of the `tidyverse` package, which is a popular collection of packages developed by the same group of people.
 
 # Reading In Data
 
@@ -14,7 +14,7 @@ Each time we start a new RStudio session, we need to load the packages that we w
 library(tidyverse)
 ```
 
-After loading packages, the next thing we often need to do is to load some data into R. To load our spreadsheet in we use the `read_csv()` function from the `readr` package (which is loaded as part of the tidyverse package), and we'll store it in an object called `surveys`.`
+After loading packages, the next thing we often need to do is to load some data into R. To load our spreadsheet in we use the `read_csv()` function from the `readr` package (which is loaded as part of the tidyverse package), and we'll store it in an object called `surveys`.\`
 
 ```{r}
 surveys <- read_csv(file = "data_raw/surveys_complete.csv")
@@ -22,23 +22,48 @@ surveys <- read_csv(file = "data_raw/surveys_complete.csv")
 
 You'll notice some useful information printed in the console, including the number of rows and columns, and the number of different column types. `chr` refers to character, or columns containing text values, while `dbl` refers to double, another name for numeric values.
 
-Now we can see `surveys` in our environment pane and we can click on it to take a look.
-
-This dataset is taken from the Portal Project, a long-term study from Portal, Arizona, in the Chihuahuan desert, which measures features of desert-dwelling mammals. Click on the `surveys` object in the environment pane to see the data.
-
-It's worth pointing out, anything we do to the data in R is not changed in the file we read in. 
-
-To get a bit more information about any object in R, we can look at it's structure:
+Now we can see `surveys` in our environment pane and we can click on it to take a look. You can also run the command, `view()`, to open this spreadsheet-style tab to review the data.
 
 ```{r}
-str(surveys)
+view(surveys)
 ```
+
+This dataset is taken from the Portal Project, a long-term ecological study from Portal, Arizona, in the Chihuahuan desert, which measures features of desert-dwelling mammals from different plots. Note, there are **some missing values in the hindfoot_length and weight columns** (labeled as `NA`) .
+
+When we're looking at large or unfamiliar datasets, it’s useful to do some quick checks to get an idea of the kind of data we're working with. For example, we can look at **the first and last 6 rows** of our data using `head()` and `tail()`:
+
+```{r}
+head(surveys)
+tail(surveys)
+```
+
+For simplicity, we will remove these NAs, and call our new object `survData`. It's worth pointing out, anything we do to the data in R is not changed in the original file we read in.
+
+```{r}
+survData <- na.omit(surveys)
+
+head(survData)
+```
+
+::: {.callout-tip collapse="true"}
+## `na.omit()`
+
+The `na.omit()` function will remove all rows for which an NA exists anywhere in the row (i.e., hindfoot_length or weight in this case). This gives us a nice clean dataset for today, but you may want to use it cautiously on your own data.
+:::
 
 # Plotting with ggplot2
 
-The gg in ggplot2 stands for “grammar of graphics”, which refers to a particular way of creating plots using a consistent vocabulary and layering different elements on. Therefore, we only need small changes to our code if the underlying data changes or we decide to make a box plot instead of a scatter plot. This approach helps you create publication-quality plots with minimal adjusting and tweaking.
+The gg in ggplot2 stands for “grammar of graphics”, which refers to a particular way of creating plots using a consistent vocabulary and layering different elements on. Therefore, we **only need small changes to our code** if the underlying data changes or we decide to make a box plot instead of a scatter plot. This approach helps you create publication-quality plots with minimal adjusting and tweaking.
 
-ggplot plots are built step by step by adding new layers, which allows us to customise and test as we go. We're going to use the following template to build our plots:
+ggplot plots are built step by step by adding new layers, which allows us to customise and test as we go. The basic format for the ggpots template is as follows:
+
+- Specify the data as a dataframe in long format
+
+- Map variables (i.e., map which column to the x or y axis)
+
+- Chose the geometry function to create the plot type
+
+We're going to use the following template to build our plots:
 
 `ggplot(data = <DATA>, mapping = aes(<MAPPINGS>)) + <GEOM_FUNCTION>()`
 
@@ -49,25 +74,57 @@ First we need to specify the data we want to use. Next, we can see that the ggpl
 Let's go through step by step:
 
 ```{r}
-ggplot(data = surveys)
+ggplot(data = survData)
 ```
 
 We get a blank plot because we haven’t told `ggplot()` which variables we want to correspond to parts of the plot.
 
 ```{r}
-ggplot(data = surveys, mapping = aes(x = weight, y = hindfoot_length))
+ggplot(data = survData, mapping = aes(x = weight, y = hindfoot_length))
 ```
 
 Now we’ve got a plot with x and y axes corresponding to variables from surveys. However, we haven’t specified how we want the data to be displayed. We do this using `geom_` functions, which specify the type of geometry we want, such as points, lines, or bars. We can add a `geom_point()` layer to our plot by using the + sign. We indent onto a new line to make it easier to read, and we have to end the first line with the + sign.
 
 ```{r}
-ggplot(data = surveys, mapping = aes(x = weight, y = hindfoot_length)) +
+ggplot(data = survData, mapping = aes(x = weight, y = hindfoot_length)) +
   geom_point()
 ```
 
-You may notice a warning that missing values were removed. If a variable necessary to make the plot is missing from a given row of data (in this case, hindfoot_length or weight), that observation can't be plotted. `ggplot2` warns us that this has happened to ensure we know there are missing values.
+It is good practise to also use *indentations* to format our code. This will be necessary as our code gets more and more complicated. Each time you reach a new argument (separated by a comma) hit `enter` or `return`, and R will automatically format the code on a new line. Try re-write the code above as below, then run the code to generate the plot.
+
+```{r}
+ggplot(data = survData, 
+       mapping = aes(x = weight, y = hindfoot_length)) +
+  geom_point()
+```
+
+::: {.callout-note appearance="simple"}
+## What if our dataset contains NAs
+
+Let's try to plot our original object `surveys`, which contains NAs in the dataset:
+
+```{r}
+ggplot(data = surveys, 
+       mapping = aes(x = weight, y = hindfoot_length)) +
+  geom_point()
+```
+
+You may notice a warning that missing values were removed, although we got the same plot.
+
+This is because if a variable necessary to make the plot is missing from a given row of data (in this case, hindfoot_length or weight), that observation can't be plotted. `ggplot2` warns us that this has happened to ensure we know there are missing values.
 
 Another common type of message is an error, which means R can't execute the command. This is commonly due to misspelling, or missing punctuation such as brackets or commas.
+:::
+
+## Try different `geom` fucntions
+
+**`ggplot2`** offers many different geoms; we will use some common ones today, including:
+
+- 
+
+------------------------------------------------------------------------
+
+## Remove from below
 
 We can change the colour of the points by supplying a `colour` argument inside the geometry function.
 
@@ -126,7 +183,7 @@ ggplot(data = surveys, mapping = aes(x = plot_type, y = hindfoot_length)) +
   geom_col()
 ```
 
-By default, `geom_col()` sums together all of the y values in each of our x variables. Let's say we're more interested in comparing a summary statistic, such as the mean `hindfoot_length` for each `plot_type`. We could do this by performing some operations on the data to calculate these numbers, as we'll see tomorrow, but we can also do it within a layer on our plot. 
+By default, `geom_col()` sums together all of the y values in each of our x variables. Let's say we're more interested in comparing a summary statistic, such as the mean `hindfoot_length` for each `plot_type`. We could do this by performing some operations on the data to calculate these numbers, as we'll see tomorrow, but we can also do it within a layer on our plot.
 
 We're going to use a function called `stat_summary()` to replace our geometry layer. This allows us to specify both the geometry to use, and the calculation to perform on the data (in our case mean).
 
@@ -144,7 +201,7 @@ ggplot(data = surveys, mapping = aes(x= plot_type, y = hindfoot_length, fill = s
 
 # Changing themes
 
-Now that all of the plot components are there, we can assign our plot code to an object to make it easier to experiment with the appearance of our plot. Let's call it `plot_mean_hf`. Now if we run the name of the object R will produce the plot in the plot viewer pane. 
+Now that all of the plot components are there, we can assign our plot code to an object to make it easier to experiment with the appearance of our plot. Let's call it `plot_mean_hf`. Now if we run the name of the object R will produce the plot in the plot viewer pane.
 
 ```{r}
 plot_mean_hf <- ggplot(data = surveys, mapping = aes(x= plot_type, y = hindfoot_length, fill = sex)) + 
@@ -161,9 +218,9 @@ First, let's take a look at the built-in black and white theme.
 plot_mean_hf + theme_bw()
 ```
 
-The background is no longer grey, there is a black border, and the major and minor gridlines are now grey. `theme_` functions control many aspects of a plot’s appearance all at once. 
+The background is no longer grey, there is a black border, and the major and minor gridlines are now grey. `theme_` functions control many aspects of a plot’s appearance all at once.
 
-To change specific parts of a plot, we can use the `theme()` function to specify many different arguments which relate to the text, grid lines, background color, and more. 
+To change specific parts of a plot, we can use the `theme()` function to specify many different arguments which relate to the text, grid lines, background color, and more.
 
 Let’s change the size of the text on our axis titles. We can do this by specifying that the `axis.title` should be an `element_text()` with size set to 14.
 
@@ -196,7 +253,7 @@ plot_mean_hf +
        y = "Hindfoot length (mm)")
 ```
 
-To centre align our plot title, we specify the horizontal justification (`hjust`) back in our `theme()` function. A value of 0.5 centres the title. 1 aligns it to the right side of the plot, 0 to the left. 
+To centre align our plot title, we specify the horizontal justification (`hjust`) back in our `theme()` function. A value of 0.5 centres the title. 1 aligns it to the right side of the plot, 0 to the left.
 
 ```{r}
 plot_mean_hf +
@@ -211,11 +268,11 @@ plot_mean_hf +
 
 # Exporting plots
 
-Once we're happy with our plot, we can save it using the `ggsave()` function. 
+Once we're happy with our plot, we can save it using the `ggsave()` function.
 
 We need to specify the following arguments:
 
-- `filename`: the filename we're using to save our plot, including the file type of the image (e.g. ".jpg", ".png", ".tif". 
+- `filename`: the filename we're using to save our plot, including the file type of the image (e.g. ".jpg", ".png", ".tif".
 - `plot`: the name of the plot object we want to save.
 
 ```{r, eval=FALSE}
@@ -239,8 +296,8 @@ Supported vector formats:
 
 Supported raster formats:
 
-- .png (Portable Network Graphics) 
-- .jpg or .jpeg (Joint Photographic Experts Group) 
+- .png (Portable Network Graphics)
+- .jpg or .jpeg (Joint Photographic Experts Group)
 - .tiff or .tif (Tagged Image File Format)
 - .bmp (Bitmap)
 
@@ -256,7 +313,7 @@ Confusion around DPI is common. People often conflate DPI with other attributes 
 
 There are three properties that determine the size and quality of an image:
 
-- Resolution: the pixel dimension of a screen or an object on a screen, expressed as width x height (e.g. 1920x1080). 
+- Resolution: the pixel dimension of a screen or an object on a screen, expressed as width x height (e.g. 1920x1080).
 - Print size: the physical dimensions of an image when printed, typically measured in inches for photos.
 - DPI: Dots per inch, or the density of ink dots printed onto paper.
 
