@@ -17,11 +17,16 @@ class(surveys)
 
 This tells us a smaller amount of information than when we used `str()`, namely that `surveys` is ultimately a data.frame.
 
-When we're looking at large or unfamiliar datasets it's useful to do some quick checks to get an idea of the kind of data we're working with. For example, we can look at the first and last 6 rows of our data:
+As we showed you in the previous session, when we're looking at large or unfamiliar datasets it's useful to do some quick checks to get an idea of the kind of data we're working with. For example, we can look at the first and last rows of our data:
 
 ```{r}
+# By default these show six rows
 head(surveys)
 tail(surveys)
+
+# We can also ask for a different number
+head(surveys, 10)
+tail(surveys, 3)
 ```
 
 We can get a useful summary of each numeric variable (column) by using `summary()`:
@@ -36,7 +41,7 @@ Let's take another look at the structure of `surveys` using `str()`. Because we'
 str(surveys, give.attr=FALSE)
 ```
 
-The `$` in front of each variable acts as an important operator in R. We can use it to select different columns within a data frame. If we type the name of a data frame followed by a `$`, RStudio will offer tab completion to select a variable within the data from a list by navigating up and down with the arrow keys and hitting enter, or by clicking on the variable you want. 
+The `$` in front of each variable acts as an important operator in R. We can use it to select different columns within a data frame. If we type the name of a data frame followed by a `$`, RStudio will offer tab completion to select a variable within the data from a list by navigating up and down with the arrow keys and hitting enter, or by clicking on the variable you want.
 
 ```{r}
 print(surveys$year, max = 20)
@@ -48,13 +53,13 @@ The `year` column we just printed is referred to as a vector by R. While data.fr
 
 There are 4 main types of vectors (also known as atomic vectors):
 
-1. "character" for strings of characters, like our `genus` or `sex` columns. Each entry in a character vector is wrapped in quotes. In other programming languages, this type of data may be referred to as “strings”.
+1.  "character" for strings of characters, like our `genus` or `sex` columns. Each entry in a character vector is wrapped in quotes. In other programming languages, this type of data may be referred to as “strings”.
 
-2. "integer" for integers (whole numbers). You may sometimes see integers represented like 2L or 20L. The L indicates to R that it is an integer, instead of the next data type, "numeric".
+2.  "integer" for integers (whole numbers). You may sometimes see integers represented like 2L or 20L. The L indicates to R that it is an integer, instead of the next data type, "numeric".
 
-3. "numeric", aka "double", vectors can contain numbers including decimals. Other languages may refer to these as “float” or “floating point” numbers.
+3.  "numeric", aka "double", vectors can contain numbers including decimals. Other languages may refer to these as “float” or “floating point” numbers.
 
-4. "logical" for TRUE and FALSE, which can also be represented as T and F. In other contexts, these may be referred to as “Boolean” data. Note these values are not quoted as R recognises them as logical values.
+4.  "logical" for TRUE and FALSE, which can also be represented as T and F. In other contexts, these may be referred to as “Boolean” data. Note these values are not quoted as R recognises them as logical values.
 
 Vectors can only be of a single type. Since each column in a data.frame is a vector, this means an accidental character following a number, like '29i', can change the type of the whole vector. If you're working with messy data it's useful to check the vector types of each column to ensure they are all what you are expecting, otherwise it could indicate a typo in one of the values.
 
@@ -125,10 +130,9 @@ Or we could pass this column to `hist()` to generate a quick histogram of weight
 hist(surveys$weight)
 ```
 
-
 Sometimes we want to generate vectors ourselves, and there are a few functions that can help us to do this.
 
-First, putting `:` between two numbers will generate a vector of integers starting with the first number and ending with the last. 
+First, putting `:` between two numbers will generate a vector of integers starting with the first number and ending with the last.
 
 ```{r}
 # Generate 1-10
@@ -157,7 +161,7 @@ rep(1:3, each = 2)
 
 # Factors (categorical variables)
 
-Let's talk about factors because they can be challenging to work with. 
+Let's talk about factors because they can be challenging to work with.
 
 In general, it's best to leave your categorical data as a character (or numeric) vector until you need to use a factor. You might need a factor because:
 
