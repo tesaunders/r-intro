@@ -28,7 +28,9 @@ Now we can see `surveys` in our environment pane and we can click on it to take 
 view(surveys)
 ```
 
-This dataset is taken from the Portal Project, a long-term ecological study from Portal, Arizona, in the Chihuahuan desert, which measures features of desert-dwelling mammals from different plots. Note, there are **some missing values in the hindfoot_length and weight columns** (labeled as `NA`) .
+This dataset is taken from the Portal Project, a long-term ecological study from Portal, Arizona, in the Chihuahuan desert, which measures features of desert-dwelling mammals from different plots. Each row is one animal, with columns for the collection dates, species, sex, hindfoot lengths, weights and the type of plot it was caught in.
+
+Note, there are **some missing values in the hindfoot_length and weight columns** (labelled as `NA`) .
 
 When we're looking at large or unfamiliar datasets, it’s useful to do some quick checks to get an idea of the kind of data we're working with. For example, we can look at **the first and last 6 rows** of our data using `head()` and `tail()`:
 
@@ -46,14 +48,14 @@ head(survData)
 ```
 
 ::: {.callout-tip collapse="true"}
-## `na.omit()`
+## What is `na.omit()`?
 
-The `na.omit()` function will remove all rows for which an NA exists anywhere in the row (i.e., hindfoot_length or weight in this case). This gives us a nice clean dataset for today, but you may want to use it cautiously on your own data.
+The `na.omit()` function will remove all rows for which an NA exists anywhere in the row (i.e., hindfoot_length, weight or sex in this case). This gives us a nice clean dataset for today, but you may want to use it cautiously on your own data.
 :::
 
 # Plotting with ggplot2
 
-The gg in ggplot2 stands for “grammar of graphics”, which refers to a particular way of creating plots using a consistent vocabulary and layering different elements on. Therefore, we **only need small changes to our code** if the underlying data changes or we decide to make a box plot instead of a scatter plot. This approach helps you create publication-quality plots with minimal adjusting and tweaking.
+The 'gg' in ggplot2 stands for “grammar of graphics”, which refers to a particular way of creating plots using a consistent vocabulary and layering different elements on. Therefore, we **only need small changes to our code** if the underlying data changes or we decide to make a box plot instead of a scatter plot. This approach helps you create publication-quality plots with minimal adjusting and tweaking.
 
 ggplot plots are built step by step by adding new layers, which allows us to customise and test as we go. The basic format for the ggpots template is as follows:
 
@@ -71,7 +73,7 @@ We need to change everything inside `<>`.
 
 First we need to specify the data we want to use. Next, we can see that the ggplot() call has a function nested within it, aes(), which relates to aesthetic mappings. This is where we specify which parts of the data should be mapped to different axes on our plot. Finally, we need to specify the geometry we want to use, or in other words, the plot type. The geometry function we use is added to the end with a `+` sign.
 
-Let's go through step by step:
+Let's go through step by step. First we need to specify the dataset.
 
 ```{r}
 ggplot(data = survData)
@@ -79,18 +81,19 @@ ggplot(data = survData)
 
 We get a blank plot because we haven’t told `ggplot()` which variables we want to correspond to parts of the plot.
 
+Let's map variables to axes:
+
 ```{r}
 ggplot(data = survData, mapping = aes(x = weight, y = hindfoot_length))
 ```
 
-Now we’ve got a plot with x and y axes corresponding to variables from surveys. However, we haven’t specified how we want the data to be displayed. We do this using `geom_` functions, which specify the type of geometry we want, such as points, lines, or bars. We can add a `geom_point()` layer to our plot by using the + sign. We indent onto a new line to make it easier to read, and we have to end the first line with the + sign.
+Now we’ve got a plot with x and y axes corresponding to variables from surveys. However, we haven’t specified how we want the data to be displayed. We do this using `geom_` functions, which specify the type of geometry we want, such as points, lines, or bars. Because `geom_point()` is a new function, we add it to our plot using the + sign.
 
 ```{r}
-ggplot(data = survData, mapping = aes(x = weight, y = hindfoot_length)) +
-  geom_point()
+ggplot(data = survData, mapping = aes(x = weight, y = hindfoot_length)) + geom_point()
 ```
 
-It is good practise to also use *indentations* to format our code. This will be necessary as our code gets more and more complicated. Each time you reach a new argument (separated by a comma) hit `enter` or `return`, and R will automatically format the code on a new line. Try re-write the code above as below, then run the code to generate the plot.
+It is good practice to use *indentation* to format our code, and this becomes essential as our code gets longer. Each time you reach a new argument (separated by a comma) hit `enter` or `return`, and R will automatically format the code on a new line. Put each layer on a new line, ending the previous line with the `+` sign. Try re-write the code above as below, then run the code to generate the plot.
 
 ```{r}
 ggplot(data = survData, 
@@ -116,155 +119,327 @@ This is because if a variable necessary to make the plot is missing from a given
 Another common type of message is an error, which means R can't execute the command. This is commonly due to misspelling, or missing punctuation such as brackets or commas.
 :::
 
-## Try different `geom` fucntions
+# Try different `geom` functions
 
-**`ggplot2`** offers many different geoms; we will use some common ones today, including:
+This is where the grammar of graphics pays off. To make a completely different kind of plot, we keep the same template and change **only the geom** (and sometimes which columns we map). `ggplot2` has more than 40 geoms; today we'll try a couple of them you will use most often.
 
-- 
+Our **scatter plot** used `geom_point()` to show the relationship between **two numeric variables**. Let's see what happens when we change the geom, and nothing else.
 
-------------------------------------------------------------------------
-
-## Remove from below
-
-We can change the colour of the points by supplying a `colour` argument inside the geometry function.
+**One numeric variable** — a **histogram** shows the *distribution* of a single column, so we only map `x`:
 
 ```{r}
-ggplot(data = surveys, mapping = aes(x = weight, y = hindfoot_length)) +
-  geom_point(colour = "blue")
+ggplot(data = survData,
+       mapping = aes(x = weight)) +
+  geom_histogram()
 ```
 
-We can also change the transparency of points to get a better idea of where data is concentrated. Here we change transparency of points to 20%.
+Notice the message: `ggplot2` chose 30 bins for us and suggests we pick a better value. We can do that with the `bins` argument (or `binwidth`).Let's use `bins = 50` dividing the data into 50 bars:
 
 ```{r}
-ggplot(data = surveys, mapping = aes(x = weight, y = hindfoot_length)) +
-  geom_point(colour = "blue", alpha = 0.2)
+ggplot(data = survData,
+       mapping = aes(x = weight)) +
+  geom_histogram(bins = 50)
 ```
 
-We may also want to modify the x axis to a log scale.
+**Counts of a categorical variable** — a **bar chart** counts how many rows fall into each category. We only map `x`, and `geom_bar()` does the counting:
 
 ```{r}
-ggplot(data = surveys, mapping = aes(x = weight, y = hindfoot_length)) +
-  geom_point(colour = "blue", alpha = 0.2) +
-  scale_x_log10()
+ggplot(data = survData,
+       mapping = aes(x = plot_type)) +
+  geom_bar()
 ```
 
-# Boxplots
+::: {.callout-tip collapse="true"}
+## `geom_bar()` vs `geom_col()`
 
-Boxplots are useful for examining the skew of numeric data. Let's look at `hindfoot_length` with `plot_type` on the x axis.
+`geom_bar()` *counts rows* for you, so it only needs `x`. If your data already contains the number you want to plot (for example a column of means you calculated), use `geom_col()` and map that column to `y`.
+:::
+
+**A numeric variable across categories** — a **boxplot** summarises the distribution of a numeric variable within each group of a categorical variable. We map the category to `x` and the number to `y`:
 
 ```{r}
-ggplot(data = surveys, mapping = aes(x = plot_type, y = hindfoot_length)) +
+ggplot(data = survData,
+       mapping = aes(x = plot_type, y = hindfoot_length)) +
   geom_boxplot()
 ```
 
-We can flip the plot around to make it easier to read longer labels with `coord_flip()`.
+You may have noticed that the long labels on the x axis overlap. A quick fix is to put the categorical variable on the **y axis** instead.
 
 ```{r}
-ggplot(data = surveys, mapping = aes(x = plot_type, y = hindfoot_length)) +
+ggplot(data = survData,
+       mapping = aes(y = plot_type, x = hindfoot_length)) +
+  geom_boxplot()
+```
+
+# Which plot should I use? [*From Data to Viz*](https://www.data-to-viz.com/)
+
+Knowing *how* to make a plot is only half the job. The other half is deciding *which* plot answers your research question. Two things determine that:
+
+1.  **Your question**: are you looking at the *distribution* of one variable, a *comparison* between groups, a *relationship* between two variables, a change *over time*, or *parts of a whole*?
+2.  **Your data types**: how many variables are involved, and is each one numeric or categorical?
+
+Once you know those two things, the choice of geom usually follows.
+
+[**From Data to Viz**](https://www.data-to-viz.com/) is an excellent tool. It is a decision tree: you start from what your data looks like (numeric, categorical, a mix, time series, maps, networks), follow the branches, and it leads you to the plot types that suit it. Let's take a look at it together.
+
+Three things to notice on the site:
+
+- Each plot type has a short description of **when to use it** and its **common mistakes**.
+- Every plot type also has an **R graph gallery** link with ready-made `ggplot2` code. This is how most people actually find the code for a plot they haven't made before.
+- The code you find will use *their* dataset and column names. To reuse it, map it back onto our template: replace the data, replace the column names inside `aes()`, and keep the geom and any extra layers.
+
+We find this website a useful tool for learning ggplot2 and designing publication figures. It not only gives you the R code, but also adds a layer of decision-making: which figure best fits your data and your research question.
+
+# Building a better plot step by step
+
+So far we've made quick plots to look at our data. Now let's take one plot all the way to something you could put in a paper or a thesis.
+
+Let's go back to our survey dataset, `survData`. We'd like to draw a figure to answer our research questions:
+
+> **How do body weights compare between the different rodent genera in our surveys? In addition, any impact of plot types on them?**
+
+That's one numeric variable (`weight`) across the categories of one categorical variable (`genus`), so a **boxplot** is a good starting point. We'll improve it in small steps, running the code each time so we can see what each change does.
+
+## Step 1: The basic boxplot
+
+```{r}
+ggplot(data = survData,
+       mapping = aes(x = genus, y = weight)) +
+  geom_boxplot()
+```
+
+It works, but it isn't very readable. The genus names overlap, and most of the boxes are squashed at the bottom of the plot because a few animals are very heavy.
+
+## Step 2: A log scale for the data
+
+When data is unbalanced like this, a **log scale** spreads out the small values and pulls in the large ones, so every group gets some space. We add a *scale* layer, `scale_y_log10()`, which keeps the real values (grams) on the axis labels.
+
+```{r}
+ggplot(data = survData,
+       mapping = aes(x = genus, y = weight)) +
   geom_boxplot() +
-  coord_flip()
+  scale_y_log10()
 ```
 
-If we wanted to examine our data grouped by sex, we could facet the data into separate plots for each sex. We do this using the `facet_wrap()` function, and inside it we supply the column we want to facet by within the `vars()` function. We can also specify how we want the plots to be arranged by supplying either `nrow` or `ncol`.
+Now we can actually see all nine boxes.
+
+## Step 3: Turn it sideways for easy reading
+
+Genus names are too long and overlapped in the box plot. In fact, category labels are much easier to read on the y axis. We saw this trick earlier: swap the `x` and `y` mappings. Because weight is now on the x axis, the scale layer becomes `scale_x_log10()`.
 
 ```{r}
-ggplot(data = surveys, mapping = aes(x = plot_type, y = hindfoot_length)) +
+ggplot(data = survData,
+       mapping = aes(y = genus, x = weight)) +
   geom_boxplot() +
-  coord_flip() +
-  facet_wrap(vars(sex), ncol = 1)
+  scale_x_log10()
 ```
 
-# Bar Chart
+## Step 4: Put the groups in a sensible order
 
-Bar charts are ideal for visualising the relationship between a categorical and continuous variable. To do this we substitute `geom_col()` in.
+At the moment the genera are in alphabetical order, which is not very meaningful. Ordering groups by their **median** makes the comparison much easier to read.
+
+To do this, we tell R the order of the categories using the `fct_reorder()` function from the `forcats` package (part of the tidyverse). It converts `genus` into a special type of categorical variable called a **factor**, ordered by the median weight. We'll learn more about factors tomorrow.
+
+For now, we replace the `genus` column in `survData` with the reordered version:
 
 ```{r}
-ggplot(data = surveys, mapping = aes(x = plot_type, y = hindfoot_length)) +
-  geom_col()
+survData$genus <- fct_reorder(survData$genus, survData$weight, .fun = median)
 ```
 
-By default, `geom_col()` sums together all of the y values in each of our x variables. Let's say we're more interested in comparing a summary statistic, such as the mean `hindfoot_length` for each `plot_type`. We could do this by performing some operations on the data to calculate these numbers, as we'll see tomorrow, but we can also do it within a layer on our plot.
-
-We're going to use a function called `stat_summary()` to replace our geometry layer. This allows us to specify both the geometry to use, and the calculation to perform on the data (in our case mean).
+Then run the same plotting code as before:
 
 ```{r}
-ggplot(data = surveys, mapping = aes(x= plot_type, y = hindfoot_length)) + 
-  stat_summary(fun = "mean", geom = "col")
+ggplot(data = survData,
+       mapping = aes(y = genus, x = weight)) +
+  geom_boxplot() +
+  scale_x_log10()
 ```
 
-Now we have the mean `hindfoot_length` for each `plot_type`. To convert this plot to a grouped bar chart, we can add another aesthetic mapping to our original ggplot call. To create separate bars for each sex within our `plot_type` categories, we add `fill = sex`. To prevent the bars from being plotted on top of each other, we also need to specify `position = position_dodge()` in our `stat_summary()` call.
+The genera now run from lightest (bottom) to heaviest (top), and the plot tells a story at a glance.
+
+## Step 5: Add labels
+
+Now that the structure is right, let's make it look good, starting with the words. `labs()` sets the title and axis labels in one go. Good labels say what is plotted *and* the units.
 
 ```{r}
-ggplot(data = surveys, mapping = aes(x= plot_type, y = hindfoot_length, fill = sex)) + 
-  stat_summary(fun = "mean", geom = "col", position = position_dodge())
+ggplot(data = survData,
+       mapping = aes(y = genus, x = weight)) +
+  geom_boxplot() +
+  scale_x_log10() +
+  labs(title = "Body weight varies widely between rodent genera",
+       x = "log(Weight)",
+       y = "Genus")
 ```
 
-# Changing themes
+## Step 6: A theme
 
-Now that all of the plot components are there, we can assign our plot code to an object to make it easier to experiment with the appearance of our plot. Let's call it `plot_mean_hf`. Now if we run the name of the object R will produce the plot in the plot viewer pane.
+A *theme* controls everything on the plot that isn't data: the background, the grid lines, the text. `ggplot2` comes with several complete themes. Let's swap the default grey background for `theme_minimal()`:
 
 ```{r}
-plot_mean_hf <- ggplot(data = surveys, mapping = aes(x= plot_type, y = hindfoot_length, fill = sex)) + 
-  stat_summary(fun = "mean", geom = "col", position = position_dodge())
-
-plot_mean_hf
+ggplot(data = survData,
+       mapping = aes(y = genus, x = weight)) +
+  geom_boxplot() +
+  scale_x_log10() +
+  labs(title = "Body weight varies widely between rodent genera",
+       x = "log(Weight)",
+       y = "Genus") +
+  theme_minimal()
 ```
 
-In general we use `theme_` functions to change appearance, and we can add these as extra layers to our base plot by using the `+` sign on the end.
+::: {.callout-tip collapse="false"}
+## Other built-in themes
 
-First, let's take a look at the built-in black and white theme.
+Try `theme_bw()`, `theme_classic()`, `theme_light()` or `theme_dark()` in place of `theme_minimal()`. Adding `theme(...)` after a complete theme, as we do next, lets you override just the parts you want to change.
+:::
+
+A complete theme is a good start, but we usually want to adjust a few details. The `theme()` function lets us change individual parts of the plot. Each argument names a part of the plot (`plot.title`, `axis.title`, `panel.grid.major.y`, and many more) and we give it an *element* function describing what it should look like: `element_text()` for text, `element_line()` for lines, or `element_blank()` to remove it altogether.
+
+Let's make the title `bold` and centred (`hjust = 0.5`), and see how it looks like. Then, as we don't needa  categorical y axis, let's remove the horizontal grid lines using `panel.grid.major.y`:
 
 ```{r}
-plot_mean_hf + theme_bw()
+ggplot(data = survData,
+       mapping = aes(y = genus, x = weight)) +
+  geom_boxplot() +
+  scale_x_log10() +
+  labs(title = "Body weight varies widely between rodent genera",
+       x = "Weight (g, log scale)",
+       y = "Genus") +
+  theme_minimal() +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5),
+        panel.grid.major.y = element_blank())
 ```
 
-The background is no longer grey, there is a black border, and the major and minor gridlines are now grey. `theme_` functions control many aspects of a plot’s appearance all at once.
-
-To change specific parts of a plot, we can use the `theme()` function to specify many different arguments which relate to the text, grid lines, background color, and more.
-
-Let’s change the size of the text on our axis titles. We can do this by specifying that the `axis.title` should be an `element_text()` with size set to 14.
+Our code is getting long, and we're going to keep adding to it. It's a good idea to store everything except the geom in an **object** called `plot_weight`. That way we can try different geoms on top of the same base without retyping it. Running the object's name followed by `+ geom_boxplot()` gives us the same plot as before.
 
 ```{r}
-plot_mean_hf +
-  theme_bw() +
-  theme(axis.title = element_text(size = 14))
+plot_weight <- ggplot(data = survData,
+                      mapping = aes(y = genus, x = weight)) +
+  scale_x_log10() +
+  labs(title = "Body weight varies widely between rodent genera",
+       x = "Weight (g, log scale)",
+       y = "Genus") +
+  theme_minimal() +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5),
+        panel.grid.major.y = element_blank())
+
+plot_weight +
+  geom_boxplot()
 ```
 
-Since our x axis is categorical, the vertical grid lines aren’t necessary. To remove them, we change the argument for `panel.grid.major.x` to `element_blank()`.
+::: {.callout-tip collapse="true"}
+## What is 'object' and '<-'?
 
+**Object**: A named “container” in R that holds information. Almost everything in R, from a single number to a giant dataset, is an object.
+
+**Assignment (<-)**: The “left arrow” operator used to store a value into an object. For example, x <- 10 means “put the number 10 into an object named x.” Alt + - on Windows, Option + - on Mac.
+:::
+
+## Step 7: Show the data, not just the summary
+ 
+A boxplot is a summary: it hides how many observations are in each group and what their spread really looks like. Layering the raw data on the plot fixes that. We'll build this up in four small moves.
+ 
+**Add the points.** `geom_jitter()` is `geom_point()` with a little random spread, so that points with the same value don't sit exactly on top of each other. Because `plot_weight` already holds the data and the mappings, we only need to add the geom:
+ 
 ```{r}
-plot_mean_hf +
-  theme_bw() +
-  theme(axis.title = element_text(size = 14), 
-        panel.grid.major.x = element_blank())
+plot_weight +
+  geom_boxplot() +
+  geom_jitter()
 ```
-
-# Changing labels
-
-To set a plot title and change our axis titles in one go we can use the `labs()` function:
-
+ 
+That's >13,000 points, and they've completely covered the boxes. We need to make the points smaller and transparent, and keep them within their own row.
+ 
+**Tune the points.** Three arguments inside `geom_jitter()` do this: `alpha` sets transparency (0 is invisible, 1 is solid), `size` sets the point size, and `height` controls how far the points are spread *vertically* across the genus categories. (If your categories were on the x axis you would use `width` instead.)
+ 
 ```{r}
-plot_mean_hf +
-  theme_bw() +
-  theme(axis.title = element_text(size = 14), 
-        panel.grid.major.x= element_blank()) +
-  labs(title = "Hindfoot length by plot type",
-       x = "Plot type",
-       y = "Hindfoot length (mm)")
+plot_weight +
+  geom_boxplot() +
+  geom_jitter(alpha = 0.2, size = 1, height = 0.2)
 ```
-
-To centre align our plot title, we specify the horizontal justification (`hjust`) back in our `theme()` function. A value of 0.5 centres the title. 1 aligns it to the right side of the plot, 0 to the left.
-
+ 
+Looks better. we can now see where the data is dense. But the points are still drawn over the boxes and overlapped with boxplot's own outlier points.
+ 
+**Order the layers.** Note that layers are drawn in the order you add them, so to put the boxes on top we add `geom_jitter()` first and `geom_boxplot()` second. While we're there, we make the boxes semi-transparent too, and use `outlier.shape = NA` to hide the boxplot's own outlier points, since the jittered points already show them.
+ 
 ```{r}
-plot_mean_hf +
-  theme_bw() +
-  theme(axis.title = element_text(size = 14), 
-        panel.grid.major.x= element_blank(),
-        plot.title = element_text(hjust = 0.5)) +
-  labs(title = "Hindfoot length by plot type",
-       x = "Plot type",
-       y = "Hindfoot length (mm)")
+plot_weight +
+  geom_jitter(alpha = 0.2, size = 1, height = 0.2) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.5)
 ```
+ 
+**Colour the points by genus.** So far every argument we've given a geom has been a fixed value that applies to every point: `alpha = 0.2`, `size = 1`. To make the colour *depend on the data* we need a mapping, and mappings always go inside `aes()`. We can put an `aes()` inside a single geom, and it applies to that layer only, which means the boxes stay black.
+ 
+```{r}
+plot_weight +
+  geom_jitter(mapping = aes(colour = genus), alpha = 0.2, size = 1, height = 0.2) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.5)
+```
+  
+Look at *Baiomys* at the bottom: only three animals. The boxplot alone would never have told you that.
+ 
+::: {.callout-tip collapse="true"}
+## Inside or outside `aes()`?
+ 
+This is the most common ggplot2 mix-up. Inside `aes()`, you name a **column** and ggplot2 maps its values to colours, adding a legend: `aes(colour = genus)`. Outside `aes()`, you give a **fixed value** that applies to the whole layer: `colour = "blue"`. 
+
+If you write `aes(colour = "blue")`, ggplot2 treats `"blue"` as a one-category variable and you get salmon-pink points with a legend saying "blue". Try it!
+:::
+
+## Step 8: Split the plot by plot type
+ 
+Our surveys come from five different plot types: the control plots, and four kinds of experimental exclosure that keep out particular animals. 
+
+**Are the weights the same in each?** Rather than squeezing everything into one panel, we can make a small copy of the plot for each plot type using `facet_wrap()`. Inside it we name the column to split by within `vars()`.
+ 
+```{r}
+plot_weight +
+  geom_jitter(mapping = aes(colour = genus), alpha = 0.2, size = 1, height = 0.2) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.5) +
+  facet_wrap(vars(plot_type))
+```
+ 
+Every panel shares the same axes, so the panels can be compared directly. The weights within each genus are similar across plot types, but look at *how many* points there are: *Dipodomys* (the kangaroo rats, or "Krats") dominate the Control panel, and are almost absent from the Long-term Krat Exclosure. This is exactly what that exclosure was designed to do.
+ 
+You can control the layout of the panels with `ncol` or `nrow`, for example `facet_wrap(vars(plot_type), nrow = 1)` to put all five side by side.
+ 
+This is the structure of our finished plot, so let's save it to an object:
+ 
+```{r}
+plot_weight_final <- plot_weight +
+  geom_jitter(mapping = aes(colour = genus), alpha = 0.2, size = 1, height = 0.2) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.5) +
+  facet_wrap(vars(plot_type))
+```
+ 
+ :::: {.callout-important icon="false"}
+## Challenge 4: Colours for publication (5 minutes)
+ 
+The default colours are fine for exploring, but they aren't ideal for publication: they're hard to tell apart for people with colour-vision deficiency and they print badly in greyscale. The **viridis** palettes, built into `ggplot2`, are designed to be readable in both cases.
+ 
+Starting from `plot_weight_final`, recreate the plot below:
+ 
+1. Apply a viridis palette to the points. For a categorical variable the function is `scale_colour_viridis_d()` (the `_d` stands for *discrete*).
+2. Remove the legend — the genus names are already on the y axis. (Hint: you did this in Challenge 3.)
+3. Assign the result back to `plot_weight_final`, so that the version we export in the next section is the coloured one.
+ 
+```{r, echo=FALSE}
+plot_weight_final +
+  scale_colour_viridis_d() +
+  theme(legend.position = "none")
+```
+ 
+::: {.callout-tip collapse="true"}
+## Solution
+ 
+```{r}
+plot_weight_final <- plot_weight_final +
+  scale_colour_viridis_d() +
+  theme(legend.position = "none")
+ 
+plot_weight_final
+```
+ 
+Scales and theme settings are layers too, so they are added with `+` just like a geom. Assigning back to the same name replaces the old object with the updated plot.
+:::
 
 # Exporting plots
 
@@ -276,7 +451,7 @@ We need to specify the following arguments:
 - `plot`: the name of the plot object we want to save.
 
 ```{r, eval=FALSE}
-ggsave("figures/hindfoot-plottype_sex.png", plot = plot_mean_hf)
+ggsave("figures/weight-by-genus.png", plot = plot_weight_final)
 ```
 
 You can also specify one of the below optional arguments to set where the image will be saved:
@@ -321,27 +496,27 @@ To obtain the print size of an image, the resolution is divided by the DPI set i
 
 It's common for journals to ask for figures based only on a particular DPI (often 300), but this by itself is meaningless. You could send them an image with a resolution of 150 x 150 pixels and a DPI set to 300, but when printed it would only be half an inch by half an inch. What they really mean is they want images with "a resolution large enough to display the image at the chosen size when printed."
 
-If you need to set a DPI and physical size, then the resolution will be determined by multiplying the two together.For example, let's say we need our plot to be 3 x 3 inches on the page and 600 DPI.
+If you need to set a DPI and physical size, then the resolution will be determined by multiplying the two together.For example, let's say we need our plot to be 8 x 5 inches on the page and 600 DPI.
 
 ```{r, eval=FALSE}
-ggsave("figures/hindfoot-plottype_sex.png", 
-       plot = plot_mean_hf,
-       width = 3,
-       height = 3,
+ggsave("figures/weight-by-genus-DPI.png", 
+       plot = plot_weight_final,
+       width = 8,
+       height = 5,
        units = "in",
        dpi = 600)
 ```
 
-This results in a 1800 x 1800 pixel image.
+This results in a 4800 x 3000 pixel image.
 
-Or let's say we have a particular pixel dimension we want to get instead. If we want the image to be 1500 x 1200 pixels:
+Or let's say we have a particular pixel dimension we want to get instead. If we want the image to be 2400 x 1500 pixels:
 
 ```{r, eval=FALSE}
-ggsave("figures/hindfoot-plottype_sex.png", 
-       plot = plot_mean_hf,
-       width = 1500,
-       height = 1200,
+ggsave("figures/weight-by-genus-pixel.png", 
+       plot = plot_weight_final,
+       width = 2400,
+       height = 1500,
        units = "px")
 ```
 
-This results in an image with those pixel dimensions, and the default value of 300 DPI has been entered into the image metadata. This means the image will be sized at 5 x 4 inches on a page by default, and if it is resized to be larger than this, it will look bad.
+This results in an image with those pixel dimensions, and the default value of 300 DPI has been entered into the image metadata. This means the image will be sized at 8 x 5 inches on a page by default, and if it is resized to be larger than this, it will look bad.
