@@ -24,7 +24,7 @@ A list of terms and jargon we'll encounter during the workshop.
 
 **Syntax**: The specific set of rules (grammar and punctuation) that R requires to understand your code. A missing comma or an unclosed bracket will result in a "syntax error." 
 
-**Comment (#)**: Text in your script preceded by a hashtag. R ignores this text, allowing you to write a brief note about why you did something the way you did. Shift + 3 on Windows, Cmd + 3 on Mac. 
+**Comment (#)**: Text in your script preceded by a hashtag. R ignores this text, allowing you to write a brief note about why you did something the way you did. Shift + 3 on both Windows and Mac. 
 
 **Function**: A "mini-program" that performs a specific task. You "call" a function by typing its name followed by parentheses, like `mean(my_data)`. 
 
