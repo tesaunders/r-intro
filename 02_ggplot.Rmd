@@ -182,9 +182,9 @@ ggplot(data = survData,
 
 Starting from the code above, make each of the following plots by changing as little as possible:
 
-1. A boxplot of `weight` for each `sex`.
-2. A histogram of `hindfoot_length`.
-3. Take your boxplot from (1) and turn it into a violin plot. (Hint: the geom is called `geom_violin()`.)
+1.  A boxplot of `weight` for each `sex`.
+2.  A histogram of `hindfoot_length`.
+3.  Take your boxplot from (1) and turn it into a violin plot. (Hint: the geom is called `geom_violin()`.)
 
 ::: {.callout-tip collapse="true"}
 ## Solution
@@ -366,109 +366,109 @@ plot_weight +
 ```
 
 ::: {.callout-tip collapse="true"}
-## What are an object and `<-```?
+## What are an object and \`\<-\`\`\`?
 
 **Object**: A named “container” in R that holds information. Almost everything in R, from a single number to a giant dataset, is an object.
 
-**Assignment (<-)**: The “left arrow” operator used to store a value into an object. For example, x <- 10 means “put the number 10 into an object named x.” Alt + - on Windows, Option + - on Mac.
+**Assignment (\<-)**: The “left arrow” operator used to store a value into an object. For example, x \<- 10 means “put the number 10 into an object named x.” Alt + - on Windows, Option + - on Mac.
 :::
 
 ## Step 7: Show the data, not just the summary
- 
+
 A boxplot is a summary: it hides how many observations are in each group and what their spread really looks like. Layering the raw data on the plot fixes that. We'll build this up in four small moves.
- 
+
 **Add the points.** `geom_jitter()` is `geom_point()` with a little random spread, so that points with the same value don't sit exactly on top of each other. Because `plot_weight` already holds the data and the mappings, we only need to add the geom:
- 
+
 ```{r}
 plot_weight +
   geom_boxplot() +
   geom_jitter()
 ```
- 
-That's >13,000 points, and they've completely covered the boxes. We need to make the points smaller and transparent, and keep them within their own row.
- 
+
+That's \>13,000 points, and they've completely covered the boxes. We need to make the points smaller and transparent, and keep them within their own row.
+
 **Tune the points.** Three arguments inside `geom_jitter()` do this: `alpha` sets transparency (0 is invisible, 1 is solid), `size` sets the point size, and `height` controls how far the points are spread *vertically* across the genus categories. (If your categories were on the x axis you would use `width` instead.)
- 
+
 ```{r}
 plot_weight +
   geom_boxplot() +
   geom_jitter(alpha = 0.2, size = 1, height = 0.2)
 ```
- 
+
 Looks better: we can now see where the data is dense. But the points are still drawn over the boxes, and they overlap with the boxplot's own outlier points.
- 
+
 **Order the layers.** Note that layers are drawn in the order you add them, so to put the boxes on top we add `geom_jitter()` first and `geom_boxplot()` second. While we're there, we make the boxes semi-transparent too, and use `outlier.shape = NA` to hide the boxplot's own outlier points, since the jittered points already show them.
- 
+
 ```{r}
 plot_weight +
   geom_jitter(alpha = 0.2, size = 1, height = 0.2) +
   geom_boxplot(outlier.shape = NA, alpha = 0.5)
 ```
- 
+
 **Colour the points by genus.** So far every argument we've given a geom has been a fixed value that applies to every point: `alpha = 0.2`, `size = 1`. To make the colour *depend on the data* we need a mapping, and mappings always go inside `aes()`. We can put an `aes()` inside a single geom, and it applies to that layer only, which means the boxes stay black.
- 
+
 ```{r}
 plot_weight +
   geom_jitter(mapping = aes(colour = genus), alpha = 0.2, size = 1, height = 0.2) +
   geom_boxplot(outlier.shape = NA, alpha = 0.5)
 ```
-  
+
 Look at *Baiomys* at the bottom: only three animals. The boxplot alone would never have told you that.
- 
+
 ::: {.callout-tip collapse="true"}
 ## Inside or outside `aes()`?
- 
-This is the most common ggplot2 mix-up. Inside `aes()`, you name a **column** and ggplot2 maps its values to colours, adding a legend: `aes(colour = genus)`. Outside `aes()`, you give a **fixed value** that applies to the whole layer: `colour = "blue"`. 
+
+This is the most common ggplot2 mix-up. Inside `aes()`, you name a **column** and ggplot2 maps its values to colours, adding a legend: `aes(colour = genus)`. Outside `aes()`, you give a **fixed value** that applies to the whole layer: `colour = "blue"`.
 
 If you write `aes(colour = "blue")`, ggplot2 treats `"blue"` as a one-category variable and you get salmon-pink points with a legend saying "blue". Try it!
 :::
 
 ## Step 8: Split the plot by plot type
- 
-Our surveys come from five different plot types: the control plots, and four kinds of experimental exclosure that keep out particular animals. 
+
+Our surveys come from five different plot types: the control plots, and four kinds of experimental exclosure that keep out particular animals.
 
 **Are the weights the same in each?** Rather than squeezing everything into one panel, we can make a small copy of the plot for each plot type using `facet_wrap()`. Inside it we name the column to split by within `vars()`.
- 
+
 ```{r}
 plot_weight +
   geom_jitter(mapping = aes(colour = genus), alpha = 0.2, size = 1, height = 0.2) +
   geom_boxplot(outlier.shape = NA, alpha = 0.5) +
   facet_wrap(vars(plot_type))
 ```
- 
+
 Every panel shares the same axes, so the panels can be compared directly. The weights within each genus are similar across plot types, but look at *how many* points there are: *Dipodomys* (the kangaroo rats, or "Krats") dominate the Control panel, and are almost absent from the Long-term Krat Exclosure. This is exactly what that exclosure was designed to do.
- 
+
 You can control the layout of the panels with `ncol` or `nrow`, for example `facet_wrap(vars(plot_type), nrow = 1)` to put all five side by side.
- 
+
 This is the structure of our finished plot, so let's save it to an object:
- 
+
 ```{r}
 plot_weight_final <- plot_weight +
   geom_jitter(mapping = aes(colour = genus), alpha = 0.2, size = 1, height = 0.2) +
   geom_boxplot(outlier.shape = NA, alpha = 0.5) +
   facet_wrap(vars(plot_type))
 ```
- 
+
 :::: {.callout-important icon="false"}
 ## Challenge exercise: Colours for publication (5 minutes)
- 
+
 The default colours are fine for exploring, but they aren't ideal for publication: they're hard to tell apart for people with colour-vision deficiency and they print badly in greyscale. The **viridis** palettes, built into `ggplot2`, are designed to be readable in both cases.
- 
+
 Starting from `plot_weight_final`, recreate the plot below:
- 
-1. Apply a viridis palette to the points. For a categorical variable the function is `scale_colour_viridis_d()` (the `_d` stands for *discrete*).
-2. Remove the legend — the genus names are already on the y axis. (Hint: the legend is controlled by `theme(legend.position = ...)`.)
-3. Assign the result back to `plot_weight_final`, so that the version we export in the next section is the coloured one.
- 
+
+1.  Apply a viridis palette to the points. For a categorical variable the function is `scale_colour_viridis_d()` (the `_d` stands for *discrete*).
+2.  Remove the legend — the genus names are already on the y axis. (Hint: the legend is controlled by `theme(legend.position = ...)`.)
+3.  Assign the result back to `plot_weight_final`, so that the version we export in the next section is the coloured one.
+
 ```{r, echo=FALSE}
 plot_weight_final +
   scale_colour_viridis_d() +
   theme(legend.position = "none")
 ```
- 
+
 ::: {.callout-tip collapse="true"}
 ## Solution
- 
+
 ```{r}
 plot_weight_final <- plot_weight_final +
   scale_colour_viridis_d() +
@@ -476,7 +476,7 @@ plot_weight_final <- plot_weight_final +
  
 plot_weight_final
 ```
- 
+
 Scales and theme settings are layers too, so they are added with `+` just like a geom. Assigning back to the same name replaces the old object with the updated plot.
 :::
 ::::
