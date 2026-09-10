@@ -20,7 +20,7 @@ A list of terms and jargon we'll encounter during the workshop.
 
 **Object:** A named "container" in R that holds information. Almost everything in R—from a single number to a giant dataset—is an object. 
 
-**Assignment (<-)**: The "left arrow" operator used to store a value into an object. For example, x <- 10 means "put the number 10 into an object named x." Alt + - on Windows, Cmd + - on Mac.
+**Assignment (<-)**: The "left arrow" operator used to store a value into an object. For example, x <- 10 means "put the number 10 into an object named x." Alt + - on Windows, Option + - on Mac.
 
 **Syntax**: The specific set of rules (grammar and punctuation) that R requires to understand your code. A missing comma or an unclosed bracket will result in a "syntax error." 
 
