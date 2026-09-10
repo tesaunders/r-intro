@@ -14,7 +14,7 @@ Each time we start a new RStudio session, we need to load the packages that we w
 library(tidyverse)
 ```
 
-After loading packages, the next thing we often need to do is to load some data into R. To load our spreadsheet in we use the `read_csv()` function from the `readr` package (which is loaded as part of the tidyverse package), and we'll store it in an object called `surveys`.\`
+After loading packages, the next thing we often need to do is to load some data into R. To load our spreadsheet in we use the `read_csv()` function from the `readr` package (which is loaded as part of the tidyverse package), and we'll store it in an object called `surveys`.
 
 ```{r}
 surveys <- read_csv(file = "data_raw/surveys_complete.csv")
@@ -57,13 +57,13 @@ The `na.omit()` function will remove all rows for which an NA exists anywhere in
 
 The 'gg' in ggplot2 stands for “grammar of graphics”, which refers to a particular way of creating plots using a consistent vocabulary and layering different elements on. Therefore, we **only need small changes to our code** if the underlying data changes or we decide to make a box plot instead of a scatter plot. This approach helps you create publication-quality plots with minimal adjusting and tweaking.
 
-ggplot plots are built step by step by adding new layers, which allows us to customise and test as we go. The basic format for the ggpots template is as follows:
+ggplot plots are built step by step by adding new layers, which allows us to customise and test as we go. The basic format for the ggplots template is as follows:
 
 - Specify the data as a dataframe in long format
 
 - Map variables (i.e., map which column to the x or y axis)
 
-- Chose the geometry function to create the plot type
+- Choose the geometry function to create the plot type
 
 We're going to use the following template to build our plots:
 
@@ -87,15 +87,16 @@ Let's map variables to axes:
 ggplot(data = survData, mapping = aes(x = weight, y = hindfoot_length))
 ```
 
-Now we’ve got a plot with x and y axes corresponding to variables from surveys. However, we haven’t specified how we want the data to be displayed. We do this using `geom_` functions, which specify the type of geometry we want, such as points, lines, or bars. Because `geom_point()` is a new function, we add it to our plot using the + sign.
+Now we’ve got a plot with x and y axes corresponding to variables from surveys. However, we haven’t specified how we want the data to be displayed. We do this using `geom_` functions, which specify the type of geometry we want, such as points, lines, or bars. Because `geom_point()` is a new layer, we add it to our plot using the + sign.
 
 ```{r}
 ggplot(data = survData, mapping = aes(x = weight, y = hindfoot_length)) + geom_point()
 ```
 
-It is good practice to use *indentation* to format our code, and this becomes essential as our code gets longer. Each time you reach a new argument (separated by a comma) hit `enter` or `return`, and R will automatically format the code on a new line. Put each layer on a new line, ending the previous line with the `+` sign. Try re-write the code above as below, then run the code to generate the plot.
+It is good practice to use *indentation* to format our code, and this becomes essential as our code gets longer. Each time you reach a new argument (separated by a comma) hit `enter` or `return`, and R will automatically format the code on a new line. Put each layer on a new line, ending the previous line with the `+` sign. Try re-writing the code above as below, then run it to generate the plot.
 
 ```{r}
+# Two numeric variables - scatter plot
 ggplot(data = survData, 
        mapping = aes(x = weight, y = hindfoot_length)) +
   geom_point()
@@ -121,21 +122,23 @@ Another common type of message is an error, which means R can't execute the comm
 
 # Try different `geom` functions
 
-This is where the grammar of graphics pays off. To make a completely different kind of plot, we keep the same template and change **only the geom** (and sometimes which columns we map). `ggplot2` has more than 40 geoms; today we'll try a couple of them you will use most often.
+This is where the grammar of graphics pays off. To make a completely different kind of plot, we keep the same template and change **only the geom** (and sometimes which columns we map). `ggplot2` has more than 40 geoms; today we'll try three that you will use most often.
 
 Our **scatter plot** used `geom_point()` to show the relationship between **two numeric variables**. Let's see what happens when we change the geom, and nothing else.
 
 **One numeric variable** — a **histogram** shows the *distribution* of a single column, so we only map `x`:
 
 ```{r}
+# One numeric variable - histogram
 ggplot(data = survData,
        mapping = aes(x = weight)) +
   geom_histogram()
 ```
 
-Notice the message: `ggplot2` chose 30 bins for us and suggests we pick a better value. We can do that with the `bins` argument (or `binwidth`).Let's use `bins = 50` dividing the data into 50 bars:
+Notice the message: `ggplot2` chose 30 bins for us and suggests we pick a better value. We can do that with the `bins` argument (or `binwidth`).Let's use `bins = 50` to divide the data into 50 bars:
 
 ```{r}
+# One numeric variable - histogram
 ggplot(data = survData,
        mapping = aes(x = weight)) +
   geom_histogram(bins = 50)
@@ -144,6 +147,7 @@ ggplot(data = survData,
 **Counts of a categorical variable** — a **bar chart** counts how many rows fall into each category. We only map `x`, and `geom_bar()` does the counting:
 
 ```{r}
+# Counts of a categorical variable - bar chart
 ggplot(data = survData,
        mapping = aes(x = plot_type)) +
   geom_bar()
@@ -158,6 +162,7 @@ ggplot(data = survData,
 **A numeric variable across categories** — a **boxplot** summarises the distribution of a numeric variable within each group of a categorical variable. We map the category to `x` and the number to `y`:
 
 ```{r}
+# A numeric variable across categories - boxplot
 ggplot(data = survData,
        mapping = aes(x = plot_type, y = hindfoot_length)) +
   geom_boxplot()
@@ -166,10 +171,44 @@ ggplot(data = survData,
 You may have noticed that the long labels on the x axis overlap. A quick fix is to put the categorical variable on the **y axis** instead.
 
 ```{r}
+# A numeric variable across categories - boxplot, categories on the y axis
 ggplot(data = survData,
        mapping = aes(y = plot_type, x = hindfoot_length)) +
   geom_boxplot()
 ```
+
+:::: {.callout-important icon="false"}
+## Challenge exercise: Change one thing (5 minutes)
+
+Starting from the code above, make each of the following plots by changing as little as possible:
+
+1. A boxplot of `weight` for each `sex`.
+2. A histogram of `hindfoot_length`.
+3. Take your boxplot from (1) and turn it into a violin plot. (Hint: the geom is called `geom_violin()`.)
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```{r, eval=FALSE}
+# 1. Boxplot of weight by sex: change the two column names
+ggplot(data = survData,
+       mapping = aes(x = sex, y = weight)) +
+  geom_boxplot()
+
+# 2. Histogram of hindfoot length: change the column name
+ggplot(data = survData,
+       mapping = aes(x = hindfoot_length)) +
+  geom_histogram()
+
+# 3. Violin plot: change only the geom
+ggplot(data = survData,
+       mapping = aes(x = sex, y = weight)) +
+  geom_violin()
+```
+
+In each case we swapped one geom name or one column name — the rest of the template stayed the same.
+:::
+::::
 
 # Which plot should I use? [*From Data to Viz*](https://www.data-to-viz.com/)
 
@@ -196,7 +235,7 @@ So far we've made quick plots to look at our data. Now let's take one plot all t
 
 Let's go back to our survey dataset, `survData`. We'd like to draw a figure to answer our research questions:
 
-> **How do body weights compare between the different rodent genera in our surveys? In addition, any impact of plot types on them?**
+> **How do body weights compare between the different rodent genera in our surveys? And does the plot type make any difference?**
 
 That's one numeric variable (`weight`) across the categories of one categorical variable (`genus`), so a **boxplot** is a good starting point. We'll improve it in small steps, running the code each time so we can see what each change does.
 
@@ -210,9 +249,9 @@ ggplot(data = survData,
 
 It works, but it isn't very readable. The genus names overlap, and most of the boxes are squashed at the bottom of the plot because a few animals are very heavy.
 
-## Step 2: A log scale for the data
+## Step 2: A log scale for skewed data
 
-When data is unbalanced like this, a **log scale** spreads out the small values and pulls in the large ones, so every group gets some space. We add a *scale* layer, `scale_y_log10()`, which keeps the real values (grams) on the axis labels.
+When data is skewed like this (i.e., most values are small, with a long tail of very large ones), a **log scale** spreads out the small values and pulls in the large ones, so every group gets some space. We add a *scale* layer, `scale_y_log10()`, which keeps the real values (grams) on the axis labels.
 
 ```{r}
 ggplot(data = survData,
@@ -225,7 +264,7 @@ Now we can actually see all nine boxes.
 
 ## Step 3: Turn it sideways for easy reading
 
-Genus names are too long and overlapped in the box plot. In fact, category labels are much easier to read on the y axis. We saw this trick earlier: swap the `x` and `y` mappings. Because weight is now on the x axis, the scale layer becomes `scale_x_log10()`.
+The genus names are long and overlap on the x axis. Category labels are much easier to read on the y axis. We saw this trick earlier: swap the `x` and `y` mappings. Because weight is now on the x axis, the scale layer also becomes `scale_x_log10()`.
 
 ```{r}
 ggplot(data = survData,
@@ -267,7 +306,7 @@ ggplot(data = survData,
   geom_boxplot() +
   scale_x_log10() +
   labs(title = "Body weight varies widely between rodent genera",
-       x = "log(Weight)",
+       x = "Weight (g, log scale)",
        y = "Genus")
 ```
 
@@ -294,7 +333,7 @@ Try `theme_bw()`, `theme_classic()`, `theme_light()` or `theme_dark()` in place 
 
 A complete theme is a good start, but we usually want to adjust a few details. The `theme()` function lets us change individual parts of the plot. Each argument names a part of the plot (`plot.title`, `axis.title`, `panel.grid.major.y`, and many more) and we give it an *element* function describing what it should look like: `element_text()` for text, `element_line()` for lines, or `element_blank()` to remove it altogether.
 
-Let's make the title `bold` and centred (`hjust = 0.5`), and see how it looks like. Then, as we don't needa  categorical y axis, let's remove the horizontal grid lines using `panel.grid.major.y`:
+Let's make the title `bold` and centred (`hjust = 0.5`), and see how it looks like. Then, because the y axis is categorical, we don't need the horizontal grid lines, let's remove them using `panel.grid.major.y`:
 
 ```{r}
 ggplot(data = survData,
@@ -327,7 +366,7 @@ plot_weight +
 ```
 
 ::: {.callout-tip collapse="true"}
-## What is 'object' and '<-'?
+## What are an object and `<-```?
 
 **Object**: A named “container” in R that holds information. Almost everything in R, from a single number to a giant dataset, is an object.
 
@@ -356,7 +395,7 @@ plot_weight +
   geom_jitter(alpha = 0.2, size = 1, height = 0.2)
 ```
  
-Looks better. we can now see where the data is dense. But the points are still drawn over the boxes and overlapped with boxplot's own outlier points.
+Looks better: we can now see where the data is dense. But the points are still drawn over the boxes, and they overlap with the boxplot's own outlier points.
  
 **Order the layers.** Note that layers are drawn in the order you add them, so to put the boxes on top we add `geom_jitter()` first and `geom_boxplot()` second. While we're there, we make the boxes semi-transparent too, and use `outlier.shape = NA` to hide the boxplot's own outlier points, since the jittered points already show them.
  
@@ -410,15 +449,15 @@ plot_weight_final <- plot_weight +
   facet_wrap(vars(plot_type))
 ```
  
- :::: {.callout-important icon="false"}
-## Challenge 4: Colours for publication (5 minutes)
+:::: {.callout-important icon="false"}
+## Challenge exercise: Colours for publication (5 minutes)
  
 The default colours are fine for exploring, but they aren't ideal for publication: they're hard to tell apart for people with colour-vision deficiency and they print badly in greyscale. The **viridis** palettes, built into `ggplot2`, are designed to be readable in both cases.
  
 Starting from `plot_weight_final`, recreate the plot below:
  
 1. Apply a viridis palette to the points. For a categorical variable the function is `scale_colour_viridis_d()` (the `_d` stands for *discrete*).
-2. Remove the legend — the genus names are already on the y axis. (Hint: you did this in Challenge 3.)
+2. Remove the legend — the genus names are already on the y axis. (Hint: the legend is controlled by `theme(legend.position = ...)`.)
 3. Assign the result back to `plot_weight_final`, so that the version we export in the next section is the coloured one.
  
 ```{r, echo=FALSE}
@@ -440,6 +479,7 @@ plot_weight_final
  
 Scales and theme settings are layers too, so they are added with `+` just like a geom. Assigning back to the same name replaces the old object with the updated plot.
 :::
+::::
 
 # Exporting plots
 
@@ -447,11 +487,12 @@ Once we're happy with our plot, we can save it using the `ggsave()` function.
 
 We need to specify the following arguments:
 
-- `filename`: the filename we're using to save our plot, including the file type of the image (e.g. ".jpg", ".png", ".tif".
+- `filename`: the filename we're using to save our plot, including the file type of the image (e.g. ".jpg", ".png", ".tif").
 - `plot`: the name of the plot object we want to save.
+- `width`and `height`: the size of the saved image (in inches by default).
 
 ```{r, eval=FALSE}
-ggsave("figures/weight-by-genus.png", plot = plot_weight_final)
+ggsave("figures/weight-by-genus.png", plot = plot_weight_final, width = 8, height = 5)
 ```
 
 You can also specify one of the below optional arguments to set where the image will be saved:
@@ -492,11 +533,11 @@ There are three properties that determine the size and quality of an image:
 - Print size: the physical dimensions of an image when printed, typically measured in inches for photos.
 - DPI: Dots per inch, or the density of ink dots printed onto paper.
 
-To obtain the print size of an image, the resolution is divided by the DPI set inside the image metadata. For example, if an image has a resoltuion of 900x900 pixels, and the DPI in the image is set to 300, then the image will be printed at 3 x 3 inches. The DPI setting inside the metadata of a digital image has absolutely no bearing on how that image is represented on a screen, only when it is printed or added into something like a Word doc which shows you how a document will look when printed.
+To obtain the print size of an image, the resolution is divided by the DPI set inside the image metadata. For example, if an image has a resolution of 900x900 pixels, and the DPI in the image is set to 300, then the image will be printed at 3 x 3 inches. The DPI setting inside the metadata of a digital image has absolutely no bearing on how that image is represented on a screen, only when it is printed or added into something like a Word doc which shows you how a document will look when printed.
 
 It's common for journals to ask for figures based only on a particular DPI (often 300), but this by itself is meaningless. You could send them an image with a resolution of 150 x 150 pixels and a DPI set to 300, but when printed it would only be half an inch by half an inch. What they really mean is they want images with "a resolution large enough to display the image at the chosen size when printed."
 
-If you need to set a DPI and physical size, then the resolution will be determined by multiplying the two together.For example, let's say we need our plot to be 8 x 5 inches on the page and 600 DPI.
+If you need to set a DPI and physical size, then the resolution will be determined by multiplying the two together. For example, let's say we need our plot to be 8 x 5 inches on the page and 600 DPI.
 
 ```{r, eval=FALSE}
 ggsave("figures/weight-by-genus-DPI.png", 
