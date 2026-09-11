@@ -102,6 +102,13 @@ ggplot(data = survData,
   geom_point()
 ```
 
+::: {.callout-tip collapse="true"}
+## What is `#` doing here?
+
+**Comment (#)**: Text in your script preceded by a **hashtag**. R ignores this text, allowing you to write a brief note about why you did something the way you did. 
+:::
+
+
 ::: {.callout-note appearance="simple"}
 ## What if our dataset contains NAs
 
@@ -177,7 +184,7 @@ ggplot(data = survData,
   geom_boxplot()
 ```
 
-:::: {.callout-important icon="false"}
+:::: {.callout-caution icon="true"}
 ## Challenge exercise: Change one thing (5 minutes)
 
 Starting from the code above, make each of the following plots by changing as little as possible:
@@ -186,7 +193,7 @@ Starting from the code above, make each of the following plots by changing as li
 2.  A histogram of `hindfoot_length`.
 3.  Take your boxplot from (1) and turn it into a violin plot. (Hint: the geom is called `geom_violin()`.)
 
-::: {.callout-tip collapse="true"}
+::: {.callout-tip collapse="true" icon="true"}
 ## Solution
 
 ```{r, eval=FALSE}
