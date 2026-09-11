@@ -881,7 +881,7 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 <p>Every panel shares the same axes, so the panels can be compared directly. The weights within each genus are similar across plot types, but look at <em>how many</em> points there are: <em>Dipodomys</em> (the kangaroo rats, or “Krats”) dominate the Control panel, and are almost absent from the Long-term Krat Exclosure. This is exactly what that exclosure was designed to do.</p>
-<p>This is the structure of our finished plot, so let’s save it to an object:</p>
+<p><strong>This is the structure of our finished plot, so let’s save it to an object in order to explore the plot:</strong></p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>plot_weight_final <span class="ot">&lt;-</span> plot_weight <span class="sc">+</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">colour =</span> genus), <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">height =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>

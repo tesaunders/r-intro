@@ -455,7 +455,7 @@ plot_weight +
 
 Every panel shares the same axes, so the panels can be compared directly. The weights within each genus are similar across plot types, but look at *how many* points there are: *Dipodomys* (the kangaroo rats, or "Krats") dominate the Control panel, and are almost absent from the Long-term Krat Exclosure. This is exactly what that exclosure was designed to do.
 
-This is the structure of our finished plot, so let's save it to an object:
+**This is the structure of our finished plot, so let's save it to an object in order to explore the plot:**
 
 ```{r}
 plot_weight_final <- plot_weight +
