@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,13 +12,10 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -77,10 +74,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-d0cfe7a3482e0d49a74229a8f3b76718.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-45431c2918bd31147ddb3fa7038bb99f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -215,7 +212,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
 </div>
-<p>After loading packages, the next thing we often need to do is to load some data into R. To load our spreadsheet in we use the <code>read_csv()</code> function from the <code>readr</code> package (which is loaded as part of the tidyverse package), and we’ll store it in an object called <code>surveys</code>.`</p>
+<p>After loading packages, the next thing we often need to do is to load some data into R. To load our spreadsheet in we use the <code>read_csv()</code> function from the <code>readr</code> package (which is loaded as part of the tidyverse package), and we’ll store it in an object called <code>surveys</code>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>surveys <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"data_raw/surveys_complete.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
@@ -230,84 +227,92 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 <p>You’ll notice some useful information printed in the console, including the number of rows and columns, and the number of different column types. <code>chr</code> refers to character, or columns containing text values, while <code>dbl</code> refers to double, another name for numeric values.</p>
-<p>Now we can see <code>surveys</code> in our environment pane and we can click on it to take a look.</p>
-<p>This dataset is taken from the Portal Project, a long-term study from Portal, Arizona, in the Chihuahuan desert, which measures features of desert-dwelling mammals. Click on the <code>surveys</code> object in the environment pane to see the data.</p>
-<p>It’s worth pointing out, anything we do to the data in R is not changed in the file we read in.</p>
-<p>To get a bit more information about any object in R, we can look at it’s structure:</p>
+<p>Now we can see <code>surveys</code> in our environment pane and we can click on it to take a look. You can also run the command, <code>view()</code>, to open this spreadsheet-style tab to review the data.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(surveys)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span>(surveys)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This dataset is taken from the Portal Project, a long-term ecological study from Portal, Arizona, in the Chihuahuan desert, which measures features of desert-dwelling mammals from different plots. Each row is one animal, with columns for the collection dates, species, sex, hindfoot lengths, weights and the type of plot it was caught in.</p>
+<p>Note, there are <strong>some missing values in the hindfoot_length and weight columns</strong> (labelled as <code>NA</code>) .</p>
+<p>When we’re looking at large or unfamiliar datasets, it’s useful to do some quick checks to get an idea of the kind of data we’re working with. For example, we can look at <strong>the first and last 6 rows</strong> of our data using <code>head()</code> and <code>tail()</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(surveys)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>spc_tbl_ [16,878 × 13] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
- $ record_id      : num [1:16878] 1 2 3 4 5 6 7 8 9 10 ...
- $ month          : num [1:16878] 7 7 7 7 7 7 7 7 7 7 ...
- $ day            : num [1:16878] 16 16 16 16 16 16 16 16 16 16 ...
- $ year           : num [1:16878] 1977 1977 1977 1977 1977 ...
- $ plot_id        : num [1:16878] 2 3 2 7 3 1 2 1 1 6 ...
- $ species_id     : chr [1:16878] "NL" "NL" "DM" "DM" ...
- $ sex            : chr [1:16878] "M" "M" "F" "M" ...
- $ hindfoot_length: num [1:16878] 32 33 37 36 35 14 NA 37 34 20 ...
- $ weight         : num [1:16878] NA NA NA NA NA NA NA NA NA NA ...
- $ genus          : chr [1:16878] "Neotoma" "Neotoma" "Dipodomys" "Dipodomys" ...
- $ species        : chr [1:16878] "albigula" "albigula" "merriami" "merriami" ...
- $ taxa           : chr [1:16878] "Rodent" "Rodent" "Rodent" "Rodent" ...
- $ plot_type      : chr [1:16878] "Control" "Long-term Krat Exclosure" "Control" "Rodent Exclosure" ...
- - attr(*, "spec")=
-  .. cols(
-  ..   record_id = col_double(),
-  ..   month = col_double(),
-  ..   day = col_double(),
-  ..   year = col_double(),
-  ..   plot_id = col_double(),
-  ..   species_id = col_character(),
-  ..   sex = col_character(),
-  ..   hindfoot_length = col_double(),
-  ..   weight = col_double(),
-  ..   genus = col_character(),
-  ..   species = col_character(),
-  ..   taxa = col_character(),
-  ..   plot_type = col_character()
-  .. )
- - attr(*, "problems")=&lt;pointer: 0x00000184726fe890&gt; </code></pre>
+<pre><code># A tibble: 6 × 13
+  record_id month   day  year plot_id species_id sex   hindfoot_length weight
+      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;
+1         1     7    16  1977       2 NL         M                  32     NA
+2         2     7    16  1977       3 NL         M                  33     NA
+3         3     7    16  1977       2 DM         F                  37     NA
+4         4     7    16  1977       7 DM         M                  36     NA
+5         5     7    16  1977       3 DM         M                  35     NA
+6         6     7    16  1977       1 PF         M                  14     NA
+# ℹ 4 more variables: genus &lt;chr&gt;, species &lt;chr&gt;, taxa &lt;chr&gt;, plot_type &lt;chr&gt;</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(surveys)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 13
+  record_id month   day  year plot_id species_id sex   hindfoot_length weight
+      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;
+1     16873    12     5  1989       8 DO         M                  37     51
+2     16874    12     5  1989      16 RM         F                  18     15
+3     16875    12     5  1989       5 RM         M                  17      9
+4     16876    12     5  1989       4 DM         M                  37     31
+5     16877    12     5  1989      11 DM         M                  37     50
+6     16878    12     5  1989       8 DM         F                  37     42
+# ℹ 4 more variables: genus &lt;chr&gt;, species &lt;chr&gt;, taxa &lt;chr&gt;, plot_type &lt;chr&gt;</code></pre>
+</div>
+</div>
+<p>For simplicity, we will remove these NAs, and call our new object <code>survData</code>. It’s worth pointing out, anything we do to the data in R is not changed in the original file we read in.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>survData <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(surveys)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(survData)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 13
+  record_id month   day  year plot_id species_id sex   hindfoot_length weight
+      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;
+1        63     8    19  1977       3 DM         M                  35     40
+2        64     8    19  1977       7 DM         M                  37     48
+3        65     8    19  1977       4 DM         F                  34     29
+4        66     8    19  1977       4 DM         F                  35     46
+5        67     8    19  1977       7 DM         M                  35     36
+6        68     8    19  1977       8 DO         F                  32     52
+# ℹ 4 more variables: genus &lt;chr&gt;, species &lt;chr&gt;, taxa &lt;chr&gt;, plot_type &lt;chr&gt;</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>What is <code>na.omit()</code>?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The <code>na.omit()</code> function will remove all rows for which an NA exists anywhere in the row (i.e., hindfoot_length, weight or sex in this case). This gives us a nice clean dataset for today, but you may want to use it cautiously on your own data.</p>
+</div>
 </div>
 </div>
 </section>
 <section id="plotting-with-ggplot2" class="level1">
 <h1>Plotting with ggplot2</h1>
-<p>The gg in ggplot2 stands for “grammar of graphics”, which refers to a particular way of creating plots using a consistent vocabulary and layering different elements on. Therefore, we only need small changes to our code if the underlying data changes or we decide to make a box plot instead of a scatter plot. This approach helps you create publication-quality plots with minimal adjusting and tweaking.</p>
-<p>ggplot plots are built step by step by adding new layers, which allows us to customise and test as we go. We’re going to use the following template to build our plots:</p>
+<p>The ‘gg’ in ggplot2 stands for “grammar of graphics”, which refers to a particular way of creating plots using a consistent vocabulary and layering different elements on. Therefore, we <strong>only need small changes to our code</strong> if the underlying data changes or we decide to make a box plot instead of a scatter plot. This approach helps you create publication-quality plots with minimal adjusting and tweaking.</p>
+<p>ggplot plots are built step by step by adding new layers, which allows us to customise and test as we go. The basic format for the ggplots template is as follows:</p>
+<ul>
+<li><p>Specify the data as a dataframe in long format</p></li>
+<li><p>Map variables (i.e., map which column to the x or y axis)</p></li>
+<li><p>Choose the geometry function to create the plot type</p></li>
+</ul>
+<p>We’re going to use the following template to build our plots:</p>
 <p><code>ggplot(data = &lt;DATA&gt;, mapping = aes(&lt;MAPPINGS&gt;)) + &lt;GEOM_FUNCTION&gt;()</code></p>
 <p>We need to change everything inside <code>&lt;&gt;</code>.</p>
 <p>First we need to specify the data we want to use. Next, we can see that the ggplot() call has a function nested within it, aes(), which relates to aesthetic mappings. This is where we specify which parts of the data should be mapped to different axes on our plot. Finally, we need to specify the geometry we want to use, or in other words, the plot type. The geometry function we use is added to the end with a <code>+</code> sign.</p>
-<p>Let’s go through step by step:</p>
+<p>Let’s go through step by step. First we need to specify the dataset.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> surveys)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="02_ggplot_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>We get a blank plot because we haven’t told <code>ggplot()</code> which variables we want to correspond to parts of the plot.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> surveys, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> weight, <span class="at">y =</span> hindfoot_length))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="02_ggplot_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Now we’ve got a plot with x and y axes corresponding to variables from surveys. However, we haven’t specified how we want the data to be displayed. We do this using <code>geom_</code> functions, which specify the type of geometry we want, such as points, lines, or bars. We can add a <code>geom_point()</code> layer to our plot by using the + sign. We indent onto a new line to make it easier to read, and we have to end the first line with the + sign.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> surveys, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> weight, <span class="at">y =</span> hindfoot_length)) <span class="sc">+</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 3081 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> survData)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -316,16 +321,10 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </div>
-<p>You may notice a warning that missing values were removed. If a variable necessary to make the plot is missing from a given row of data (in this case, hindfoot_length or weight), that observation can’t be plotted. <code>ggplot2</code> warns us that this has happened to ensure we know there are missing values.</p>
-<p>Another common type of message is an error, which means R can’t execute the command. This is commonly due to misspelling, or missing punctuation such as brackets or commas.</p>
-<p>We can change the colour of the points by supplying a <code>colour</code> argument inside the geometry function.</p>
+<p>We get a blank plot because we haven’t told <code>ggplot()</code> which variables we want to correspond to parts of the plot.</p>
+<p>Let’s map variables to axes:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> surveys, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> weight, <span class="at">y =</span> hindfoot_length)) <span class="sc">+</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">colour =</span> <span class="st">"blue"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 3081 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> survData, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> weight, <span class="at">y =</span> hindfoot_length))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -334,14 +333,9 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </div>
-<p>We can also change the transparency of points to get a better idea of where data is concentrated. Here we change transparency of points to 20%.</p>
+<p>Now we’ve got a plot with x and y axes corresponding to variables from surveys. However, we haven’t specified how we want the data to be displayed. We do this using <code>geom_</code> functions, which specify the type of geometry we want, such as points, lines, or bars. Because <code>geom_point()</code> is a new layer, we add it to our plot using the + sign.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> surveys, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> weight, <span class="at">y =</span> hindfoot_length)) <span class="sc">+</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">colour =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 3081 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> survData, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> weight, <span class="at">y =</span> hindfoot_length)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -350,15 +344,12 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </div>
-<p>We may also want to modify the x axis to a log scale.</p>
+<p>It is good practice to use <em>indentation</em> to format our code, and this becomes essential as our code gets longer. Each time you reach a new argument (separated by a comma) hit <code>enter</code> or <code>return</code>, and R will automatically format the code on a new line. Put each layer on a new line, ending the previous line with the <code>+</code> sign. Try re-writing the code above as below, then run it to generate the plot.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> surveys, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> weight, <span class="at">y =</span> hindfoot_length)) <span class="sc">+</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">colour =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 3081 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Two numeric variables - scatter plot</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> survData, </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> weight, <span class="at">y =</span> hindfoot_length)) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -367,16 +358,40 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </div>
-</section>
-<section id="boxplots" class="level1">
-<h1>Boxplots</h1>
-<p>Boxplots are useful for examining the skew of numeric data. Let’s look at <code>hindfoot_length</code> with <code>plot_type</code> on the x axis.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>What is <code>#</code> doing here?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Comment (#)</strong>: Text in your script preceded by a <strong>hashtag</strong>. R ignores this text, allowing you to write a brief note about why you did something the way you did.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>What if our dataset contains NAs
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let’s try to plot our original object <code>surveys</code>, which contains NAs in the dataset:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> surveys, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> plot_type, <span class="at">y =</span> hindfoot_length)) <span class="sc">+</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> surveys, </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> weight, <span class="at">y =</span> hindfoot_length)) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 3081 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
@@ -386,14 +401,24 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </div>
-<p>We can flip the plot around to make it easier to read longer labels with <code>coord_flip()</code>.</p>
+<p>You may notice a warning that missing values were removed, although we got the same plot.</p>
+<p>This is because if a variable necessary to make the plot is missing from a given row of data (in this case, hindfoot_length or weight), that observation can’t be plotted. <code>ggplot2</code> warns us that this has happened to ensure we know there are missing values.</p>
+<p>Another common type of message is an error, which means R can’t execute the command. This is commonly due to misspelling, or missing punctuation such as brackets or commas.</p>
+</div>
+</div>
+</section>
+<section id="try-different-geom-functions" class="level1">
+<h1>Try different <code>geom</code> functions</h1>
+<p>This is where the grammar of graphics pays off. To make a completely different kind of plot, we keep the same template and change <strong>only the geom</strong> (and sometimes which columns we map). <code>ggplot2</code> has more than 40 geoms; today we’ll try three that you will use most often.</p>
+<p>Our <strong>scatter plot</strong> used <code>geom_point()</code> to show the relationship between <strong>two numeric variables</strong>. Let’s see what happens when we change the geom, and nothing else.</p>
+<p><strong>One numeric variable</strong> — a <strong>histogram</strong> shows the <em>distribution</em> of a single column, so we only map <code>x</code>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> surveys, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> plot_type, <span class="at">y =</span> hindfoot_length)) <span class="sc">+</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># One numeric variable - histogram</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> survData,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> weight)) <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
@@ -403,16 +428,12 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </div>
-<p>If we wanted to examine our data grouped by sex, we could facet the data into separate plots for each sex. We do this using the <code>facet_wrap()</code> function, and inside it we supply the column we want to facet by within the <code>vars()</code> function. We can also specify how we want the plots to be arranged by supplying either <code>nrow</code> or <code>ncol</code>.</p>
+<p>Notice the message: <code>ggplot2</code> chose 30 bins for us and suggests we pick a better value. We can do that with the <code>bins</code> argument (or <code>binwidth</code>).Let’s use <code>bins = 50</code> to divide the data into 50 bars:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> surveys, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> plot_type, <span class="at">y =</span> hindfoot_length)) <span class="sc">+</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(sex), <span class="at">ncol =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># One numeric variable - histogram</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> survData,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> weight)) <span class="sc">+</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">50</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -421,17 +442,12 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </div>
-</section>
-<section id="bar-chart" class="level1">
-<h1>Bar Chart</h1>
-<p>Bar charts are ideal for visualising the relationship between a categorical and continuous variable. To do this we substitute <code>geom_col()</code> in.</p>
+<p><strong>Counts of a categorical variable</strong> — a <strong>bar chart</strong> counts how many rows fall into each category. We only map <code>x</code>, and <code>geom_bar()</code> does the counting:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> surveys, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> plot_type, <span class="at">y =</span> hindfoot_length)) <span class="sc">+</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2733 rows containing missing values or values outside the scale range
-(`geom_col()`).</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Counts of a categorical variable - bar chart</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> survData,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> plot_type)) <span class="sc">+</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -440,15 +456,28 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </div>
-<p>By default, <code>geom_col()</code> sums together all of the y values in each of our x variables. Let’s say we’re more interested in comparing a summary statistic, such as the mean <code>hindfoot_length</code> for each <code>plot_type</code>. We could do this by performing some operations on the data to calculate these numbers, as we’ll see tomorrow, but we can also do it within a layer on our plot.</p>
-<p>We’re going to use a function called <code>stat_summary()</code> to replace our geometry layer. This allows us to specify both the geometry to use, and the calculation to perform on the data (in our case mean).</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> surveys, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span> plot_type, <span class="at">y =</span> hindfoot_length)) <span class="sc">+</span> </span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> <span class="st">"mean"</span>, <span class="at">geom =</span> <span class="st">"col"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
-(`stat_summary()`).</code></pre>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span><code>geom_bar()</code> vs <code>geom_col()</code>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><code>geom_bar()</code> <em>counts rows</em> for you, so it only needs <code>x</code>. If your data already contains the number you want to plot (for example a column of means you calculated), use <code>geom_col()</code> and map that column to <code>y</code>.</p>
+</div>
+</div>
+</div>
+<p><strong>A numeric variable across categories</strong> — a <strong>boxplot</strong> summarises the distribution of a numeric variable within each group of a categorical variable. We map the category to <code>x</code> and the number to <code>y</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A numeric variable across categories - boxplot</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> survData,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> plot_type, <span class="at">y =</span> hindfoot_length)) <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -457,14 +486,12 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </div>
-<p>Now we have the mean <code>hindfoot_length</code> for each <code>plot_type</code>. To convert this plot to a grouped bar chart, we can add another aesthetic mapping to our original ggplot call. To create separate bars for each sex within our <code>plot_type</code> categories, we add <code>fill = sex</code>. To prevent the bars from being plotted on top of each other, we also need to specify <code>position = position_dodge()</code> in our <code>stat_summary()</code> call.</p>
+<p>You may have noticed that the long labels on the x axis overlap. A quick fix is to put the categorical variable on the <strong>y axis</strong> instead.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> surveys, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span> plot_type, <span class="at">y =</span> hindfoot_length, <span class="at">fill =</span> sex)) <span class="sc">+</span> </span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> <span class="st">"mean"</span>, <span class="at">geom =</span> <span class="st">"col"</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
-(`stat_summary()`).</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A numeric variable across categories - boxplot, categories on the y axis</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> survData,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> plot_type, <span class="at">x =</span> hindfoot_length)) <span class="sc">+</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -473,35 +500,88 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Challenge exercise: Change one thing (5 minutes)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Starting from the code above, make each of the following plots by changing as little as possible:</p>
+<ol type="1">
+<li>A boxplot of <code>weight</code> for each <code>sex</code>.</li>
+<li>A histogram of <code>hindfoot_length</code>.</li>
+<li>Take your boxplot from (1) and turn it into a violin plot. (Hint: the geom is called <code>geom_violin()</code>.)</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Boxplot of weight by sex: change the two column names</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> survData,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> sex, <span class="at">y =</span> weight)) <span class="sc">+</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Histogram of hindfoot length: change the column name</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> survData,</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> hindfoot_length)) <span class="sc">+</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Violin plot: change only the geom</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> survData,</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> sex, <span class="at">y =</span> weight)) <span class="sc">+</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>In each case we swapped one geom name or one column name — the rest of the template stayed the same.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
-<section id="changing-themes" class="level1">
-<h1>Changing themes</h1>
-<p>Now that all of the plot components are there, we can assign our plot code to an object to make it easier to experiment with the appearance of our plot. Let’s call it <code>plot_mean_hf</code>. Now if we run the name of the object R will produce the plot in the plot viewer pane.</p>
+<section id="which-plot-should-i-use-from-data-to-viz" class="level1">
+<h1>Which plot should I use? <a href="https://www.data-to-viz.com/"><em>From Data to Viz</em></a></h1>
+<p>Knowing <em>how</em> to make a plot is only half the job. The other half is deciding <em>which</em> plot answers your research question. Two things determine that:</p>
+<ol type="1">
+<li><strong>Your question</strong>: are you looking at the <em>distribution</em> of one variable, a <em>comparison</em> between groups, a <em>relationship</em> between two variables, a change <em>over time</em>, or <em>parts of a whole</em>?</li>
+<li><strong>Your data types</strong>: how many variables are involved, and is each one numeric or categorical?</li>
+</ol>
+<p>Once you know those two things, the choice of geom usually follows.</p>
+<p><a href="https://www.data-to-viz.com/"><strong>From Data to Viz</strong></a> is an excellent tool. It is a decision tree: you start from what your data looks like (numeric, categorical, a mix, time series, maps, networks), follow the branches, and it leads you to the plot types that suit it. Let’s take a look at it together.</p>
+<p>Three things to notice on the site:</p>
+<ul>
+<li>Each plot type has a short description of <strong>when to use it</strong> and its <strong>common mistakes</strong>.</li>
+<li>Every plot type also has an <strong>R graph gallery</strong> link with ready-made <code>ggplot2</code> code. This is how most people actually find the code for a plot they haven’t made before.</li>
+<li>The code you find will use <em>their</em> dataset and column names. To reuse it, map it back onto our template: replace the data, replace the column names inside <code>aes()</code>, and keep the geom and any extra layers.</li>
+</ul>
+<p>We find this website a useful tool for learning ggplot2 and designing publication figures. It not only gives you the R code, but also adds a layer of decision-making: which figure best fits your data and your research question.</p>
+</section>
+<section id="building-a-better-plot-step-by-step" class="level1">
+<h1>Building a better plot step by step</h1>
+<p>So far we’ve made quick plots to look at our data. Now let’s take one plot all the way to something you could put in a paper or a thesis.</p>
+<p>Let’s go back to our survey dataset, <code>survData</code>. We’d like to draw a figure to answer our research questions:</p>
+<blockquote class="blockquote">
+<p><strong>How do body weights compare between the different rodent genera in our surveys? And does the plot type make any difference?</strong></p>
+</blockquote>
+<p>That’s <strong>one numeric variable</strong> (<code>weight</code>) across the categories of <strong>one categorical variable</strong> (<code>genus</code>), so a <strong>boxplot</strong> is a good starting point. We’ll improve it in small steps, running the code each time so we can see what each change does.</p>
+<section id="step-1-the-basic-boxplot" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-the-basic-boxplot">Step 1: The basic boxplot</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> surveys, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span> plot_type, <span class="at">y =</span> hindfoot_length, <span class="at">fill =</span> sex)) <span class="sc">+</span> </span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> <span class="st">"mean"</span>, <span class="at">geom =</span> <span class="st">"col"</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>())</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>plot_mean_hf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
-(`stat_summary()`).</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="02_ggplot_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>In general we use <code>theme_</code> functions to change appearance, and we can add these as extra layers to our base plot by using the <code>+</code> sign on the end.</p>
-<p>First, let’s take a look at the built-in black and white theme.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
-(`stat_summary()`).</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> survData,</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> genus, <span class="at">y =</span> weight)) <span class="sc">+</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -510,17 +590,16 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </div>
-<p>The background is no longer grey, there is a black border, and the major and minor gridlines are now grey. <code>theme_</code> functions control many aspects of a plot’s appearance all at once.</p>
-<p>To change specific parts of a plot, we can use the <code>theme()</code> function to specify many different arguments which relate to the text, grid lines, background color, and more.</p>
-<p>Let’s change the size of the text on our axis titles. We can do this by specifying that the <code>axis.title</code> should be an <code>element_text()</code> with size set to 14.</p>
+<p>It works, but it isn’t very readable. The genus names overlap, and most of the boxes are squashed at the bottom of the plot because a few animals are very heavy.</p>
+</section>
+<section id="step-2-a-log-scale-for-skewed-data" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-a-log-scale-for-skewed-data">Step 2: A log scale for skewed data</h2>
+<p>When data is skewed like this (i.e., most values are small, with a long tail of very large ones), a <strong>log scale</strong> spreads out the small values and pulls in the large ones, so every group gets some space. We add a <em>scale</em> layer, <code>scale_y_log10()</code>, which keeps the real values (grams) on the axis labels.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="sc">+</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
-(`stat_summary()`).</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> survData,</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> genus, <span class="at">y =</span> weight)) <span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -529,16 +608,16 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </div>
-<p>Since our x axis is categorical, the vertical grid lines aren’t necessary. To remove them, we change the argument for <code>panel.grid.major.x</code> to <code>element_blank()</code>.</p>
+<p>Now we can actually see all nine boxes.</p>
+</section>
+<section id="step-3-turn-it-sideways-for-easy-reading" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-turn-it-sideways-for-easy-reading">Step 3: Turn it sideways for easy reading</h2>
+<p>The genus names are long and overlap on the x axis. Category labels are much easier to read on the y axis. We saw this trick earlier: swap the <code>x</code> and <code>y</code> mappings. Because weight is now on the x axis, the scale layer also becomes <code>scale_x_log10()</code>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="sc">+</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>), </span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
-(`stat_summary()`).</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> survData,</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> genus, <span class="at">x =</span> weight)) <span class="sc">+</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -548,43 +627,37 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </section>
-<section id="changing-labels" class="level1">
-<h1>Changing labels</h1>
-<p>To set a plot title and change our axis titles in one go we can use the <code>labs()</code> function:</p>
+<section id="step-4-put-the-groups-in-a-sensible-order" class="level2">
+<h2 class="anchored" data-anchor-id="step-4-put-the-groups-in-a-sensible-order">Step 4: Put the groups in a sensible order</h2>
+<p>At the moment the genera are in alphabetical order, which is not very meaningful. Ordering groups by their <strong>median</strong> makes the comparison much easier to read.</p>
+<p>To do this, we tell R the order of the categories using the <code>fct_reorder()</code> function from the <code>forcats</code> package (part of the <code>tidyverse</code>). It converts <code>genus</code> into a special type of categorical variable called a <strong>factor</strong>, ordered by the <strong>median weight</strong>. We’ll learn more about factors tomorrow.</p>
+<p>For now, we replace the <code>genus</code> column in <code>survData</code> with the reordered version:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="sc">+</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>), </span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.x=</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Hindfoot length by plot type"</span>,</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Plot type"</span>,</span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Hindfoot length (mm)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
-(`stat_summary()`).</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>survData<span class="sc">$</span>genus <span class="ot">&lt;-</span> <span class="fu">fct_reorder</span>(survData<span class="sc">$</span>genus, survData<span class="sc">$</span>weight, <span class="at">.fun =</span> median)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="02_ggplot_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>What does &lt;- do here?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><code>&lt;-</code> stores the result on the right into the name on the left. Here the name is an existing column, <code>survData$genus</code>, so that column is overwritten with the reordered version. The original CSV file is not changed.</p>
+<p>Keyboard shortcut for <code>&lt;-</code>: Alt + - on Windows, Option + - on Mac.</p>
 </div>
 </div>
 </div>
-<p>To centre align our plot title, we specify the horizontal justification (<code>hjust</code>) back in our <code>theme()</code> function. A value of 0.5 centres the title. 1 aligns it to the right side of the plot, 0 to the left.</p>
+<p>Then run the same plotting code as before:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>plot_mean_hf <span class="sc">+</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>), </span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.x=</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Hindfoot length by plot type"</span>,</span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Plot type"</span>,</span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Hindfoot length (mm)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2733 rows containing non-finite outside the scale range
-(`stat_summary()`).</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> survData,</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> genus, <span class="at">x =</span> weight)) <span class="sc">+</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -593,17 +666,300 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </div>
+<p>The genera now run from lightest (bottom) to heaviest (top), and the plot tells a story at a glance.</p>
+</section>
+<section id="step-5-add-labels" class="level2">
+<h2 class="anchored" data-anchor-id="step-5-add-labels">Step 5: Add labels</h2>
+<p>Now that the structure is right, let’s make it look good, starting with the words. <code>labs()</code> sets the title and axis labels in one go. Good labels say what is plotted <em>and</em> the units.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> survData,</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> genus, <span class="at">x =</span> weight)) <span class="sc">+</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Body weight varies widely between rodent genera"</span>,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Weight (g, log scale)"</span>,</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Genus"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_ggplot_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="step-6-a-theme" class="level2">
+<h2 class="anchored" data-anchor-id="step-6-a-theme">Step 6: A theme</h2>
+<p>A <em>theme</em> controls everything on the plot that isn’t data: the background, the grid lines, the text. <code>ggplot2</code> comes with several complete themes. Let’s swap the default grey background for <code>theme_minimal()</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> survData,</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> genus, <span class="at">x =</span> weight)) <span class="sc">+</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Body weight varies widely between rodent genera"</span>,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Weight (g, log scale)"</span>,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Genus"</span>) <span class="sc">+</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_ggplot_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Other built-in themes
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Try <code>theme_bw()</code>, <code>theme_classic()</code>, <code>theme_light()</code> or <code>theme_dark()</code> in place of <code>theme_minimal()</code>. Adding <code>theme(...)</code> after a complete theme, as we do next, lets you override just the parts you want to change.</p>
+</div>
+</div>
+</div>
+<p>A complete theme is a good start, but we usually want to adjust a few details. The <code>theme()</code> function lets us change individual parts of the plot. Each argument names a part of the plot (<code>plot.title</code>, <code>axis.title</code>, <code>panel.grid.major.y</code>, and many more) and we give it an <em>element</em> function describing what it should look like: <code>element_text()</code> for text, <code>element_line()</code> for lines, or <code>element_blank()</code> to remove it altogether.</p>
+<p>Let’s make the title <code>bold</code> and centred (<code>hjust = 0.5</code>), and see how it looks like. Then, because the y axis is categorical, we don’t need the horizontal grid lines, let’s remove them using <code>panel.grid.major.y</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> survData,</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> genus, <span class="at">x =</span> weight)) <span class="sc">+</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Body weight varies widely between rodent genera"</span>,</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Weight (g, log scale)"</span>,</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Genus"</span>) <span class="sc">+</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_ggplot_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Our code is getting long, and we’re going to keep adding to it. It’s a good idea to store everything except the <code>geom_boxplot()</code> in an <strong>object</strong> called <code>plot_weight</code>. <strong>That way we can try different geoms on top of the same base without retyping it.</strong> Running the object’s name followed by <code>+ geom_boxplot()</code> gives us the same plot as before.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create object, plot_weight, without geom</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>plot_weight <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> survData,</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> genus, <span class="at">x =</span> weight)) <span class="sc">+</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Body weight varies widely between rodent genera"</span>,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Weight (g, log scale)"</span>,</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Genus"</span>) <span class="sc">+</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Use + to add geom to draw your plot</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>plot_weight <span class="sc">+</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_ggplot_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>What are an object and &lt;-?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Object</strong>: A named “container” in R that holds information. Almost everything in R, from a single number to a giant dataset, is an object. We will explain it a little more tomorrow.</p>
+<p><strong>Assignment (&lt;-)</strong>: The “left arrow” operator used to store a value into an object. For example, x &lt;- 10 means “put the number 10 into an object named x.” Alt + - on Windows, Option + - on Mac.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="step-7-show-the-data-not-just-the-summary" class="level2">
+<h2 class="anchored" data-anchor-id="step-7-show-the-data-not-just-the-summary">Step 7: Show the data, not just the summary</h2>
+<p>A boxplot is a summary: it hides how many observations are in each group and what their spread really looks like. Layering the raw data on the plot fixes that. We’ll build this up in four small moves.</p>
+<p><strong>Add the points.</strong> <code>geom_jitter()</code> is <code>geom_point()</code> with a little random spread, so that points with the same value don’t sit exactly on top of each other. Because <code>plot_weight</code> already holds the data and the mappings, we only need to add the geom:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>plot_weight <span class="sc">+</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_ggplot_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Look at <em>Baiomys</em> at the bottom: only three animals. The boxplot alone would never have told you that.</p>
+<p>Look at this plot: that’s more than 13,000 points, and they’ve completely covered the boxes. We need to <em>make the points smaller and transparent</em>, and <em>keep them within their own row</em>.</p>
+<p><strong>Tune the points.</strong> Three arguments inside <code>geom_jitter()</code> do this: <code>alpha</code> sets transparency (0 is invisible, 1 is solid), <code>size</code> sets the point size, and <code>height</code> controls how far the points are spread <em>vertically</em> across the genus categories. (If your categories were on the x axis you would use <code>width</code> instead.)</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>plot_weight <span class="sc">+</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">height =</span> <span class="fl">0.2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_ggplot_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Looks better: we can now see where the data is dense. But the points are still drawn over the boxes, and they overlap with the boxplot’s own outlier points.</p>
+<p><strong>Order the layers.</strong> Note that layers are drawn in the order you add them, so to put the boxes on top we add <code>geom_jitter()</code> first and <code>geom_boxplot()</code> second. While we’re there, we make the boxes semi-transparent too, and use <code>outlier.shape = NA</code> to hide the boxplot’s own outlier points, since the jittered points already show them.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>plot_weight <span class="sc">+</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">height =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_ggplot_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Colour the points by genus.</strong> So far every argument we’ve given a geom has been a fixed value that applies to every point: <code>alpha = 0.2</code>, <code>size = 1</code>. To make the colour <em>depend on the data</em> we need a mapping, and mappings always go inside <code>aes()</code>. We can put an <code>aes()</code> inside a single geom, and it applies to that layer only, which means the boxes stay black.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>plot_weight <span class="sc">+</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">colour =</span> genus), <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">height =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_ggplot_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Inside or outside <code>aes()</code>?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>This is the most common ggplot2 mix-up. Inside <code>aes()</code>, you name a <strong>column</strong> and ggplot2 maps its values to colours, adding a legend: <code>aes(colour = genus)</code>. Outside <code>aes()</code>, you give a <strong>fixed value</strong> that applies to the whole layer: <code>colour = "blue"</code>.</p>
+<p>If you write <code>aes(colour = "blue")</code>, ggplot2 treats <code>"blue"</code> as a one-category variable and you get salmon-pink points with a legend saying “blue”. Try it!</p>
+</div>
+</div>
+</div>
+</section>
+<section id="step-8-split-the-plot-by-plot-type" class="level2">
+<h2 class="anchored" data-anchor-id="step-8-split-the-plot-by-plot-type">Step 8: Split the plot by plot type</h2>
+<p>Our surveys come from five different plot types: the control plots, and four kinds of experimental exclosure that keep out particular animals.</p>
+<p><strong>Are the weights the same in each?</strong> Rather than squeezing everything into one panel, we can make a small copy of the plot for each plot type using <code>facet_wrap()</code>. Inside it we name the column to split by within <code>vars()</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>plot_weight <span class="sc">+</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">colour =</span> genus), <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">height =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(plot_type))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_ggplot_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Every panel shares the same axes, so the panels can be compared directly. The weights within each genus are similar across plot types, but look at <em>how many</em> points there are: <em>Dipodomys</em> (the kangaroo rats, or “Krats”) dominate the Control panel, and are almost absent from the Long-term Krat Exclosure. This is exactly what that exclosure was designed to do.</p>
+<p>This is the structure of our finished plot, so let’s save it to an object:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>plot_weight_final <span class="ot">&lt;-</span> plot_weight <span class="sc">+</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">colour =</span> genus), <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">height =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(plot_type))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>If you want, you can control the layout of the panels with <code>ncol</code> or <code>nrow</code>, for example <code>facet_wrap(vars(plot_type), nrow = 1)</code> to put all five side by side. Try it yourself!</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Challenge exercise: Colours for publication (5 minutes)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The default colours are fine for exploring, but they aren’t ideal for publication: they’re hard to tell apart for people with colour-vision deficiency and they print badly in greyscale. The <strong>viridis</strong> palettes, built into <code>ggplot2</code>, are designed to be readable in both cases.</p>
+<p>Starting from <code>plot_weight_final</code>, recreate the plot below:</p>
+<ol type="1">
+<li>Apply a viridis palette to the points. For a categorical variable the function is <code>scale_colour_viridis_d()</code> (the <code>_d</code> stands for <em>discrete</em>).</li>
+<li>Remove the legend — the genus names are already on the y axis. (Hint: the legend is controlled by <code>theme(legend.position = ...)</code>.)</li>
+<li>Assign the result back to <code>plot_weight_final</code>, so that the version we export in the next section is the coloured one.</li>
+</ol>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_ggplot_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The final code looks like below. Scales and theme settings are layers too, so they are added with <code>+</code> just like a geom. Assigning back to the same name replaces the old object with the updated plot.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>plot_weight_final <span class="ot">&lt;-</span> plot_weight_final <span class="sc">+</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_viridis_d</span>() <span class="sc">+</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>plot_weight_final</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_ggplot_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="exporting-plots" class="level1">
 <h1>Exporting plots</h1>
 <p>Once we’re happy with our plot, we can save it using the <code>ggsave()</code> function.</p>
 <p>We need to specify the following arguments:</p>
 <ul>
-<li><code>filename</code>: the filename we’re using to save our plot, including the file type of the image (e.g.&nbsp;“.jpg”, “.png”, “.tif”.</li>
+<li><code>filename</code>: the filename we’re using to save our plot, including the file type of the image (e.g.&nbsp;“.jpg”, “.png”, “.tif”).</li>
 <li><code>plot</code>: the name of the plot object we want to save.</li>
+<li><code>width</code>and <code>height</code>: the size of the saved image (in inches by default).</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/hindfoot-plottype_sex.png"</span>, <span class="at">plot =</span> plot_mean_hf)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/weight-by-genus.png"</span>, <span class="at">plot =</span> plot_weight_final, <span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>You can also specify one of the below optional arguments to set where the image will be saved:</p>
 <ul>
@@ -642,27 +998,27 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <li>Print size: the physical dimensions of an image when printed, typically measured in inches for photos.</li>
 <li>DPI: Dots per inch, or the density of ink dots printed onto paper.</li>
 </ul>
-<p>To obtain the print size of an image, the resolution is divided by the DPI set inside the image metadata. For example, if an image has a resoltuion of 900x900 pixels, and the DPI in the image is set to 300, then the image will be printed at 3 x 3 inches. The DPI setting inside the metadata of a digital image has absolutely no bearing on how that image is represented on a screen, only when it is printed or added into something like a Word doc which shows you how a document will look when printed.</p>
+<p>To obtain the print size of an image, the resolution is divided by the DPI set inside the image metadata. For example, if an image has a resolution of 900x900 pixels, and the DPI in the image is set to 300, then the image will be printed at 3 x 3 inches. The DPI setting inside the metadata of a digital image has absolutely no bearing on how that image is represented on a screen, only when it is printed or added into something like a Word doc which shows you how a document will look when printed.</p>
 <p>It’s common for journals to ask for figures based only on a particular DPI (often 300), but this by itself is meaningless. You could send them an image with a resolution of 150 x 150 pixels and a DPI set to 300, but when printed it would only be half an inch by half an inch. What they really mean is they want images with “a resolution large enough to display the image at the chosen size when printed.”</p>
-<p>If you need to set a DPI and physical size, then the resolution will be determined by multiplying the two together.For example, let’s say we need our plot to be 3 x 3 inches on the page and 600 DPI.</p>
+<p>If you need to set a DPI and physical size, then the resolution will be determined by multiplying the two together. For example, let’s say we need our plot to be 8 x 5 inches on the page and 600 DPI.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/hindfoot-plottype_sex.png"</span>, </span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot =</span> plot_mean_hf,</span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">width =</span> <span class="dv">3</span>,</span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">height =</span> <span class="dv">3</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/weight-by-genus-DPI.png"</span>, </span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot =</span> plot_weight_final,</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">width =</span> <span class="dv">8</span>,</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">height =</span> <span class="dv">5</span>,</span>
 <span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">units =</span> <span class="st">"in"</span>,</span>
 <span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">dpi =</span> <span class="dv">600</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>This results in a 1800 x 1800 pixel image.</p>
-<p>Or let’s say we have a particular pixel dimension we want to get instead. If we want the image to be 1500 x 1200 pixels:</p>
+<p>This results in a 4800 x 3000 pixel image.</p>
+<p>Or let’s say we have a particular pixel dimension we want to get instead. If we want the image to be 2400 x 1500 pixels:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/hindfoot-plottype_sex.png"</span>, </span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot =</span> plot_mean_hf,</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">width =</span> <span class="dv">1500</span>,</span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">height =</span> <span class="dv">1200</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/weight-by-genus-pixel.png"</span>, </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot =</span> plot_weight_final,</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">width =</span> <span class="dv">2400</span>,</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">height =</span> <span class="dv">1500</span>,</span>
 <span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">units =</span> <span class="st">"px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>This results in an image with those pixel dimensions, and the default value of 300 DPI has been entered into the image metadata. This means the image will be sized at 5 x 4 inches on a page by default, and if it is resized to be larger than this, it will look bad.</p>
+<p>This results in an image with those pixel dimensions, and the default value of 300 DPI has been entered into the image metadata. This means the image will be sized at 8 x 5 inches on a page by default, and if it is resized to be larger than this, it will look bad.</p>
 
 
 </section>
