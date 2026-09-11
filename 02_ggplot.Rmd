@@ -244,7 +244,7 @@ Let's go back to our survey dataset, `survData`. We'd like to draw a figure to a
 
 > **How do body weights compare between the different rodent genera in our surveys? And does the plot type make any difference?**
 
-That's one numeric variable (`weight`) across the categories of one categorical variable (`genus`), so a **boxplot** is a good starting point. We'll improve it in small steps, running the code each time so we can see what each change does.
+That's **one numeric variable** (`weight`) across the categories of **one categorical variable** (`genus`), so a **boxplot** is a good starting point. We'll improve it in small steps, running the code each time so we can see what each change does.
 
 ## Step 1: The basic boxplot
 
@@ -284,13 +284,21 @@ ggplot(data = survData,
 
 At the moment the genera are in alphabetical order, which is not very meaningful. Ordering groups by their **median** makes the comparison much easier to read.
 
-To do this, we tell R the order of the categories using the `fct_reorder()` function from the `forcats` package (part of the tidyverse). It converts `genus` into a special type of categorical variable called a **factor**, ordered by the median weight. We'll learn more about factors tomorrow.
+To do this, we tell R the order of the categories using the `fct_reorder()` function from the `forcats` package (part of the `tidyverse`). It converts `genus` into a special type of categorical variable called a **factor**, ordered by the **median weight**. We'll learn more about factors tomorrow.
 
 For now, we replace the `genus` column in `survData` with the reordered version:
 
 ```{r}
 survData$genus <- fct_reorder(survData$genus, survData$weight, .fun = median)
 ```
+
+::: {.callout-tip collapse="true"}
+## What does <- do here?
+
+`<-` stores the result on the right into the name on the left. Here the name is an existing column, `survData$genus`, so that column is overwritten with the reordered version. The original CSV file is not changed.
+
+Keyboard shortcut for `<-`: Alt + - on Windows, Option + - on Mac.
+:::
 
 Then run the same plotting code as before:
 
@@ -327,7 +335,7 @@ ggplot(data = survData,
   geom_boxplot() +
   scale_x_log10() +
   labs(title = "Body weight varies widely between rodent genera",
-       x = "log(Weight)",
+       x = "Weight (g, log scale)",
        y = "Genus") +
   theme_minimal()
 ```
@@ -355,9 +363,10 @@ ggplot(data = survData,
         panel.grid.major.y = element_blank())
 ```
 
-Our code is getting long, and we're going to keep adding to it. It's a good idea to store everything except the geom in an **object** called `plot_weight`. That way we can try different geoms on top of the same base without retyping it. Running the object's name followed by `+ geom_boxplot()` gives us the same plot as before.
+Our code is getting long, and we're going to keep adding to it. It's a good idea to store everything except the `geom_boxplot()` in an **object** called `plot_weight`. **That way we can try different geoms on top of the same base without retyping it.** Running the object's name followed by `+ geom_boxplot()` gives us the same plot as before.
 
 ```{r}
+# Create object, plot_weight, without geom
 plot_weight <- ggplot(data = survData,
                       mapping = aes(y = genus, x = weight)) +
   scale_x_log10() +
@@ -368,14 +377,15 @@ plot_weight <- ggplot(data = survData,
   theme(plot.title = element_text(face = "bold", hjust = 0.5),
         panel.grid.major.y = element_blank())
 
+# Use + to add geom to draw your plot
 plot_weight +
   geom_boxplot()
 ```
 
 ::: {.callout-tip collapse="true"}
-## What are an object and \`\<-\`\`\`?
+## What are an object and <-?
 
-**Object**: A named “container” in R that holds information. Almost everything in R, from a single number to a giant dataset, is an object.
+**Object**: A named “container” in R that holds information. Almost everything in R, from a single number to a giant dataset, is an object. We will explain it a little more tomorrow. 
 
 **Assignment (\<-)**: The “left arrow” operator used to store a value into an object. For example, x \<- 10 means “put the number 10 into an object named x.” Alt + - on Windows, Option + - on Mac.
 :::
@@ -392,7 +402,9 @@ plot_weight +
   geom_jitter()
 ```
 
-That's \>13,000 points, and they've completely covered the boxes. We need to make the points smaller and transparent, and keep them within their own row.
+Look at *Baiomys* at the bottom: only three animals. The boxplot alone would never have told you that.
+
+Look at this plot: that's more than 13,000 points, and they've completely covered the boxes. We need to *make the points smaller and transparent*, and *keep them within their own row*.
 
 **Tune the points.** Three arguments inside `geom_jitter()` do this: `alpha` sets transparency (0 is invisible, 1 is solid), `size` sets the point size, and `height` controls how far the points are spread *vertically* across the genus categories. (If your categories were on the x axis you would use `width` instead.)
 
@@ -420,8 +432,6 @@ plot_weight +
   geom_boxplot(outlier.shape = NA, alpha = 0.5)
 ```
 
-Look at *Baiomys* at the bottom: only three animals. The boxplot alone would never have told you that.
-
 ::: {.callout-tip collapse="true"}
 ## Inside or outside `aes()`?
 
@@ -445,8 +455,6 @@ plot_weight +
 
 Every panel shares the same axes, so the panels can be compared directly. The weights within each genus are similar across plot types, but look at *how many* points there are: *Dipodomys* (the kangaroo rats, or "Krats") dominate the Control panel, and are almost absent from the Long-term Krat Exclosure. This is exactly what that exclosure was designed to do.
 
-You can control the layout of the panels with `ncol` or `nrow`, for example `facet_wrap(vars(plot_type), nrow = 1)` to put all five side by side.
-
 This is the structure of our finished plot, so let's save it to an object:
 
 ```{r}
@@ -456,7 +464,10 @@ plot_weight_final <- plot_weight +
   facet_wrap(vars(plot_type))
 ```
 
-:::: {.callout-important icon="false"}
+If you want, you can control the layout of the panels with `ncol` or `nrow`, for example `facet_wrap(vars(plot_type), nrow = 1)` to put all five side by side. Try it yourself!
+
+
+:::: {.callout-warning icon="false"}
 ## Challenge exercise: Colours for publication (5 minutes)
 
 The default colours are fine for exploring, but they aren't ideal for publication: they're hard to tell apart for people with colour-vision deficiency and they print badly in greyscale. The **viridis** palettes, built into `ggplot2`, are designed to be readable in both cases.
@@ -476,6 +487,8 @@ plot_weight_final +
 ::: {.callout-tip collapse="true"}
 ## Solution
 
+The final code looks like below. Scales and theme settings are layers too, so they are added with `+` just like a geom. Assigning back to the same name replaces the old object with the updated plot.
+
 ```{r}
 plot_weight_final <- plot_weight_final +
   scale_colour_viridis_d() +
@@ -484,7 +497,6 @@ plot_weight_final <- plot_weight_final +
 plot_weight_final
 ```
 
-Scales and theme settings are layers too, so they are added with `+` just like a geom. Assigning back to the same name replaces the old object with the updated plot.
 :::
 ::::
 
