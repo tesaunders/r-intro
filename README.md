@@ -6,4 +6,4 @@ The lesson starts by getting acquainted with the RStudio interface before coveri
 
 ## Prerequisites
 
-Learners need to follow the instructions on the lesson [website](/) to install R, RStudio, and some R packages, before attending. Two monitors are recommended to follow along with the instructor.
+Learners need to follow the instructions on the lesson [website](docs/index.html) to install R, RStudio, and some R packages, before attending. Two monitors are recommended to follow along with the instructor.
