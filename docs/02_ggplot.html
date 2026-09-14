@@ -411,7 +411,7 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <h1>Try different <code>geom</code> functions</h1>
 <p>This is where the grammar of graphics pays off. To make a completely different kind of plot, we keep the same template and change <strong>only the geom</strong> (and sometimes which columns we map). <code>ggplot2</code> has more than 40 geoms; today we’ll try three that you will use most often.</p>
 <p>Our <strong>scatter plot</strong> used <code>geom_point()</code> to show the relationship between <strong>two numeric variables</strong>. Let’s see what happens when we change the geom, and nothing else.</p>
-<p><strong>One numeric variable</strong> — a <strong>histogram</strong> shows the <em>distribution</em> of a single column, so we only map <code>x</code>:</p>
+<p><strong>1. One numeric variable</strong>: a <strong>histogram</strong> shows the <em>distribution</em> of a single column, so we only map <code>x</code>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># One numeric variable - histogram</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> survData,</span>
@@ -442,7 +442,7 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </div>
-<p><strong>Counts of a categorical variable</strong> — a <strong>bar chart</strong> counts how many rows fall into each category. We only map <code>x</code>, and <code>geom_bar()</code> does the counting:</p>
+<p><strong>2. Counts of a categorical variable</strong>: a <strong>bar chart</strong> counts how many rows fall into each category. We only map <code>x</code>, and <code>geom_bar()</code> does the counting:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Counts of a categorical variable - bar chart</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> survData,</span>
@@ -472,7 +472,7 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </div>
-<p><strong>A numeric variable across categories</strong> — a <strong>boxplot</strong> summarises the distribution of a numeric variable within each group of a categorical variable. We map the category to <code>x</code> and the number to <code>y</code>:</p>
+<p><strong>3. A numeric variable across categories</strong>: a <strong>boxplot</strong> summarises the distribution of a numeric variable within each group of a categorical variable. We map the category to <code>x</code> and the number to <code>y</code>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A numeric variable across categories - boxplot</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> survData,</span>
@@ -787,14 +787,12 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </section>
-<section id="step-7-show-the-data-not-just-the-summary" class="level2">
-<h2 class="anchored" data-anchor-id="step-7-show-the-data-not-just-the-summary">Step 7: Show the data, not just the summary</h2>
-<p>A boxplot is a summary: it hides how many observations are in each group and what their spread really looks like. Layering the raw data on the plot fixes that. We’ll build this up in four small moves.</p>
-<p><strong>Add the points.</strong> <code>geom_jitter()</code> is <code>geom_point()</code> with a little random spread, so that points with the same value don’t sit exactly on top of each other. Because <code>plot_weight</code> already holds the data and the mappings, we only need to add the geom:</p>
+<section id="step-7-colour-the-boxes-by-genus" class="level2">
+<h2 class="anchored" data-anchor-id="step-7-colour-the-boxes-by-genus">Step 7: Colour the boxes by genus</h2>
+<p>Our plot is clear, but a little plain. Let’s colour each box by its genus. So far every argument we have given a geom has been a <strong>fixed value</strong> that applies to the whole plot, like <code>bins = 50</code> in the histogram earlier. To make the colour <em>depend on the data</em>, we need a <strong>mapping</strong>, and mappings always go inside <code>aes()</code>. We put the <code>aes()</code> inside <code>geom_boxplot()</code> so that it applies to that layer only.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>plot_weight <span class="sc">+</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">fill =</span> genus))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -803,47 +801,20 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </div>
-<p>Look at <em>Baiomys</em> at the bottom: only three animals. The boxplot alone would never have told you that.</p>
-<p>Look at this plot: that’s more than 13,000 points, and they’ve completely covered the boxes. We need to <em>make the points smaller and transparent</em>, and <em>keep them within their own row</em>.</p>
-<p><strong>Tune the points.</strong> Three arguments inside <code>geom_jitter()</code> do this: <code>alpha</code> sets transparency (0 is invisible, 1 is solid), <code>size</code> sets the point size, and <code>height</code> controls how far the points are spread <em>vertically</em> across the genus categories. (If your categories were on the x axis you would use <code>width</code> instead.)</p>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><code>fill</code> colours the inside of a shape; <code>colour</code> would colour its outline. Try it!</p>
+</div>
+</div>
+</div>
+<p><strong>This is our finished plot, so let’s save it to an object.</strong> We’ll export it in the next section:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>plot_weight <span class="sc">+</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">height =</span> <span class="fl">0.2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="02_ggplot_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Looks better: we can now see where the data is dense. But the points are still drawn over the boxes, and they overlap with the boxplot’s own outlier points.</p>
-<p><strong>Order the layers.</strong> Note that layers are drawn in the order you add them, so to put the boxes on top we add <code>geom_jitter()</code> first and <code>geom_boxplot()</code> second. While we’re there, we make the boxes semi-transparent too, and use <code>outlier.shape = NA</code> to hide the boxplot’s own outlier points, since the jittered points already show them.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>plot_weight <span class="sc">+</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">height =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="02_ggplot_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p><strong>Colour the points by genus.</strong> So far every argument we’ve given a geom has been a fixed value that applies to every point: <code>alpha = 0.2</code>, <code>size = 1</code>. To make the colour <em>depend on the data</em> we need a mapping, and mappings always go inside <code>aes()</code>. We can put an <code>aes()</code> inside a single geom, and it applies to that layer only, which means the boxes stay black.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>plot_weight <span class="sc">+</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">colour =</span> genus), <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">height =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="02_ggplot_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>plot_weight_final <span class="ot">&lt;-</span> plot_weight <span class="sc">+</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">fill =</span> genus))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
@@ -857,21 +828,59 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 <div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>This is the most common ggplot2 mix-up. Inside <code>aes()</code>, you name a <strong>column</strong> and ggplot2 maps its values to colours, adding a legend: <code>aes(colour = genus)</code>. Outside <code>aes()</code>, you give a <strong>fixed value</strong> that applies to the whole layer: <code>colour = "blue"</code>.</p>
-<p>If you write <code>aes(colour = "blue")</code>, ggplot2 treats <code>"blue"</code> as a one-category variable and you get salmon-pink points with a legend saying “blue”. Try it!</p>
+<p>This is the most common ggplot2 mix-up. Inside <code>aes()</code>, you name a <strong>column</strong> and ggplot2 maps its values to colours, adding a legend: <code>aes(fill = genus)</code>. Outside <code>aes()</code>, you give a <strong>fixed value</strong> that applies to the whole layer: <code>fill = "lightblue"</code>.</p>
+<p>If you write <code>aes(fill = "lightblue")</code>, ggplot2 treats <code>"lightblue"</code> as a one-category variable and you get salmon-pink boxes with a legend saying “lightblue”. Try it!</p>
 </div>
 </div>
 </div>
 </section>
-<section id="step-8-split-the-plot-by-plot-type" class="level2">
-<h2 class="anchored" data-anchor-id="step-8-split-the-plot-by-plot-type">Step 8: Split the plot by plot type</h2>
+<section id="step-8-if-time-split-the-plot-by-plot-type" class="level2">
+<h2 class="anchored" data-anchor-id="step-8-if-time-split-the-plot-by-plot-type">Step 8 (if time): Split the plot by plot type</h2>
 <p>Our surveys come from five different plot types: the control plots, and four kinds of experimental exclosure that keep out particular animals.</p>
-<p><strong>Are the weights the same in each?</strong> Rather than squeezing everything into one panel, we can make a small copy of the plot for each plot type using <code>facet_wrap()</code>. Inside it we name the column to split by within <code>vars()</code>.</p>
+<p><strong>Are the weights the same in each?</strong> Rather than squeezing everything into one panel, we can make a small copy of the plot for each plot type using <code>facet_wrap()</code>. Inside it we name the column to split by within <code>vars()</code>, and <code>ncol = 2</code> arranges the panels in two columns so the panel titles have room.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>plot_weight <span class="sc">+</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">fill =</span> genus)) <span class="sc">+</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(plot_type), <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_ggplot_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Every panel shares the same axes, so the panels can be compared directly. Within each genus the weights are much the same in every plot type, so the exclosures don’t seem to change how heavy the animals are. What does change is <em>which</em> animals are there: some rows are empty because that genus was never caught in that plot type, and the <em>Dipodomys</em> box (the kangaroo rats, or “Krats”) is much wider in the Spectab exclosure — a hint that more than one species is hiding inside that genus.</p>
+<p><strong>If you made this plot, save it as the final version</strong> so that the export in the next section uses it:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>plot_weight_final <span class="ot">&lt;-</span> plot_weight <span class="sc">+</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">fill =</span> genus)) <span class="sc">+</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(plot_type), <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>If you want, you can change the layout with <code>ncol</code> or <code>nrow</code>, for example <code>facet_wrap(vars(plot_type), ncol = 3)</code> for three across. Try it yourself!</p>
+</section>
+<section id="going-further-optional-reading" class="level2">
+<h2 class="anchored" data-anchor-id="going-further-optional-reading">Going further (optional reading)</h2>
+<p>Want a fancier figure that shows not only the summary but also the individual observations? We can do that by layering more than one geom in the same plot.</p>
+<p>The sections below build on <code>plot_weight</code> from Step 6. They aren’t part of the live session, but everything you need to follow them is on this page.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Show the data, not just the summary
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>A boxplot is a summary: it hides how many observations are in each group and what their spread really looks like. Layering the raw data on the plot fixes that. We’ll build this up in five small moves.</p>
+<p><strong>Add the points.</strong> <code>geom_jitter()</code> is <code>geom_point()</code> with a little random spread, so that points with the same value don’t sit exactly on top of each other. Because <code>plot_weight</code> already holds the data and the mappings, we only need to add the geom:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>plot_weight <span class="sc">+</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">colour =</span> genus), <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">height =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(plot_type))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -880,33 +889,26 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </div>
-<p>Every panel shares the same axes, so the panels can be compared directly. The weights within each genus are similar across plot types, but look at <em>how many</em> points there are: <em>Dipodomys</em> (the kangaroo rats, or “Krats”) dominate the Control panel, and are almost absent from the Long-term Krat Exclosure. This is exactly what that exclosure was designed to do.</p>
-<p><strong>This is the structure of our finished plot, so let’s save it to an object in order to explore the plot:</strong></p>
+<p>That’s more than 13,000 points, and they’ve completely covered the boxes. We need to <em>make the points smaller and transparent</em>, and <em>keep them within their own row</em>.</p>
+<p><strong>Tune the points.</strong> Three arguments inside <code>geom_jitter()</code> do this: <code>alpha</code> sets transparency (0 is invisible, 1 is solid), <code>size</code> sets the point size, and <code>height</code> controls how far the points are spread <em>vertically</em> across the genus categories. (If your categories were on the x axis you would use <code>width</code> instead.)</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>plot_weight_final <span class="ot">&lt;-</span> plot_weight <span class="sc">+</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">colour =</span> genus), <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">height =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(plot_type))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>If you want, you can control the layout of the panels with <code>ncol</code> or <code>nrow</code>, for example <code>facet_wrap(vars(plot_type), nrow = 1)</code> to put all five side by side. Try it yourself!</p>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Challenge exercise: Colours for publication (5 minutes)
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>plot_weight <span class="sc">+</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">height =</span> <span class="fl">0.2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_ggplot_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>The default colours are fine for exploring, but they aren’t ideal for publication: they’re hard to tell apart for people with colour-vision deficiency and they print badly in greyscale. The <strong>viridis</strong> palettes, built into <code>ggplot2</code>, are designed to be readable in both cases.</p>
-<p>Starting from <code>plot_weight_final</code>, recreate the plot below:</p>
-<ol type="1">
-<li>Apply a viridis palette to the points. For a categorical variable the function is <code>scale_colour_viridis_d()</code> (the <code>_d</code> stands for <em>discrete</em>).</li>
-<li>Remove the legend — the genus names are already on the y axis. (Hint: the legend is controlled by <code>theme(legend.position = ...)</code>.)</li>
-<li>Assign the result back to <code>plot_weight_final</code>, so that the version we export in the next section is the coloured one.</li>
-</ol>
+</div>
+<p>Looks better: we can now see where the data is dense. But the points are still drawn over the boxes, and they overlap with the boxplot’s own outlier points.</p>
+<p><strong>Order the layers.</strong> Layers are drawn in the order you add them, so to put the boxes on top we add <code>geom_jitter()</code> first and <code>geom_boxplot()</code> second. While we’re there, we make the boxes semi-transparent too, and use <code>outlier.shape = NA</code> to hide the boxplot’s own outlier points, since the jittered points already show them.</p>
 <div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>plot_weight <span class="sc">+</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">height =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -915,8 +917,67 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 </div>
 </div>
+<p><strong>Colour the points by genus.</strong> Just as we did with <code>fill</code> in Step 7, we put a mapping inside <code>geom_jitter()</code> so that only the points are coloured and the boxes stay black:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>plot_weight <span class="sc">+</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">colour =</span> genus), <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">height =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_ggplot_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Look at <em>Baiomys</em> at the bottom: only three animals. The boxplot alone would never have told you that.</p>
+<p><strong>Split by plot type.</strong> Finally, <code>facet_wrap()</code> works on this plot exactly as it did in Step 8. With the points showing, the panels now tell you <em>how many</em> animals were caught as well as how heavy they were:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>plot_weight <span class="sc">+</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">colour =</span> genus), <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">height =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(plot_type), <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_ggplot_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Compare the <em>Dipodomys</em> row across panels: a dense band of points in Control, and almost nothing in the Long-term Krat Exclosure. Kangaroo rats (“Krats”) are exactly what that exclosure was designed to keep out — and only the points, not the boxes, make that visible.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Challenge exercise: Colours for publication (5 minutes)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The default colours are fine for exploring, but they aren’t ideal for publication: they’re hard to tell apart for people with colour-vision deficiency and they print badly in greyscale. The <strong>viridis</strong> palettes, built into <code>ggplot2</code>, are designed to be readable in both cases.</p>
+<p>Starting from the last plot in the section above, recreate the plot below:</p>
+<ol type="1">
+<li>Apply a viridis palette to the dots. As you coloured points with <code>colour</code> in the section above, the matching function is <code>scale_colour_viridis_d()</code> (the <code>_d</code> stands for <em>discrete</em>).</li>
+<li>Assign the result to a new object, <code>plot_weight_point</code>, so you can save it with <code>ggsave()</code> as a second figure.</li>
+</ol>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_ggplot_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -925,20 +986,23 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>The final code looks like below. Scales and theme settings are layers too, so they are added with <code>+</code> just like a geom. Assigning back to the same name replaces the old object with the updated plot.</p>
+<p>Scales are layers too, so they are added with <code>+</code> just like a geom. Assigning back to the same name replaces the old object with the updated plot.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>plot_weight_final <span class="ot">&lt;-</span> plot_weight_final <span class="sc">+</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_viridis_d</span>() <span class="sc">+</span></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>plot_weight_final</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>plot_weight_point <span class="ot">&lt;-</span> plot_weight <span class="sc">+</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">colour =</span> genus), <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">height =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(plot_type), <span class="at">ncol =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_viridis_d</span>()</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>plot_weight_point</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="02_ggplot_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="02_ggplot_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
+</div>
 </div>
 </div>
 </div>
@@ -959,7 +1023,7 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <li><code>width</code>and <code>height</code>: the size of the saved image (in inches by default).</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/weight-by-genus.png"</span>, <span class="at">plot =</span> plot_weight_final, <span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/weight-by-genus.png"</span>, <span class="at">plot =</span> plot_weight_final, <span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>You can also specify one of the below optional arguments to set where the image will be saved:</p>
 <ul>
@@ -1002,21 +1066,21 @@ dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 <p>It’s common for journals to ask for figures based only on a particular DPI (often 300), but this by itself is meaningless. You could send them an image with a resolution of 150 x 150 pixels and a DPI set to 300, but when printed it would only be half an inch by half an inch. What they really mean is they want images with “a resolution large enough to display the image at the chosen size when printed.”</p>
 <p>If you need to set a DPI and physical size, then the resolution will be determined by multiplying the two together. For example, let’s say we need our plot to be 8 x 5 inches on the page and 600 DPI.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/weight-by-genus-DPI.png"</span>, </span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot =</span> plot_weight_final,</span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">width =</span> <span class="dv">8</span>,</span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">height =</span> <span class="dv">5</span>,</span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">units =</span> <span class="st">"in"</span>,</span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">dpi =</span> <span class="dv">600</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/weight-by-genus-DPI.png"</span>, </span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot =</span> plot_weight_final,</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">width =</span> <span class="dv">8</span>,</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">height =</span> <span class="dv">5</span>,</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">units =</span> <span class="st">"in"</span>,</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">dpi =</span> <span class="dv">600</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This results in a 4800 x 3000 pixel image.</p>
 <p>Or let’s say we have a particular pixel dimension we want to get instead. If we want the image to be 2400 x 1500 pixels:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/weight-by-genus-pixel.png"</span>, </span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot =</span> plot_weight_final,</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">width =</span> <span class="dv">2400</span>,</span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">height =</span> <span class="dv">1500</span>,</span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">units =</span> <span class="st">"px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/weight-by-genus-pixel.png"</span>, </span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot =</span> plot_weight_final,</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">width =</span> <span class="dv">2400</span>,</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">height =</span> <span class="dv">1500</span>,</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">units =</span> <span class="st">"px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This results in an image with those pixel dimensions, and the default value of 300 DPI has been entered into the image metadata. This means the image will be sized at 8 x 5 inches on a page by default, and if it is resized to be larger than this, it will look bad.</p>
 
