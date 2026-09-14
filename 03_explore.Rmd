@@ -1,27 +1,35 @@
 ---
 title: "Exploring & Understanding Data"
 ---
+It's a new day. Let's open a new script and run these two lines first to reload the packages and read the raw data in again.
 
 ```{r, echo=FALSE, message=FALSE}
 library(tidyverse)
 surveys <- read_csv(file = "data_raw/surveys_complete.csv")
 ```
 
-We've learned how to create visualisations from the `surveys` data, but what actually is `surveys`? R commonly stores tabular data in data.frames, and that is how the `surveys` data is stored. It’s useful to understand how R thinks about, represents, and stores data in order for us to have a productive working relationship with R.
+We've learned how to create visualisations from the `surveys` data, but what actually is `surveys`? R commonly stores tabular data in data frames, and that is how the `surveys` data is stored. Today we'll work with `surveys` (the original data, including the `NA`s) rather than `survData` (we created yesterday by removing the `NA`s), because we're going to look at how R handles missing values.
 
-We can check what `surveys` is by using the class() function:
+It’s useful to understand how R thinks about, represents, and stores data in order for us to have a productive working relationship with R.
+
+We can check what `surveys` is by using the `class()` function:
 
 ```{r}
 class(surveys)
 ```
 
-This tells us a smaller amount of information than when we used `str()`, namely that `surveys` is ultimately a data.frame.
+You'll see four names. The last one, `data.frame`, is the important one: that is how R stores a table. The other three (`spec_tbl_df`, `tbl_df`, `tbl`) are tidyverse labels for a tibble, a slightly friendlier version of a data.frame that `read_csv()` gives us.
 
-When we're looking at large or unfamiliar datasets it's useful to do some quick checks to get an idea of the kind of data we're working with. For example, we can look at the first and last 6 rows of our data:
+Yesterday we used `head()`and `tail()` to look at the first and last six rows. Both functions take a second argument if you want a different number of rows:
 
 ```{r}
+# By default these show six rows
 head(surveys)
 tail(surveys)
+
+# We can also ask for a different number
+head(surveys, 10)
+tail(surveys, 3)
 ```
 
 We can get a useful summary of each numeric variable (column) by using `summary()`:
@@ -30,33 +38,34 @@ We can get a useful summary of each numeric variable (column) by using `summary(
 summary(surveys)
 ```
 
-Let's take another look at the structure of `surveys` using `str()`. Because we've changed a column to factor R will print a second table showing underlying attributes, but we'll hide that for now.
+Let's look at the structure of `surveys` using `str()`. It lists every column with its type and the first few values. (`give.attr = FALSE`hides some extra technical details that `read_csv()`attaches to the data.)
 
 ```{r}
 str(surveys, give.attr=FALSE)
 ```
 
-The `$` in front of each variable acts as an important operator in R. We can use it to select different columns within a data frame. If we type the name of a data frame followed by a `$`, RStudio will offer tab completion to select a variable within the data from a list by navigating up and down with the arrow keys and hitting enter, or by clicking on the variable you want. 
+Notice the `$` in front of each column name in the `str()` output. `$` is an important operator in R: it pulls out a single column from a data frame. If we type the name of a data frame followed by a `$`, RStudio will offer tab completion to select a variable within the data from a list by navigating up and down with the arrow keys and hitting enter, or by clicking on the variable you want.
 
 ```{r}
-print(surveys$year, max = 20)
+# Just the first 20 values
+head(surveys$year, 20)
 ```
 
 # Vectors
 
-The `year` column we just printed is referred to as a vector by R. While data.frames are made up of columns and rows, vectors are 1-dimensional series of values. Each column in a data.frame is actually a vector. Vectors are the basic building blocks of all data in R.
+The `year` column we just printed is referred to as a vector by R. While data frames are made up of columns and rows, vectors are 1-dimensional series of values. Each column in a data frame is actually a vector. Vectors are the basic building blocks of all data in R.
 
 There are 4 main types of vectors (also known as atomic vectors):
 
-1. "character" for strings of characters, like our `genus` or `sex` columns. Each entry in a character vector is wrapped in quotes. In other programming languages, this type of data may be referred to as “strings”.
+1.  "character" for strings of characters, like our `genus` or `sex` columns. Each entry in a character vector is wrapped in quotes. In other programming languages, this type of data may be referred to as “strings”.
 
-2. "integer" for integers (whole numbers). You may sometimes see integers represented like 2L or 20L. The L indicates to R that it is an integer, instead of the next data type, "numeric".
+2.  "integer" for integers (whole numbers). You may sometimes see integers represented like 2L or 20L. The L indicates to R that it is an integer, instead of the next data type, "numeric".
 
-3. "numeric", aka "double", vectors can contain numbers including decimals. Other languages may refer to these as “float” or “floating point” numbers.
+3.  "numeric", aka "double", vectors can contain numbers including decimals. Other languages may refer to these as “float” or “floating point” numbers.
 
-4. "logical" for TRUE and FALSE, which can also be represented as T and F. In other contexts, these may be referred to as “Boolean” data. Note these values are not quoted as R recognises them as logical values.
+4.  "logical" for TRUE and FALSE, which can also be represented as T and F. In other contexts, these may be referred to as “Boolean” data. Note these values are not quoted as R recognises them as logical values.
 
-Vectors can only be of a single type. Since each column in a data.frame is a vector, this means an accidental character following a number, like '29i', can change the type of the whole vector. If you're working with messy data it's useful to check the vector types of each column to ensure they are all what you are expecting, otherwise it could indicate a typo in one of the values.
+Vectors can only be of a single type. Since each column in a data frame is a vector, this means an accidental character following a number, like '29i', can change the type of the whole vector. If you're working with messy data it's useful to check the vector types of each column to ensure they are all what you are expecting, otherwise it could indicate a typo in one of the values.
 
 To create a vector from scratch, we can use the `c()` function, putting values inside, separated by commas.
 
@@ -93,7 +102,7 @@ class(logi)
 
 There is an important distinction between 0 and a missing value. A 0 means a 0 was observed, whereas a missing value means there was no observation recorded. R represents missing data as NA, without quotes, in vectors of any type.
 
-Let’s make a numeric vector with an NA value
+Let’s make a numeric vector with an NA value.
 
 ```{r}
 weights <- c(25, 34, 12, NA, 42)
@@ -113,22 +122,21 @@ min(weights, na.rm = TRUE)
 
 # Vectors as arguments
 
-A common use of vectors is to pass them as arguments in functions. The `median()` function calculates the median of a a set of values. We also need to set `na.rm = TRUE`, since there are NA values in the `weight` column.
+A common use of vectors is to pass them as arguments in functions. The `median()` function calculates the median of a set of values. We also need to set `na.rm = TRUE`, since there are NA values in the `weight` column. This is the other common way to deal with missing values. Yesterday, we removed the rows with `na.omit()`, and today we tell each function to ignore them.
 
 ```{r}
 median(surveys$weight, na.rm = TRUE)
 ```
 
-Or we could pass this column to `hist()` to generate a quick histogram of weights, which is useful to check the skew of the data.
+Or we could pass this column to `hist()`, a base-R function that draws a quick histogram. It's handy for a two-second check of the skew. If you'd like a nicer figure to show someone else, you can use `geom_histogram()` as we did yesterday.
 
 ```{r}
 hist(surveys$weight)
 ```
 
-
 Sometimes we want to generate vectors ourselves, and there are a few functions that can help us to do this.
 
-First, putting `:` between two numbers will generate a vector of integers starting with the first number and ending with the last. 
+First, putting `:` between two numbers will generate a vector of integers starting with the first number and ending with the last.
 
 ```{r}
 # Generate 1-10
@@ -145,7 +153,7 @@ seq(from = 0, to = 1, by = 0.1)
 seq(from = 0, to = 5, length.out = 11)
 ```
 
-Finally, the rep() function allows you to repeat a value, or even a whole vector, as many times as you want, and works with any type of vector.
+Finally, the `rep()` function allows you to repeat a value, or even a whole vector, as many times as you want, and works with any type of vector.
 
 ```{r}
 rep("a", times = 3)
@@ -157,29 +165,29 @@ rep(1:3, each = 2)
 
 # Factors (categorical variables)
 
-Let's talk about factors because they can be challenging to work with. 
+Yesterday we used `fct_reorder()`to put the genera in order of median weight. That quietly turned `genus` into a *factor*. Let's look at what a factor actually is, because they can be confusing to work with sometimes.
 
 In general, it's best to leave your categorical data as a character (or numeric) vector until you need to use a factor. You might need a factor because:
 
 - A function requires a factor as input
 - You are plotting categorical data and want to control the ordering of categories in the plot
 
-We can tell R we want a specific column to be a factor by passing the column to the `factor()` function, and reassigning the result back into the data.frame.
+We can tell R we want a specific column to be a factor by passing the column to the `factor()` function, and reassigning the result back into the data frame.
 
 ```{r}
 surveys$sex <- factor(surveys$sex)
 class(surveys$sex)
 ```
 
-Let's look at the current ordering of the data.
+Let's see what order the levels appear in on a plot.
 
 ```{r}
-ggplot(surveys, mapping = aes(x = sex, y = weight)) +
+ggplot(data = surveys, mapping = aes(x = sex, y = weight)) +
   geom_boxplot() +
   theme_bw()
 ```
 
-Females are plotted before males.
+Females are plotted before males, because `factor()` puts the levels in alphabetical order by default. The third box, `NA`, is the animals whose sex wasn't recorded. We'll deal with those shortly.
 
 ```{r}
 levels(surveys$sex)
@@ -197,20 +205,19 @@ levels(surveys$sex)
 We can confirm this in our plot.
 
 ```{r}
-
-ggplot(surveys, mapping = aes(x = sex, y = weight)) +
+ggplot(data = surveys, mapping = aes(x = sex, y = weight)) +
   geom_boxplot() +
   theme_bw()
 ```
 
-Missing values (NA) are not considered factor levels, so if we want to explicitly have them show up when working with factors we can recode them to a factor level.
+Missing values (`NA`) are not counted as a levels, as `levels()` didn't list them, even through ggplot2 drew a box for them. So, if we want `NA` to be a proper caegory, we can turn it into a level.
 
 ```{r}
 surveys$sex <- fct_na_value_to_level(surveys$sex, "unknown")
 levels(surveys$sex)
 ```
 
-We can change the names of the factors too.
+We can rename the levels too. Note the order inside `fct_recode()`: the **new** name goes on the left and the **old** name on the right.
 
 ```{r}
 surveys$sex <- fct_recode(surveys$sex, "male" = "M", "female" = "F")
@@ -223,3 +230,5 @@ We can also convert a factor back to a character vector.
 surveys$sex <- as.character(surveys$sex)
 class(surveys$sex)
 ```
+
+That's why we suggested leaving categorical data as character until you need a factor: a factor's fixed set of levels is powerful when you want it and annoying when you don't.

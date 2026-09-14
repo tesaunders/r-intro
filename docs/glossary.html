@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,13 +12,10 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -42,10 +39,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-d0cfe7a3482e0d49a74229a8f3b76718.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-45431c2918bd31147ddb3fa7038bb99f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -172,9 +169,9 @@ ul.task-list li input[type="checkbox"] {
 <section id="coding-fundamentals" class="level1">
 <h1>Coding Fundamentals</h1>
 <p><strong>Object:</strong> A named “container” in R that holds information. Almost everything in R—from a single number to a giant dataset—is an object.</p>
-<p><strong>Assignment (&lt;-)</strong>: The “left arrow” operator used to store a value into an object. For example, x &lt;- 10 means “put the number 10 into an object named x.” Alt + - on Windows, Cmd + - on Mac.</p>
+<p><strong>Assignment (&lt;-)</strong>: The “left arrow” operator used to store a value into an object. For example, x &lt;- 10 means “put the number 10 into an object named x.” Alt + - on Windows, Option + - on Mac.</p>
 <p><strong>Syntax</strong>: The specific set of rules (grammar and punctuation) that R requires to understand your code. A missing comma or an unclosed bracket will result in a “syntax error.”</p>
-<p><strong>Comment (#)</strong>: Text in your script preceded by a hashtag. R ignores this text, allowing you to write a brief note about why you did something the way you did. Shift + 3 on Windows, Cmd + 3 on Mac.</p>
+<p><strong>Comment (#)</strong>: Text in your script preceded by a hashtag. R ignores this text, allowing you to write a brief note about why you did something the way you did. Shift + 3 on both Windows and Mac.</p>
 <p><strong>Function</strong>: A “mini-program” that performs a specific task. You “call” a function by typing its name followed by parentheses, like <code>mean(my_data)</code>.</p>
 <p><strong>Argument</strong>: The input(s) you give to a function inside the parentheses to tell it what to do or what data to use (e.g.&nbsp;in <code>round(x, digits = 2)</code>, <code>x</code> and <code>digits</code> are arguments).</p>
 </section>

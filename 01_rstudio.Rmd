@@ -127,7 +127,7 @@ From now on, use a script to write and execute the code in this workshop.
 
 ## Assignment
 
-In R, we can *assign* values to objects by using the assignment arrow `<-` (shortcut Alt+- on Windows/Linux and Cmd+- on Mac). Whatever is on the right of the arrow will be assigned to whatever is on the left. To create an object we provide a name for the object and assign a value. 
+In R, we can *assign* values to objects by using the assignment arrow `<-` (shortcut Alt+- on Windows/Linux and Option+- on Mac). Whatever is on the right of the arrow will be assigned to whatever is on the left. To create an object we provide a name for the object and assign a value. 
 
 For example, to assign the number 50 to an object called weight:
 
