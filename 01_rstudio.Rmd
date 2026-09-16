@@ -86,7 +86,7 @@ One of the benefits of using RStudio projects is that they automatically set the
 
 Next time you open RStudio, you can click that 3D cube icon, and you will see options to open recent projects, like the one you just made.
 
-Let's move the workshop [data file](data_raw/r-workshop-data.zip) into the data_raw folder now. Next we need to unzip the file so that the 5 files inside are now sitting in the data_raw folder. You should see a file called `surveys_complete.csv` which is the data we will use first. You should also see this same data file split into 4 separate spreadsheet files, which we'll use later to demonstrate how to read multiple files in at once.
+Let's move the workshop [data file](data_raw/surveys_complete.csv) into the data_raw folder now. Next we need to unzip the file so that the 5 files inside are now sitting in the data_raw folder. You should see a file called `surveys_complete.csv` which is the data we will use first. You should also see this same data file split into 4 separate spreadsheet files, which we'll use later to demonstrate how to read multiple files in at once.
 
 # Working in R & RStudio
 
